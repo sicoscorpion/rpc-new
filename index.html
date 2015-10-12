@@ -1,46 +1,73 @@
-<!DOCTYPE html>
-<html ng-app="myApp">
-<body ng-cloak="">
-  <title>Product Manager Web Application</title>
-  <meta name="Description" content="Product Manager Web Application created with AngularJS and PHP">
-  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-  <link rel="stylesheet" href="css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <div class="blog-masthead">
-      <div class="container">
-        <nav class="blog-nav">
-          <a class="blog-nav-item active" href="#">Inventory</a>
-          <a class="blog-nav-item pull-right" href="http://www.angularcode.com/product-inventory-management-using-angularjs-mysql-and-php-restful-api">Tutorial</a>
-          <a class="blog-nav-item pull-right" href="http://www.angularcode.com/download-link/?url=https://app.box.com/s/pqr0wo3osvoahyh7qtsa">Download</a>
-        </nav>
-      </div>
-    </div>
+<!doctype html>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Acadia Robotics Portal</title>
+  <meta name="description" content="Acadia Robotics Portal">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/ui-select/dist/select.css">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="bower_components/foundation/css/foundation.css">
+  <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.css">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/app/stylesheets/style.css">
+  
+  <script src="bower_components/foundation/js/vendor/modernizr.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-loader/angular-loader.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-foundation/mm-foundation.js"></script>
+  <script src="bower_components/angular-foundation/mm-foundation-tpls.js"></script>
+  <script src="bower_components/ui-select/dist/select.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/ng-table/dist/ng-table.js"></script>
+  <script src="bower_components/foundation/js/vendor/jquery.js"></script>
+  <script src="bower_components/foundation/js/foundation.js"></script>
 
-<div class="container">
-    <div class="page-content">
-      <div ng-view="" id="ng-view"></div>
-    </div>
-</div>
+</head>
+<body ng-app="myApp">
 
-<!-- Libraries -->
-<script src="js/angular.min.js"></script>
-<script src="js/ui-bootstrap-tpls-0.11.2.min.js"></script>
-<script src="js/angular-route.min.js"></script>
-<script src="js/angular-animate.min.js"></script>
+<!--   <nav class="menu" ng-controller="topbar_controller" >
+    <a ng-class="getActive('/home')" href="#/home"><h1 class="name"><i class="fi-widget"></i> IX Dashboard</h1></a>
+    <ul class="inline-list">
+      <li ng-class="getActive('/users')"><a href="#/users">Users</a></li>
+      <li ng-class="getActive('/locations')"><a href="#/locations">Locations</a></li>
+      <li ng-class="getActive('/agents')"><a href="#/agents">Agents</a></li>
+      <li ng-class="getActive('/devices')"><a href="#/devices">Devices</a></li>
+    </ul>
+    <ul class="inline-list hide-for-small-only account-action">
+      <li ng-class="getActive('/login')" ng-if="logged_in()" ng-click="log_out()">
+          <a href="#/logout">Logout</a>
+      </li>
+      <li ng-class="getActive('/logout')" ng-if="!logged_in()">
+          <a href="#/login">Login</a>
+      </li>
+    </ul>
+  </nav> -->
 
-<!-- AngularJS custom codes -->
-<script src="app/app.js"></script>
-<script src="app/data.js"></script>
-<script src="app/directives.js"></script>
-<script src="app/productsCtrl.js"></script>
 
-<!-- Some Bootstrap Helper Libraries -->
+<div ng-view ></div>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/underscore.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="js/ie10-viewport-bug-workaround.js"></script>
+
+
+  <script src="/app/app.js"></script>
+
+
+<!--   // <script src="/app/js/controllers/topbar_ctrl.js"></script>
+  // <script src="/app/js/controllers/login_ctrl.js"></script>
+  // <script src="/app/js/controllers/home_ctrl.js"></script>
+  // <script src="/app/js/controllers/users_ctrl.js"></script>
+  // <script src="/app/js/controllers/location_ctrl.js"></script>
+  // <script src="/app/js/controllers/agent_ctrl.js"></script>
+  // <script src="/app/js/controllers/device_ctrl.js"></script>
+  // <script src="/app/js/services/login_serv.js"></script>
+  // <script src="/app/js/directives/popup_model_dir.js"></script>
+  // <script src="/app/js/directives/confirmation_delete.js"></script> -->
+  <script type="text/javascript"> 
+    $(document).foundation();
+</script>
+
 </body>
 </html>

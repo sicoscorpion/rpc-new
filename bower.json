@@ -1,0 +1,16 @@
+{
+  "name": "Acadia Robotics Portal",
+  "description": "Acadia Robotics Portal",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "angular-cookies": "1.4.1",
+    "angular-animate": "1.2.10",
+    "angular-foundation": "0.6.0",
+    "foundation": "5"
+  }
+}

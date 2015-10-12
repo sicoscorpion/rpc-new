@@ -1,15 +1,15 @@
-var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate']);
+var app = angular.module('myApp', ['ngRoute', 'ngTable', 'ngCookies', 'mm.foundation', 'ui.select']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
-    when('/', {
-      title: 'Products',
-      templateUrl: 'partials/products.html',
-      controller: 'productsCtrl'
+    when('/login', {
+      title: 'Login',
+      templateUrl: 'app/views/login.html',
+      controller: 'loginCtrl'
     })
     .otherwise({
-      redirectTo: '/'
-    });;
+      redirectTo: '/login'
+    });
 }]);
     
