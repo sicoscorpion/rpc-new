@@ -29,7 +29,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
         alert_type: 'warning round'
     }
 
-    $scope.roles = [
+    $scope.positions = [
           {type: "Head Coach"},
           {type: "Assistant Coach"},
           {type: "None"}
@@ -72,7 +72,18 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
 
     }
 
+    $scope.setRole = function(role) {
+        console.log("setting role", role);
+        if (role == "Head Coach" || role == "Assistant Coach"){
+            $scope.user.role = "Coach";
+        }else{
+            $scope.user.role = null;
+        }
+    }
+
     $scope.register = function() {
+
+        $scope.user.position = $scope.user.position.type;
 
         $scope.emailError = false; 
         $scope.passwordError = false;
@@ -87,6 +98,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
 
         if (!$scope.passwordError && !$scope.emailError)
         {
+            console.log("Adding User: ", $scope.user);
             $scope.register_status.message = 'Registering';
             $scope.register_status.disabled = true;
             $scope.register_status.show_alert = true;

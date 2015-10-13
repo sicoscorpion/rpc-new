@@ -5,5 +5,4 @@ app.controller('profile_controller', ['$scope', '$location', function($scope, $l
 
     $scope.check_logged_in();
 
-
 }]);
