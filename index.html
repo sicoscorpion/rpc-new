@@ -27,45 +27,49 @@
   <script src="bower_components/foundation/js/foundation.js"></script>
 
 </head>
-<body ng-app="myApp">
+<body ng-app="myApp" ng-controller="login_controller">
 
-<!--   <nav class="menu" ng-controller="topbar_controller" >
-    <a ng-class="getActive('/home')" href="#/home"><h1 class="name"><i class="fi-widget"></i> IX Dashboard</h1></a>
-    <ul class="inline-list">
-      <li ng-class="getActive('/users')"><a href="#/users">Users</a></li>
-      <li ng-class="getActive('/locations')"><a href="#/locations">Locations</a></li>
-      <li ng-class="getActive('/agents')"><a href="#/agents">Agents</a></li>
-      <li ng-class="getActive('/devices')"><a href="#/devices">Devices</a></li>
-    </ul>
-    <ul class="inline-list hide-for-small-only account-action">
-      <li ng-class="getActive('/login')" ng-if="logged_in()" ng-click="log_out()">
-          <a href="#/logout">Logout</a>
-      </li>
-      <li ng-class="getActive('/logout')" ng-if="!logged_in()">
-          <a href="#/login">Login</a>
-      </li>
-    </ul>
-  </nav> -->
+<nav class="menu" ng-controller="topbar_controller" >
+  <a ng-class="getActive('/home')" href="#/home"><h1 class="name">Acadia Robotics Portal</h1></a>
+  <ul class="inline-list">
+    <li ng-class="getActive('/seasons')"><a href="#/seasons">Seasons</a></li>
+    <li ng-class="getActive('/competitions')"><a href="#/competitions">Competitions</a></li>
+    <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers">Qualifiers</a></li>
+    <li ng-class="getActive('/teams')"><a href="#/teams">Teams</a></li>
+    <li ng-class="getActive('/users')"><a href="#/users">Users</a></li>
+  </ul>
+  <ul class="inline-list hide-for-small-only account-action">
+    <li ng-class="getActive('/profile')" ng-if="logged_in()">
+        <a href="#/profile">Profile</a>
+    </li>
+    <li ng-class="getActive('/login')" ng-if="logged_in()" ng-click="log_out()">
+        <a href="#/logout">Logout</a>
+    </li>
+    <li ng-class="getActive('/login')" ng-if="!logged_in()">
+        <a href="#/login">Login</a>
+    </li>
+    <li ng-class="getActive('/signup')" ng-if="!logged_in()">
+        <a href="#/signup">Signup</a>
+    </li>
+  </ul>
+</nav>
 
 
 <div ng-view ></div>
 
+<script src="/app/app.js"></script>
+<script src="/app/js/controllers/topbarCtrl.js"></script>
+<script src="/app/js/controllers/loginCtrl.js"></script>
+<script src="/app/js/controllers/seasonsCtrl.js"></script>
+<script src="/app/js/controllers/competitionsCtrl.js"></script>
+<script src="/app/js/controllers/qualifiersCtrl.js"></script>
+<script src="/app/js/controllers/teamsCtrl.js"></script>
+<script src="/app/js/controllers/homeCtrl.js"></script>
+<script src="/app/js/controllers/usersCtrl.js"></script>
+<script src="/app/js/controllers/profileCtrl.js"></script>
+<script src="/app/js/services/data.js"></script>
 
-
-  <script src="/app/app.js"></script>
-
-
-<!--   // <script src="/app/js/controllers/topbar_ctrl.js"></script>
-  // <script src="/app/js/controllers/login_ctrl.js"></script>
-  // <script src="/app/js/controllers/home_ctrl.js"></script>
-  // <script src="/app/js/controllers/users_ctrl.js"></script>
-  // <script src="/app/js/controllers/location_ctrl.js"></script>
-  // <script src="/app/js/controllers/agent_ctrl.js"></script>
-  // <script src="/app/js/controllers/device_ctrl.js"></script>
-  // <script src="/app/js/services/login_serv.js"></script>
-  // <script src="/app/js/directives/popup_model_dir.js"></script>
-  // <script src="/app/js/directives/confirmation_delete.js"></script> -->
-  <script type="text/javascript"> 
+<script type="text/javascript"> 
     $(document).foundation();
 </script>
 

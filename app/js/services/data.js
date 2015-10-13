@@ -1,8 +1,9 @@
-app.factory("Data", ['$http', '$location',
-    function ($http, $q, $location) {
+var app = angular.module('myApp');
+
+app.factory("Data", ['$http', '$location', '$cookies', '$route', function ($http, $q, $location, $cookies, $route) {
 
         var serviceBase = 'api/v1/';
-
+        var loginCookie = 'login';
         var obj = {};
 
         obj.get = function (q) {
@@ -25,5 +26,11 @@ app.factory("Data", ['$http', '$location',
                 return results.data;
             });
         };
+
+        
+        obj.redirect = function(path) {
+            $location.path(path);
+        }
+
         return obj;
 }]);

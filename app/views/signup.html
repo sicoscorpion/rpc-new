@@ -1,0 +1,77 @@
+<div class="large-3 column large-centered">
+  <h3 >Acadia Robotics Portal Registration</h3>
+</div>
+<div class="row" ng-controller="login_controller">
+  
+  <div class="medium-3 medium-centered columns">
+    <form>
+      <fieldset>
+        <legend>Sign Up</legend>
+        <div class="row">
+          <div class="small-6 column">
+            <label>Given Name <i class="error" ng-show="givenError">Required!</i>
+              <input type="text" ng-model="user.given">
+            </label>
+          </div>
+          <div class="small-6 column">
+            <label>Family Name <i class="error" ng-show="familyError">Required!</i>
+              <input type="text" ng-model="user.family">
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 column">
+            <label>E-Mail Address <i class="error" ng-show="emailError">Required!</i>
+              <input type="text" ng-model="user.email">
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 column">
+
+            <label>Password <i class="error" ng-show="passwordError">Required!</i>
+              <input type="password" ng-model="user.password">
+            </label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-12 column">
+            <label>Position
+              <input type="text" ng-model="user.position" disabled placeholder="Position" ng-if='user.role == ""'>
+              <input type="text" ng-model="user.position" disabled placeholder="Coach" ng-if='user.role.type == "Head Coach" || user.role.type == "Assistant Coach"'>
+              <input type="text" ng-model="user.position" disabled placeholder="" ng-if='user.role.type == "None"'>
+            </label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-12 column">
+
+            <label>Role <i class="error" ng-show="roleError">Required!</i></label>
+                <ui-select ng-model="user.role" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
+                  <ui-select-match placeholder="Select a role...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="role in roles | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="role.type | highlight: $select.search"></div>
+                      {{role.type}}
+                  </ui-select-choices>
+                </ui-select>
+            
+          </div>
+        </div>
+<hr>
+        <div class="row" >
+          <alert ng-if="register_status.show_alert" type="register_status.alert_type" class="text-center">{{register_status.message}}</alert>
+        </div>
+        <div class="row">
+          <div class="small-8 column">
+            <button class="button postfix" ng-click="register()" ng-disabled="disabled">Register</button>
+          </div>
+
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+
