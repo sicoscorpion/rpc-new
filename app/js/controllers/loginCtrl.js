@@ -7,8 +7,8 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
     $scope.log_out = Data.log_out;
     
     $scope.user = {
-        given: '',
-        family: '',
+        first_name: '',
+        last_name: '',
         email: '',
         password: '',
         position: '',
