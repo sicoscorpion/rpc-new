@@ -37,21 +37,25 @@
 
       return $season_data;
     }
-
-    public function delete_season($db, $season_year, $host) {
+    public function delete_season_host($db, $season_year, $host) {
 
       $hosts = $db->delete("Hosts", 
         array(
           "season_year" => $season_year,
           "user_id" => $host
         ));
+      
+      return  $hosts;
+    }
+
+    
+
+    public function delete_season($db, $season_year) {
+
       $season = $db->delete("Seasons", 
         array("year" => $season_year));
       
-      return array(
-        "season" => $season,
-        "hosts" => $hosts
-        );
+      return  $season;
     }
   }
 ?>
