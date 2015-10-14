@@ -25,7 +25,8 @@ DROP TABLE if exists sent_emails;
 
 
 CREATE TABLE Users (
-  email varchar(128) not NULL,
+  user_id int(10) not null auto_increment,
+  email varchar(128) not NULL unique,
   password varchar(128),
   first_name varchar(128) not NULL,
   last_name varchar(128) not NULL,
@@ -40,9 +41,9 @@ CREATE TABLE Users (
   gender varchar(30),
   medical_info varchar(255),
 
-  PRIMARY KEY (email)
+  PRIMARY KEY (user_id)
 
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)ENGINE=InnoDB auto_increment=100000 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE Seasons (
@@ -68,27 +69,27 @@ CREATE TABLE Teams (
 
 
 CREATE TABLE Admins (
-  user_email varchar(255) not null,
+  user_id int(10) not null,
   shirt_size varchar(255) not null,
   consent datetime DEFAULT null,
   position ENUM("Super Admin", "Qualifier Admin") DEFAULT null,
 
-  FOREIGN KEY (user_email)
-      REFERENCES Users(email),
+  FOREIGN KEY (user_id)
+      REFERENCES Users(user_id),
 
-  PRIMARY KEY (user_email)
+  PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Coaches (
-  user_email varchar(255) not null,
+  user_id int(10) not null,
   shirt_size varchar(255) not null,
   consent datetime DEFAULT null,
   position ENUM("Main Coach", "Assistant Coach") DEFAULT null,
 
-  FOREIGN KEY (user_email)
-      REFERENCES Users(email),
+  FOREIGN KEY (user_id)
+      REFERENCES Users(user_id),
   
-  PRIMARY KEY (user_email)
+  PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Volunteers (
@@ -212,16 +213,16 @@ CREATE TABLE Members (
 
 
 CREATE TABLE Hosts (
-  user_email varchar(128) not NULL,
+  user_id int(10) not NULL,
   season_year varchar(128) not NULL,
     
-  FOREIGN KEY (user_email)
-      REFERENCES Users(email),
+  FOREIGN KEY (user_id)
+      REFERENCES Users(user_id),
 
   FOREIGN KEY (season_year)
       REFERENCES Seasons(year),
 
-  PRIMARY KEY (user_email, season_year)
+  PRIMARY KEY (user_id, season_year)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -252,15 +253,15 @@ CREATE TABLE Helps (
 
 CREATE TABLE Manages (
   team_id varchar(128) not NULL,
-  user_email varchar(128) not NULL,
+  user_id int(10) not NULL,
 
   FOREIGN KEY (team_id)
       REFERENCES Teams(team_id),
 
-  FOREIGN KEY (user_email)
-      REFERENCES Users(email),
+  FOREIGN KEY (user_id)
+      REFERENCES Users(user_id),
 
-  PRIMARY KEY (team_id, user_email)
+  PRIMARY KEY (team_id, user_id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -290,7 +291,8 @@ CREATE TABLE Participates (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE HasRole (
-  user_email varchar(128) not NULL,
+  user_id int(10) not NULL,
+  email varchar(128) not NULL,
   password varchar(128),
   first_name varchar(128) not NULL,
   last_name varchar(128) not NULL,
@@ -310,7 +312,7 @@ CREATE TABLE HasRole (
   admin boolean not null DEFAULT false, 
   coach boolean not null DEFAULT false,
 
-  PRIMARY KEY (user_email)
+  PRIMARY KEY (user_id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -16,30 +16,42 @@
       return $data;
     }
 
-    public function create_season($db, $year, $info, $user_email)
-    {
-      $db->insert("Seasons", array(
-        'year' => $year,
-        'info' => $info), array());
-
-      $db->insert("Hosts", array(
-        'user_email' => $user_email,
-        'season_year' => $year), array());
-
-      return true;
+    public function create_season($db, $data) {
+      $added_season = $db->insert("Seasons", $data, array());
+      return  $added_season;
     }
 
-    public function update_season($db, $year, $info)
-    {
+    public function add_season_host($db, $data, $host) {
 
-      $postArray = array(
-        'year' => $year,
-        'info' => $info
-        );
+      $added_host = $db->insert("Hosts", array(
+        'user_id' => $host,
+        'season_year' => $data->year), array());
+      return  $added_host;
+    }
+
+
+    public function update_season($db, $data, $year) {
+
       $where_inSeason = array('year' => $year);    
-      $season_data = $db->update("Seasons", $postArray, $where_inSeason);
+      $season_data = $db->update("Seasons", $data, $where_inSeason, array());
+
+      return $season_data;
+    }
+
+    public function delete_season($db, $season_year, $host) {
+
+      $hosts = $db->delete("Hosts", 
+        array(
+          "season_year" => $season_year,
+          "user_id" => $host
+        ));
+      $season = $db->delete("Seasons", 
+        array("year" => $season_year));
       
-      return true;
+      return array(
+        "season" => $season,
+        "hosts" => $hosts
+        );
     }
   }
 ?>

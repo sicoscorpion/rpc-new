@@ -46,16 +46,19 @@ $app->post('/users', function() use ($app){
   global $db;
   $data = json_decode($app->request->getBody());
   
-  $rows = Users_model::register_new_user($db, $data->first_name, 
-    $data->last_name, $data->email, $data->password, $data->position, $data->role);
+  $rows = Users_model::add_user($db, $data);
 
-  if($rows) {
-    echoResponse(200, "Added");
-  } else {
-    echoResponse(403, "Error adding data - Entry may already exist");
-  }
+  echoResponse(200, $rows);
 });
 
+$app->post('/users/:role', function($role) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  
+  $rows = Users_model::add_hasRole($db, $data, $role);
+
+  echoResponse(200, $rows);
+});
 
 // Seasons
 $app->get('/seasons', function() use ($app){ 
@@ -68,23 +71,32 @@ $app->get('/seasons', function() use ($app){
 $app->post('/seasons', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
-  $rows = Seasons_model::create_season($db, $data->year, $data->info, $data->email);
-    if($rows) {
-    echoResponse(200, "Added Season");
-  } else {
-    echoResponse(403, "Error adding data - Entry may already exist");
-  }
+  $rows = Seasons_model::create_season($db, $data);
+  echoResponse(200, $rows);
 });
 
-$app->put('/seasons', function() use ($app){ 
+
+$app->post('/seasons/:host', function($host) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
-  $rows = Seasons_model::update_season($db, $data->year, $data->info);
-    if($rows) {
-    echoResponse(200, "Updated Season");
-  } else {
-    echoResponse(403, "Error adding data - Entry may already exist");
-  }
+  $rows = Seasons_model::add_season_host($db, $data, $host);
+  echoResponse(200, $rows);
+});
+
+$app->put('/seasons/:year', function($year) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+
+  $rows = Seasons_model::update_season($db, $data, $year);
+  if($rows["status"]=="success")
+      $rows["message"] = "Season information updated successfully.";
+  echoResponse(200, $rows);
+});
+
+$app->delete('/seasons/:season_year/:host', function($season_year, $host) use ($app){
+  global $db;
+  $rows = Seasons_model::delete_season($db, $season_year, $host);
+  echoResponse(200, $rows);
 });
 
 
