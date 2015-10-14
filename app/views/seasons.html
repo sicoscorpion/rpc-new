@@ -1,1 +1,72 @@
-<h1>Seasons</h1>
+<div class='row'>
+            <button class="tiny round button alert" ng-click='openSeason()' confirmation-needed>New Season</button></td>
+
+<div class='large-10 large-centered columns'>
+
+    <table ng-table="tableParams" class="table" show-filter="true">
+        <tr ng-repeat="season in $data">
+            <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
+                <input type="text" ng-model='season.year' ></input>
+            </td>
+            <td title="'Status'" filter="{ status: 'text'}" sortable="'status'">
+                <input type="text" ng-model='season.status' ></input>
+            </td>
+            
+            <td title="'Info'" filter="{ info: 'text'}" sortable="'info'">
+                <input type="text" ng-model='season.info' ></input>    
+            </td>
+
+            <td title="'Edit'">
+                <button class="tiny round button success" ng-click='updateSeason(season)'>Edit</button></td>
+            <td title="'Delete'">
+                <button class="tiny round button alert" ng-click='deleteSeason(season)' >Delete</button></td>
+        </tr>
+    </table>
+</div>
+</div>
+
+<!--MODAL WINDOW--> 
+<script type="text/ng-template" id="newSeason.html">
+
+<div class="row">
+  
+  <div class="large-12 large-cenetered columns">
+    <form>
+      <fieldset>
+        <legend>Create New Season</legend>
+        <div class="row">
+          <div class="small-6 column">
+            <label>Year <i class="error" ng-show="yearError">Required!</i>
+              <input type="text" ng-model="season.year">
+            </label>
+          </div>
+          <div class="small-6 column">
+            <label>Status <i class="error" ng-show="statusError">Required!</i>
+              <input type="text" ng-model="season.status">
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 column">
+            <label>Info
+              <textarea rows="4" cols="50" ng-model="season.info">
+            </textarea>
+          </div>
+        </div>
+
+<hr>
+        <div class="row" >
+          <alert ng-if="register_status.show_alert" type="register_status.alert_type" class="text-center">{{register_status.message}}</alert>
+        </div>
+        <div class="row">
+          <div class="small-8 small-centered column">
+            <button class="button postfix" ng-click="createSeason(season)">Create</button>
+          </div>
+
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+</script>

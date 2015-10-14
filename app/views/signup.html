@@ -3,42 +3,60 @@
 </div>
 <div class="row" ng-controller="login_controller">
   
-  <div class="medium-3 medium-centered columns">
-    <form>
+  <div class="large-9 medium-centered columns">
+
+    <form name="newUser"> 
       <fieldset>
         <legend>Sign Up</legend>
         <div class="row">
-          <div class="small-6 column">
-            <label>Given Name <i class="error" ng-show="givenError">Required!</i>
-              <input type="text" ng-model="user.first_name">
-            </label>
-          </div>
-          <div class="small-6 column">
-            <label>Family Name <i class="error" ng-show="familyError">Required!</i>
-              <input type="text" ng-model="user.last_name">
-            </label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="small-12 column">
-            <label>E-Mail Address <i class="error" ng-show="emailError">Required!</i>
-              <input type="text" ng-model="user.email">
-            </label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="small-12 column">
 
-            <label>Password <i class="error" ng-show="passwordError">Required!</i>
-              <input type="password" ng-model="user.password">
-            </label>
+          <div class="small-4 column">
+             <label>First Name: <small ng-messages="newUser.userFirstName.$error"><b ng-message="required" class="error">This field is required</b></small></label>
+              <input type="text" name="userFirstName" ng-model="user.first_name" required />
           </div>
+
+          <div class="small-4 column">
+            <label>Last Name: <small ng-messages="newUser.userLastName.$error"><b ng-message="required" class="error">This field is required</b></small></label>
+            <input type="text" name="userLastName" ng-model="user.last_name" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Email: <small ng-messages="newUser.userEmail.$error"><b ng-message="required" class="error">This field is required</b> 
+                                                                        <b ng-message="email" class="error">Email is not valid</b></small></label>
+            <input type="email" name="userEmail" ng-model="user.email" required />
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="small-4 column">
+            <label>Password: <small ng-messages="newUser.userPassword.$error"><b ng-message="required" class="error">This field is required</b>
+                                                                              <b ng-message="minlength" class="error">Password must be >= 10 characters</b>
+                                                                              <b ng-message="maxlength" class="error">Password must be <= 100 characters</b></small></label>
+            <input type="text" name="userPassword" ng-model="user.password" required ng-minlength="10" ng-maxlength="100"/>
+          </div>
+
+          <div class="small-4 column">
+            <label>Phone: <small ng-messages="newUser.userPhone.$error"><b ng-message="required" class="error">Please only enter 10 digits</b>
+                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b></small></label>
+            <input type="text" name="userPhone" ng-model="user.phone" required ng-pattern="/^\d{10}$/"/>
+          </div>
+
+
+          <div class="small-4 column">
+            <label>DOB: <small ng-messages="newUser.userDOB.$error"><b ng-message="required" class="error">Please select a DOB</b></small></label>
+            <datepicker date-format="longDate">
+               <input name="userDOB" ng-model="user.DOB" type="text" required/>
+            </datepicker>
+          </div>
+
+
+
+
         </div>
 
-        <div class="row">
-          <div class="small-12 column">
+<!--           <div class="small-4 column">
             <label>Position
-              <input type="text" ng-model="user.role" disabled value="Role" placeholder="Role" ng-if='user.position == ""'>
+              <input type="text" ng-model="user.role" disabled value="Role" placeholder="Position" ng-if='user.position == ""'>
               <input type="text" ng-model="user.role" disabled value="Coach" placeholder="Coach" ng-if='user.position.type == "Head Coach" || user.position.type == "Assistant Coach"'>
               <input type="text" ng-model="user.role" disabled value="" placeholder="" ng-if='user.position.type == "None"'>
             </label>
@@ -46,7 +64,13 @@
         </div>
 
         <div class="row">
-          <div class="small-12 column">
+          <div class="small-6 column">
+
+            <label>Phone </label>
+                
+            
+          </div>
+          <div class="small-6 column">
 
             <label>Role <i class="error" ng-show="roleError">Required!</i></label>
                 <ui-select ng-change="setRole($select.selected.type)" ng-model="user.position" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
@@ -58,7 +82,7 @@
                 </ui-select>
             
           </div>
-        </div>
+        </div> -->
 <hr>
         <div class="row" >
           <alert ng-if="register_status.show_alert" type="register_status.alert_type" class="text-center">{{register_status.message}}</alert>

@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ngTable', 'ngCookies', 'mm.foundation', 'ui.select']);
+var app = angular.module('myApp', ['ngRoute', 'ngTable', 'ngCookies', 'mm.foundation', 'ui.select', 'ngMessages', '720kb.datepicker']);
 
 app.config(['$routeProvider',
   function($routeProvider) {

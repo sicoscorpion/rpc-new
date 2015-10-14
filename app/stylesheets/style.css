@@ -1,5 +1,5 @@
 .row {
-  max-width: 99%; }
+  width: 99%; }
 
 .menu {
   background-color: black;
@@ -68,3 +68,8 @@
 @media only screen and (min-width: 40.063em) {
 .name {
   float: left; } }
+
+
+.error {
+  color: red;
+}

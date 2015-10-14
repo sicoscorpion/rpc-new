@@ -12,7 +12,9 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
         email: '',
         password: '',
         position: '',
-        role: ''
+        DOB: '',
+        role: '',
+        phone: ''
     }
 
     $scope.login_status = {
@@ -34,6 +36,11 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
           {type: "Assistant Coach"},
           {type: "None"}
         ];
+
+    $scope.yay = function () {
+
+        console.log("**********************************");
+    }
     
     // send a login request and if successful redirect to landing page
     $scope.login = function() {
@@ -116,6 +123,10 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
                     } 
             })  
         }
+    }
+
+    $scope.getCookieData = function () {
+        return $cookies.getObject(loginCookie);
     }
 
         // check if the user is logged in
