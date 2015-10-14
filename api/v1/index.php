@@ -67,6 +67,12 @@ $app->get('/seasons', function() use ($app){
   $rows = Seasons_model::get_seasons($db);
   echoResponse(200, $rows);
 });
+$app->get('/seasons/host/:host', function($host) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Seasons_model::get_seasons_for_host($db, $host);
+  echoResponse(200, $rows);
+});
 
 $app->post('/seasons', function() use ($app){ 
   global $db;
@@ -76,7 +82,7 @@ $app->post('/seasons', function() use ($app){
 });
 
 
-$app->post('/seasons/:host', function($host) use ($app){ 
+$app->post('/seasons/host/:host', function($host) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Seasons_model::add_season_host($db, $data, $host);

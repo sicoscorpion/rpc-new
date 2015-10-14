@@ -10,9 +10,9 @@
       return $data;
     }
 
-    public function get_seasons_for_admin($db, $email){
+    public function get_seasons_for_host($db, $host){
       $data = $db->query("SELECT * FROM "."Seasons, Hosts WHERE 
-        user_email = :email AND year = season_year", array(':email' => $email));
+        user_id = :host AND year = season_year", array(':host' => $host));
       return $data;
     }
 
