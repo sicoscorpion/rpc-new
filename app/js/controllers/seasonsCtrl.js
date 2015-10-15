@@ -17,7 +17,6 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         status: '',
     }
 
-    // get seasons
     Data.get("seasons").then(function (result) {
         if(result.status != 'error'){
             console.log("Returned Seasons: ", result);
@@ -26,11 +25,22 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
             $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
         }
     }) 
-
+        
+    $scope.getSeasons = function(){
+            // get seasons
+        Data.get("seasons").then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Seasons: ", result);
+                $scope.seasons = result;
+                data = $scope.seasons;
+                $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        }) 
+    }
 
     $scope.updateSeason = function(season) {
         
-        season.email = $scope.getCookieData().email;
+        
 
         console.log("Updating Season: ", season);
         console.log("Updating Season for user: ", $scope.getCookieData());
@@ -38,6 +48,8 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         Data.put(path, season).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit season: ", result);
+                $scope.getSeasons();
+
             }else{
                 console.log("Error saving season");
 
