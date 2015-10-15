@@ -30,8 +30,9 @@ $app->post('/login', function() use ($app){
   $user = Users_model::get_hash($db, $data->email);
   $hash = Password::make($data->password, PASSWORD_BCRYPT, array("cost" => 10));
 
-  if(Password::verify($data->password, $user["password"]) == true) {
-    echoResponse(200, $user);
+
+  if(Password::verify($data->password, $user[0]->password) == true) {
+    echoResponse(200, $user[0]);
   } else {
     echoResponse(403, "Not a valid password");
   }
@@ -93,7 +94,6 @@ $app->post('/seasons/host/:host', function($host) use ($app){
 $app->put('/seasons/:year', function($year) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
-
   $rows = Seasons_model::update_season($db, $data, $year);
   if($rows["status"]=="success")
       $rows["message"] = "Season information updated successfully.";

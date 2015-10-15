@@ -11,8 +11,9 @@
   }
 
   public function get_hash($db, $email){
-    $data = $db->select("Users", "*", array('email' => $email));
-    return $data["data"][0];
+    $data = $db->query("SELECT * FROM "."Users, HasRole WHERE Users.email = :email", array('email' => $email));
+    // print($data[0]);
+    return $data;
   }
 
   public function add_user($db, $data) {
