@@ -53,7 +53,7 @@
     public function delete_season($db, $season_year) {
 
       $hosts = $db->delete("Hosts", 
-        array("year" => $season_year));
+        array("season_year" => $season_year));
       $season = $db->delete("Seasons", 
         array("year" => $season_year));
       return array("sesason" => $season, "hosts" => $hosts);
