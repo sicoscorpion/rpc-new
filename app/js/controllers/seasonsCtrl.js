@@ -34,8 +34,8 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
         console.log("Updating Season: ", season);
         console.log("Updating Season for user: ", $scope.getCookieData());
-
-        Data.put("seasons", season).then(function (result) {
+        var path = "seasons/" + season.year;
+        Data.put(path, season).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit season: ", result);
             }else{

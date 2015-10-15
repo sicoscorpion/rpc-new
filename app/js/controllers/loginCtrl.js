@@ -14,6 +14,13 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
         position: '',
         DOB: '',
         role: '',
+        civic_number: '',
+        street1: '',
+        street2: '',
+        city: '',
+        province: '',
+        postal_code: '',
+        info: '',
         phone: ''
     }
 
