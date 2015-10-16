@@ -1,5 +1,5 @@
 <div class='row'>
-            <button class="tiny round button alert" ng-click='openSeason()' confirmation-needed>New Season</button></td>
+            <button class="tiny round button alert" ng-click='openSeason()' >New Season</button></td>
 
 <div class='large-10 large-centered columns'>
 
@@ -19,7 +19,7 @@
             <td title="'Edit'">
                 <button class="tiny round button success" ng-click='updateSeason(season)'>Edit</button></td>
             <td title="'Delete'">
-                <button class="tiny round button alert" ng-click='deleteSeason(season)' >Delete</button></td>
+                <button class="tiny round button alert" ng-click='deleteSeason(season)' confirmation-needed>Delete</button></td>
         </tr>
     </table>
 </div>
@@ -30,34 +30,45 @@
 
 <div class="row">
   
-  <div class="large-12 large-cenetered columns">
-    <form>
+<form name="newSeason"> 
       <fieldset>
-        <legend>Create New Season</legend>
+        <legend>Sign Up</legend>
         <div class="row">
-          <div class="small-6 column">
-            <label>Year <i class="error" ng-show="yearError">Required!</i>
-              <input type="text" ng-model="season.year">
-            </label>
-          </div>
-          <div class="small-6 column">
-            <label>Status <i class="error" ng-show="statusError">Required!</i>
-              <input type="text" ng-model="season.status">
-            </label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="small-12 column">
-            <label>Info
-              <textarea rows="4" cols="50" ng-model="season.info">
-            </textarea>
-          </div>
-        </div>
 
-<hr>
-        <div class="row" >
-          <alert ng-if="register_status.show_alert" type="register_status.alert_type" class="text-center">{{register_status.message}}</alert>
+          <div class="medium-6 column">
+             <label>Year: <small ng-messages="newSeason.year.$error"><b ng-message="required" class="error">Required</b></small></label>
+              <ui-select ng-model="season.year" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="year" required>
+                  <ui-select-match placeholder="Status">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="year in years | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{year.type}}
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+
+            <div class="medium-6 column">
+
+              <label>Status: <small ng-messages="newSeason.status.$error"><b ng-message="required" class="error">Required</b><small></label>
+                <ui-select ng-model="season.status" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="status" required>
+                  <ui-select-match placeholder="Status">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="option in options | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{option.type}}
+                  </ui-select-choices>
+                </ui-select>
+            </div>
         </div>
+        <div class='row'>
+            <div class="small-12 column">
+
+              <label>Info: </lable>
+                <textarea rows='5' cols='50' ng-model='season.info'></textarea>
+
+            </div>
+
+        </div>
+<hr>
+
         <div class="row">
           <div class="small-8 small-centered column">
             <button class="button postfix" ng-click="createSeason(season)">Create</button>

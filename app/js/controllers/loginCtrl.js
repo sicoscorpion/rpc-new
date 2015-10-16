@@ -5,6 +5,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
     var loginCookie = 'login';
     $scope.logged_in = Data.logged_in;
     $scope.log_out = Data.log_out;
+    $scope.matchError = false;
     
     $scope.user = {
         first_name: '',
@@ -20,9 +21,17 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
         city: '',
         province: '',
         postal_code: '',
-        info: '',
-        phone: ''
+        medical_info: '',
+        phone: '',
+        shirt_size: ''
     }
+
+
+    $scope.shirts = [
+        {type: 'small'},
+        {type: 'medium'},
+        {type: 'large'}
+    ];
 
     $scope.login_status = {
         disabled: false,
@@ -44,9 +53,9 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
           {type: "None"}
         ];
 
-    $scope.yay = function () {
+    $scope.match = function (user, password) {
 
-        console.log("**********************************");
+        $scope.matchError = (user.password != password) ? true : false;
     }
     
     // send a login request and if successful redirect to landing page
@@ -88,11 +97,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
 
     $scope.setRole = function(role) {
         console.log("setting role", role);
-        if (role == "Head Coach" || role == "Assistant Coach"){
-            $scope.user.role = "Coach";
-        }else{
-            $scope.user.role = null;
-        }
+        
     }
 
     $scope.register = function() {
@@ -112,22 +117,75 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
 
         if (!$scope.passwordError && !$scope.emailError)
         {
-            console.log("Adding User: ", $scope.user);
             $scope.register_status.message = 'Registering';
             $scope.register_status.disabled = true;
             $scope.register_status.show_alert = true;
             $scope.register_status.alert_type = 'info round';
 
-            Data.post("users", $scope.user).then(function (result) {
+            $scope.addUserHasRole = {
+                first_name: $scope.user.first_name,
+                last_name: $scope.user.last_name,
+                email: $scope.user.email,
+                position: $scope.user.position,
+                DOB: $scope.user.DOB,
+                civic_number: $scope.user.civic_number,
+                street1: $scope.user.street1,
+                street2: $scope.user.street2,
+                city: $scope.user.city,
+                province: $scope.user.province,
+                postal_code: $scope.user.postal_code,
+                medical_info: $scope.user.medical_info,
+                phone: $scope.user.phone,
+                shirt_size: $scope.user.shirt_size
+            }
+
+            $scope.addUser = {
+                first_name: $scope.user.first_name,
+                last_name: $scope.user.last_name,
+                email: $scope.user.email,
+                password: $scope.user.password,
+                DOB: $scope.user.DOB,
+                civic_number: $scope.user.civic_number,
+                street1: $scope.user.street1,
+                street2: $scope.user.street2,
+                city: $scope.user.city,
+                province: $scope.user.province,
+                postal_code: $scope.user.postal_code,
+                medical_info: $scope.user.medical_info,
+                phone: $scope.user.phone
+            }
+            console.log("Adding User: ", $scope.addUser);
+
+            Data.post("users", $scope.addUser).then(function (result) {
                     if(result.status != 'error'){
                         console.log("Returned Data from registered User: ", result);
-                        $location.path('/login');
+
+                        $scope.addUserHasRole.user_id = result.data;
+
+                        Data.post("users/coach", $scope.addUserHasRole).then(function (result) {
+                                if(result.status != 'error'){
+                                    console.log("Returned Data from registered User: ", result);
+                                }else{
+                                    console.log("Error: ", result);
+
+                                    $scope.register_status.message = 'Registration Failed';
+                                    $scope.register_status.disabled = false;
+                                    $scope.register_status.alert_type = 'alert round';
+                                    $scope.register_status.show_alert = true;
+                                } 
+                        }) 
+
                     }else{
+                         console.log("Error: ", result);
+
                         $scope.register_status.message = 'Registration Failed';
                         $scope.register_status.disabled = false;
                         $scope.register_status.alert_type = 'alert round';
                         $scope.register_status.show_alert = true;
                     } 
+                    
+                    $location.path('/login');
+
             })  
         }
     }
