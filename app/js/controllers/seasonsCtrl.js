@@ -4,7 +4,7 @@ var app = angular.module('myApp');
 app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTableParams', '$modal', '$cookies', '$route', function($scope, $location, Data, NgTableParams, $modal, $cookies, $route) {
 
     $scope.check_logged_in();
-
+    $scope.$watch('$invalid', function(validity) {})
     $scope.user = $cookies.getObject("login");
 
     $scope.options = [
@@ -19,6 +19,16 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         status: '',
     }
 
+    Data.get("seasons").then(function (result) {
+        if(result.status != 'error'){
+            console.log("Returned Seasons: ", result);
+            $scope.seasons = result;
+            data = $scope.seasons;
+            $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+        }
+    })
+
+
     $scope.years = [];
 
     var low = 2005;
@@ -31,16 +41,6 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         high++;
     }
 
-    console.log($scope.years);
-
-    Data.get("seasons").then(function (result) {
-        if(result.status != 'error'){
-            console.log("Returned Seasons: ", result);
-            $scope.seasons = result;
-            data = $scope.seasons;
-            $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
-        }
-    }) 
 
     $scope.getSeasons = function(){
             // get seasons
@@ -54,29 +54,28 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         }) 
     }
 
+
+
     $scope.updateSeason = function(season) {
         
-        
-
         console.log("Updating Season: ", season);
         console.log("Updating Season for user: ", $scope.getCookieData());
         var path = "seasons/" + season.year;
         Data.put(path, season).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit season: ", result);
-                $scope.getSeasons();
             }else{
-                console.log("Error saving season");
+                console.log("Error saving season", result);
             } 
+            
+            $route.reload();  
+
         }) 
-        $route.reload();  
 
     }
 
     $scope.deleteSeason = function(season) {
         
-        
-
         console.log("deleting Season: ", season);
         console.log("deleting Season for user: ", $scope.getCookieData());
         var path = "seasons/" + season.year;
@@ -104,17 +103,19 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
         Data.post("seasons", season).then(function (result) {
             if(result.status != 'error'){
+                var path = "seasons/host/" + $scope.user.user_id;
                 console.log("Returned Data from create season: ", result);
+                console.log("path: ", path);
 
-                Data.post("seasons/host/" + $scope.user.user_id, season).then(function (result) {
+                Data.post(path, season).then(function (result) {
                     if(result.status != 'error'){
                         console.log("Returned Data from create season: ", result);
                     }else{
-                        console.log("Error creating season");
+                        console.log("Error creating season", result);
                     } 
                 })
             }else{
-                console.log("Error creating season");
+                console.log("Error creating season", result);
             } 
         }) 
 

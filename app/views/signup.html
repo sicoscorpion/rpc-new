@@ -45,7 +45,7 @@
           <div class="small-4 column">
             <label>DOB: <small ng-messages="newUser.userDOB.$error"><b ng-message="required" class="error">Please select a DOB</b></small></label>
             <datepicker date-format="longDate">
-               <input name="userDOB" ng-model="user.DOB" type="text" required/>
+               <input name="userDOB" ng-model="user.DOB" type="text" required readonly/>
             </datepicker>
           </div>
 
@@ -53,12 +53,12 @@
 
         <div class="row">
           <div class="small-4 column">
-            <label>Civic Address: <small ng-messages="newUser.userCivic.$error"><b ng-message="required" class="error">Required</b><small></label>
+            <label>Civic Address: <small ng-messages="newUser.userCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
             <input type="number" name="userCivic" ng-model="user.civic_number" required />
           </div>
 
           <div class="small-4 column">
-            <label>Street Address: <small ng-messages="newUser.userStreet1.$error"><b ng-message="required" class="error">Required</b><small></label>
+            <label>Street Address: <small ng-messages="newUser.userStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
             <input type="text" name="userStreet1" ng-model="user.street1" required/>
           </div>
 
@@ -70,18 +70,17 @@
 
         <div class="row">
           <div class="small-4 column">
-            <label>City: <small ng-messages="newUser.userCity.$error"><b ng-message="required" class="error">Required</b><small></label>
+            <label>City: <small ng-messages="newUser.userCity.$error"><b ng-message="required" class="error">Required</b></small></label>
             <input type="text" name="userCity" ng-model="user.city" required />
           </div>
 
           <div class="small-4 column">
-            <label>Province: <small ng-messages="newUser.userProvince.$error"><b ng-message="required" class="error">Required</b><small></label>
+            <label>Province: <small ng-messages="newUser.userProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
             <input type="text" name="userProvince" ng-model="user.Province" required/>
           </div>
 
           <div class="small-4 column">
-            <label>Postal Code: <small ng-messages="newUser.userPostalCode.$error"><b ng-message="required" class="error">Required</b>
-                                                                                   <b ng-message="pattern" class="error">Valid postal codes only</b><small></label>
+            <label>Postal Code: <small ng-messages="newUser.userPostalCode.$error"><b ng-message="required" class="error">Required</b></small></label>
             <input type="text" name="userPostalCode" ng-model="user.postal_code"/ required>
           </div>
         </div>
@@ -90,7 +89,7 @@
 
           <div class="small-4 column">
             <label>Phone: <small ng-messages="newUser.userPhone.$error"><b ng-message="required" class="error">Please only enter 10 digits</b>
-                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b></small></label>
+                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b><//small></label>
             <input type="text" name="userPhone" ng-model="user.phone" required ng-pattern="/^\d{10}$/"/>
           </div>
 
@@ -104,10 +103,14 @@
 
           <div class="small-4 column">
 
-            <label>Role:           <div class="small-6 column">
-             <label>Year: <small ng-messages="newSeason.year.$error"><b ng-message="required" class="error">Required</b></small></label>
-              <input type="text" name="year" ng-model="season.year" required />
-          </div>
+            <label>Role: <small ng-messages="newUser.userRole.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-change="setRole($select.selected.type)" ng-model="user.position" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="userRole" required>
+                  <ui-select-match placeholder="Select a position...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="position in positions | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{position.type}}
+                  </ui-select-choices>
+                </ui-select>
             
           </div>         
 
@@ -117,7 +120,7 @@
 
             <div class="small-3 column">
 
-              <label>Gender: <small ng-messages="newUser.userGender.$error"><b ng-message="required" class="error">Required</b><small></label>
+              <label>Gender: <small ng-messages="newUser.userGender.$error"><b ng-message="required" class="error">Required</b></small></label>
                   <input type="radio" name="userGender" value="Male" ng-model="user.gender" required>Male   
                   <input type="radio" name="userGender" value="Female" ng-model="user.gender" required>Female   
                   <input type="radio" name="userGender" value="Other" ng-model="user.gender" required>Other
@@ -125,7 +128,7 @@
             </div>
             <div class="small-3 column">
 
-              <label>Shirt Size: <small ng-messages="newUser.userShirt.$error"><b ng-message="required" class="error">Required</b><small></label>
+              <label>Shirt Size: <small ng-messages="newUser.userShirt.$error"><b ng-message="required" class="error">Required</b></small></label>
                 <ui-select ng-change="setRole($select.selected.type)" ng-model="user.shirt_size" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="userShirt" required>
                   <ui-select-match placeholder="Select a shirt size...">{{$select.selected.type}}</ui-select-match>
                   <ui-select-choices repeat="shirt in shirts | propsFilter: {type: $select.search}">
@@ -151,7 +154,7 @@
         </div>
         <div class="row">
           <div class="small-8 column">
-            <button class="button postfix" ng-click="register()" ng-disabled="disabled">Register</button>
+            <button class="button postfix" ng-click="register()" ng-disabled="newUser.$invalid">Register</button>
           </div>
 
         </div>

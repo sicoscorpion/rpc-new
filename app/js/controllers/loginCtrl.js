@@ -6,6 +6,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
     $scope.logged_in = Data.logged_in;
     $scope.log_out = Data.log_out;
     $scope.matchError = false;
+    $scope.$watch('$invalid', function(validity) {})
     
     $scope.user = {
         first_name: '',
@@ -85,12 +86,23 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
                         $cookies.putObject(loginCookie, result);  
                         $location.path('/home');
                     }else{
+                        console.log("Returned Data from Login Error: ", result);
+
                         $scope.login_status.message = 'Login Failed';
                         $scope.login_status.disabled = false;
                         $scope.login_status.alert_type = 'alert round';
                         $scope.login_status.show_alert = true;
                     } 
-            })  
+                console.log("****s: ", result);
+
+            }, function (error){
+                console.log("Returned Data from Login Error: ", error);
+
+                $scope.login_status.message = 'Invalid user name or password';
+                $scope.login_status.disabled = false;
+                $scope.login_status.alert_type = 'alert round';
+                $scope.login_status.show_alert = true;
+            })
         }
 
     }
@@ -103,6 +115,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
     $scope.register = function() {
 
         $scope.user.position = $scope.user.position.type;
+        $scope.user.shirt_size = $scope.user.shirt_size.type;
 
         $scope.emailError = false; 
         $scope.passwordError = false;
@@ -117,6 +130,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
 
         if (!$scope.passwordError && !$scope.emailError)
         {
+
             $scope.register_status.message = 'Registering';
             $scope.register_status.disabled = true;
             $scope.register_status.show_alert = true;
@@ -161,6 +175,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
                         console.log("Returned Data from registered User: ", result);
 
                         $scope.addUserHasRole.user_id = result.data;
+                        console.log("Adding User: ", $scope.addUserHasRole);
 
                         Data.post("users/coach", $scope.addUserHasRole).then(function (result) {
                                 if(result.status != 'error'){

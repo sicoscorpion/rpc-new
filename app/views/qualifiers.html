@@ -1,1 +1,211 @@
-<h1>Qualifiers</h1>
+<div class='row'>
+            <button class="tiny round button alert" ng-click='openQualifier()' >New Qualifier</button></td>
+
+<div class='large-10 large-centered columns'>
+
+    <table ng-table="qualTableParams" class="table" show-filter="true">
+        <tr ng-repeat="qual in $data">
+            <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
+                <input type="text" ng-model='qual.season_year' ></input>
+            </td>
+            <td title="'Status'" filter="{ status: 'text'}" sortable="'status'">
+                <input type="text" ng-model='qual.status' ></input>
+            </td>
+              <td title="'Capacity'" filter="{ capacity: 'number'}" sortable="'capacity'">
+                <input type="number" ng-model='qual.capacity' ></input>
+            </td>  
+
+            </td>
+              <td title="'Date'" filter="{ time: 'text'}" sortable="'time'">
+                <input type="text" ng-model='qual.time' ></input>
+            </td>         
+
+            </td>
+              <td title="'Profile Info'">
+                <button class="tiny round button" ng-click="openProfile(qual)"/>Edit</button>
+                <!--MODAL WINDOW--> 
+                    <script type="text/ng-template" id="profile.html">
+                        <div class="modal-body">
+                            <fieldset>
+                            <legend>Edit Profile for Comp {{ qualEdit.qualifier_id }}</legend>
+
+
+
+        <form name='editQual'>
+        <div class="row">
+            <div class="small-3 column">
+                <label>Name: <small ng-messages="editQual.name.$error"><b ng-message="required" class="error">Required</b></small></label>
+                    <input type="text" name="name" ng-model="qualEdit.name" required />
+            </div>
+          <div class="small-3 column">
+            <label>Civic Address: <small ng-messages="editQual.qualCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="number" name="qualCivic" ng-model="qualEdit.civic_number" required />
+          </div>
+
+          <div class="small-3 column">
+            <label>Street Address: <small ng-messages="editQual.qualStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="qualStreet1" ng-model="qualEdit.street1" required/>
+          </div>
+
+          <div class="small-3 column">
+            <label>Street Address:
+            <input type="text" name="qualStreet2" ng-model="qualEdit.street2"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>City: <small ng-messages="editQual.qualCity.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="qualCity" ng-model="qualEdit.city" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Province: <small ng-messages="editQual.qualProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="qualProvince" ng-model="qualEdit.province" required/>
+          </div>
+
+          <div class="small-4 column">
+            <label>Postal Code: <small ng-messages="editQual.qualPostalCode.$error"><b ng-message="required" class="error">Required</b>
+                                                                                   </small></label>
+            <input type="text" name="qualPostalCode" ng-model="qualEdit.postal_code"/ required>
+          </div>
+        </div>
+
+        <div class="row">
+
+
+          <div class="small-6 column">
+            <label>Phone: <small ng-messages="editQual.qualPhone.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="number" name="qualPhone" ng-model="qualEdit.phone" required/>
+          </div>
+
+          <div class="small-6 column">
+            <label>Capacity: <small ng-messages="editQual.qualCapacity.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="number" name="qualCapacity" ng-model="qualEdit.capacity"/ required>
+          </div>
+        </div>
+
+        <form>                  <hr>
+                              <button class="tiny round button success" ng-click='updateQual(qualEdit)'>Edit</button>
+                            </fieldset>
+                      </div>
+                    </script>
+
+            </td>
+
+
+            <td title="'Edit'">
+                <button class="tiny round button success" ng-click='updateQual(qual)'>Save</button></td>
+            <td title="'Delete'">
+                <button class="tiny round button alert" ng-click='deleteQual(qual)' confirmation-needed>Delete</button></td>
+        </tr>
+    </table>
+</div>
+</div>
+
+<!--MODAL WINDOW--> 
+<script type="text/ng-template" id="newQual.html">
+
+<div class="row">
+  
+<form name="newQual"> 
+      <fieldset>
+        <legend>Create Qualifier</legend>
+        <div class="row">
+
+          <div class="small-4 column">
+             <label>Year: <small ng-messages="newQual.year.$error"><b ng-message="required" class="error">Required</b></small></label>
+              <ui-select ng-model="qual.season_year" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="year" required>
+                  <ui-select-match placeholder="Year">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="year in years | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{year.type}}
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+
+            <div class="small-4 column">
+
+              <label>Status: <small ng-messages="newQual.status.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="qual.status" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="status" required>
+                  <ui-select-match placeholder="Status">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="option in options | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{option.type}}
+                  </ui-select-choices>
+                </ui-select>
+            </div>
+
+            <div class="small-4 column">
+                <label>Name: <small ng-messages="newQual.name.$error"><b ng-message="required" class="error">Required</b></small></label>
+                    <input type="text" name="name" ng-model="qual.name" required />
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>Civic Address: <small ng-messages="newQual.qualCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="number" name="qualCivic" ng-model="qual.civic_number" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Street Address: <small ng-messages="newQual.qualStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="qualStreet1" ng-model="qual.street1" required/>
+          </div>
+
+          <div class="small-4 column">
+            <label>Street Address:
+            <input type="text" name="qualStreet2" ng-model="qual.street2"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>City: <small ng-messages="newQual.qualCity.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="qualCity" ng-model="qual.city" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Province: <small ng-messages="newQual.qualProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="qualProvince" ng-model="qual.province" required/>
+          </div>
+
+          <div class="small-4 column">
+            <label>Postal Code: <small ng-messages="newQual.qualPostalCode.$error"><b ng-message="required" class="error">Required</b>
+                                                                                   </small></label>
+            <input type="text" name="qualPostalCode" ng-model="qual.postal_code"/ required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>Time: <small ng-messages="newQual.qualTime.$error"><b ng-message="required" class="error">Required</b></small></label>
+             <datepicker date-format="longDate">
+               <input name="qualTime" ng-model="qual.time" type="text" required/>
+            </datepicker>
+          </div>
+
+          <div class="small-4 column">
+            <label>Phone: <small ng-messages="newQual.qualPhone.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="number" name="qualPhone" ng-model="qual.phone" required/>
+          </div>
+
+          <div class="small-4 column">
+            <label>Capacity: <small ng-messages="newQual.qualCapacity.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="number" name="qualCapacity" ng-model="qual.capacity"/ required>
+          </div>
+        </div>
+<hr>
+
+        <div class="row">
+          <div class="small-8 small-centered column">
+            <button class="button postfix" ng-click="createQual(qual)" ng-disabled="newQual.$invalid">Create</button>
+          </div>
+
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+</script>
