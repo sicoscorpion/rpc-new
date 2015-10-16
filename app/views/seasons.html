@@ -38,7 +38,7 @@
           <div class="medium-6 column">
              <label>Year: <small ng-messages="newSeason.year.$error"><b ng-message="required" class="error">Required</b></small></label>
               <ui-select ng-model="season.year" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="year" required>
-                  <ui-select-match placeholder="Status">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-match placeholder="Year">{{$select.selected.type}}</ui-select-match>
                   <ui-select-choices repeat="year in years | propsFilter: {type: $select.search}">
                     <div ng-bind-html="type | highlight: $select.search"></div>
                       {{year.type}}
