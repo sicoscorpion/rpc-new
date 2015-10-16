@@ -6,7 +6,12 @@
     } 
 
     public function get_seasons($db){
-      $data = $db->query("SELECT * FROM "."Seasons");
+      $data = $db->query("SELECT * FROM Seasons");
+      return $data;
+    }
+
+    public function get_hosts_for_season($db, $year){
+      $data = $db->query("SELECT * FROM "."Hosts WHERE season_year = :year", array(':year' => $year));
       return $data;
     }
 

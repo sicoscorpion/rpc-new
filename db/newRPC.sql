@@ -71,7 +71,7 @@ CREATE TABLE Teams (
 CREATE TABLE Admins (
   user_id int(10) not null,
   shirt_size varchar(255) not null,
-  consent datetime DEFAULT null,
+  consent varchar(128) DEFAULT null,
   position ENUM("Super Admin", "Qualifier Admin") DEFAULT null,
 
   FOREIGN KEY (user_id)
@@ -83,7 +83,7 @@ CREATE TABLE Admins (
 CREATE TABLE Coaches (
   user_id int(10) not null,
   shirt_size varchar(255) not null,
-  consent datetime DEFAULT null,
+  consent varchar(128) DEFAULT null,
   position ENUM("Main Coach", "Assistant Coach") DEFAULT null,
 
   FOREIGN KEY (user_id)
@@ -107,7 +107,7 @@ CREATE TABLE Volunteers (
   gender varchar(30),
   medical_info varchar(255),
   shirt_size varchar(255) not null,
-  consent datetime DEFAULT null,
+  consent varchar(128) DEFAULT null,
   position varchar(255) not null,
   season_year varchar(128) not NULL,
   
@@ -123,7 +123,7 @@ CREATE TABLE Competitions (
   season_year varchar(128) not NULL,
   name varchar(128) not NULL,
   status ENUM("open", "closed", "completed") DEFAULT "closed",
-  time timestamp,
+  time varchar(128),
   phone varchar(30),
   civic_number varchar(128),
   street1 varchar(128),
@@ -164,7 +164,7 @@ CREATE TABLE Qualifiers (
   season_year varchar(128) not NULL,
   name varchar(128) not NULL,
   status ENUM("open", "closed", "completed") DEFAULT "closed",
-  time timestamp,
+  time varchar(128),
   phone varchar(30),
   civic_number varchar(128),
   street1 varchar(128),
@@ -201,7 +201,7 @@ CREATE TABLE Members (
   guardian_email varchar(128),
   guardian_phone varchar(30),
   medical_info varchar(255),
-  consent timestamp, 
+  consent varchar(128), 
 
   FOREIGN KEY (team_id)
       REFERENCES Teams(team_id),
@@ -306,7 +306,7 @@ CREATE TABLE HasRole (
   gender varchar(30),
   medical_info varchar(128),
   shirt_size varchar(128),
-  consent timestamp,
+  consent varchar(128),
   position ENUM("Super Admin", "Qualifier Admin", "Main Coach", "Assistant Coach")  DEFAULT null,
   admin boolean not null DEFAULT false, 
   coach boolean not null DEFAULT false,

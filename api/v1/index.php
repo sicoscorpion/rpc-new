@@ -5,6 +5,8 @@ require '.././libs/password.php';
 require 'models/users.php';
 require 'models/seasons.php';
 require 'models/competitions.php';
+require 'models/qualifiers.php';
+
 
 require_once 'dbHelper.php';
 
@@ -75,6 +77,13 @@ $app->get('/seasons/host/:host', function($host) use ($app){
   $rows = Seasons_model::get_seasons_for_host($db, $host);
   echoResponse(200, $rows);
 });
+$app->get('/seasons/hosts/:year', function($year) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Seasons_model::get_hosts_for_season($db, $year);
+  echoResponse(200, $rows);
+});
+
 
 $app->post('/seasons', function() use ($app){ 
   global $db;
@@ -147,6 +156,44 @@ $app->put('/competitions/:id', function($id) use ($app){
 $app->delete('/competitions/:id', function($id) use ($app){
   global $db;
   $rows = Competitions_model::delete_competition($db, $id);
+  echoResponse(200, $rows);
+});
+
+// Qualifiers
+$app->post('/qualifiers', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Qualifiers_model::create_qualifier($db, $data);
+  echoResponse(200, $rows);
+});
+
+$app->get('/qualifiers', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Qualifiers_model::get_qualifiers($db);
+  echoResponse(200, $rows);
+});
+
+$app->get('/qualifiers/competition/:comp_id', function($comp_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Qualifiers_model::get_qualifiers_for_competition($db, $comp_id);
+  echoResponse(200, $rows);
+});
+
+$app->put('/qualifiers/:id', function($id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+
+  $rows = Qualifiers_model::update_qualifier($db, $data, $id);
+  if($rows["status"]=="success")
+      $rows["message"] = "Qualifier information updated successfully.";
+  echoResponse(200, $rows);
+});
+
+$app->delete('/qualifiers/:id', function($id) use ($app){
+  global $db;
+  $rows = Qualifiers_model::delete_qualifier($db, $id);
   echoResponse(200, $rows);
 });
 

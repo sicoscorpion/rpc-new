@@ -5,36 +5,36 @@
       parent::__construct();
     }
 
-    public function create_competition($db, $data)
+    public function create_qualifier($db, $data)
     {
-      $competition = $db->insert("Competitions", $data, array());
-      return $competition;
+      $qualifiers = $db->insert("Qualifiers", $data, array());
+      return $qualifiers;
     }
 
-    public function get_competitions($db) {
-      $data = $db->query("SELECT * FROM "."Competitions");
+    public function get_qualifiers($db) {
+      $data = $db->query("SELECT * FROM "."Qualifiers");
       return $data;
     }
 
-    public function get_competitions_for_season($db, $year) {
-      $data = $db->query("SELECT * FROM "."Competitions WHERE season_year = :year", array(':year' => $year));
+    public function get_qualifiers_for_competition($db, $competition_id) {
+      $data = $db->query("SELECT * FROM "."Qualifiers WHERE competition_id = :competition_id", array(':competition_id' => $competition_id));
       
       return $data;
     }
 
-    public function update_competition($db, $data, $id)
+    public function update_qualifier($db, $data, $id)
     {
-      $where_inCompetition = array('competition_id' => $id);    
-      $competition = $db->update("Competitions", $data, $where_inCompetition, array());
+      $where_inCompetition = array('qual_id' => $id);    
+      $qualifier = $db->update("Qualifiers", $data, $where_inCompetition, array());
       
-      return $competition;
+      return $qualifier;
     }
 
-    public function delete_competition($db, $id) {
-      $competition = $db->delete("Competitions", 
-        array('competition_id' => $id));
+    public function delete_qualifier($db, $id) {
+      $qualifier = $db->delete("Qualifiers", 
+        array('qual_id' => $id));
       
-      return  $competition;
+      return  $qualifier;
     }
   }
 ?>
