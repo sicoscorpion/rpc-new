@@ -19,6 +19,13 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         status: '',
     }
 
+    $scope.season_status = {
+        disabled: false,
+        message: 'Invaild form. Ensure season doesnt exist',
+        show_alert: false,
+        alert_type: 'warning round'
+    }
+
     Data.get("seasons").then(function (result) {
         if(result.status != 'error'){
             console.log("Returned Seasons: ", result);
@@ -26,20 +33,18 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
             data = $scope.seasons;
             $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
         }
+
+        $scope.years = [];
+
+        var low = 2005;
+        var high = 2006;
+
+        for (var i = 0; i < 50; i++){
+            $scope.years.push({type: low.toString() + "-" + high.toString()});
+            low++;
+            high++;
+        }
     })
-
-
-    $scope.years = [];
-
-    var low = 2005;
-    var high = 2006;
-
-    for (var i = 0; i < 50; i++){
-
-        $scope.years[i] = {type: low.toString() + "-" + high.toString()};
-        low++;
-        high++;
-    }
 
 
     $scope.getSeasons = function(){
@@ -57,6 +62,7 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
 
     $scope.updateSeason = function(season) {
+        season.status = season.status.type;
         
         console.log("Updating Season: ", season);
         console.log("Updating Season for user: ", $scope.getCookieData());
@@ -96,10 +102,15 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
         season.year = season.year.type;
         season.status = season.status.type;
+
+        $scope.season_status.message = 'Logging in';
+        $scope.season_status.disabled = true;
+        $scope.season_status.show_alert = true;
+        $scope.season_status.alert_type = 'info round';
+
         
         console.log("Creating Season: ", season);
         console.log("Creating Season for user: ", $scope.getCookieData());
-        $scope.modalInstance.dismiss('cancel');
 
         Data.post("seasons", season).then(function (result) {
             if(result.status != 'error'){
@@ -110,16 +121,27 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 Data.post(path, season).then(function (result) {
                     if(result.status != 'error'){
                         console.log("Returned Data from create season: ", result);
+                        $route.reload(); 
+                        $scope.modalInstance.dismiss('cancel');
+
+
                     }else{
                         console.log("Error creating season", result);
+                        $scope.season_status.message = 'Invaild form. Ensure season doesnt exist';
+                        $scope.season_status.disabled = false;
+                        $scope.season_status.alert_type = 'alert round';
+                        $scope.season_status.show_alert = true;
                     } 
                 })
             }else{
                 console.log("Error creating season", result);
+                $scope.season_status.message = 'Invaild form. Ensure season doesnt exist';
+                $scope.season_status.disabled = false;
+                $scope.season_status.alert_type = 'alert round';
+                $scope.season_status.show_alert = true;
             } 
         }) 
 
-        $route.reload();  
   }
 
         // MODAL WINDOW

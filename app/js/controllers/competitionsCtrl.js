@@ -28,6 +28,12 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
       {type: "completed"}
     ];
 
+    $scope.comp_status = {
+        disabled: false,
+        message: 'Invaild form. Ensure season exists. ',
+        show_alert: false,
+        alert_type: 'warning round'
+    }
 
     $scope.years = [];
 
@@ -70,6 +76,7 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
 
 
     $scope.updateComp = function(comp) {
+        comp.status = comp.status.type;
         
         console.log("Updating Competition: ", comp);
         console.log("Updating Competition for user: ", $scope.getCookieData());
@@ -94,19 +101,22 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
         
         console.log("Creating Competition: ", competition);
         console.log("Creating Competition for user: ", $scope.getCookieData());
-        $scope.modalInstance.dismiss('cancel');
 
         Data.post("competitions", competition).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from create competition: ", result);
+                $scope.modalInstance.dismiss('cancel');
+                $route.reload();  
 
-                
             }else{
                 console.log("Error creating competition", result);
+                $scope.comp_status.message = 'Invaild form. Ensure season exists.';
+                $scope.comp_status.disabled = false;
+                $scope.comp_status.alert_type = 'alert round';
+                $scope.comp_status.show_alert = true;
             } 
         }) 
 
-        $route.reload();  
   }
 
         // MODAL WINDOW

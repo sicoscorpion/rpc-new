@@ -6,10 +6,16 @@
     <table ng-table="tableParams" class="table" show-filter="true">
         <tr ng-repeat="season in $data">
             <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
-                <input type="text" ng-model='season.year' ></input>
+                <input type="text" ng-model='season.year' readonly></input>
             </td>
             <td title="'Status'" filter="{ status: 'text'}" sortable="'status'">
-                <input type="text" ng-model='season.status' ></input>
+                <ui-select ng-model="season.status" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="status" required>
+                  <ui-select-match placeholder="Status ">{{$select.selected.type || season.status}}</ui-select-match>
+                  <ui-select-choices repeat="option in options | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{option.type}}
+                  </ui-select-choices>
+                </input>
             </td>
             
             <td title="'Info'" filter="{ info: 'text'}" sortable="'info'">
@@ -39,8 +45,8 @@
              <label>Year: <small ng-messages="newSeason.year.$error"><b ng-message="required" class="error">Required</b></small></label>
               <ui-select ng-model="season.year" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="year" required>
                   <ui-select-match placeholder="Year">{{$select.selected.type}}</ui-select-match>
-                  <ui-select-choices repeat="year in years | propsFilter: {type: $select.search}">
-                    <div ng-bind-html="type | highlight: $select.search"></div>
+                  <ui-select-choices repeat="year in years | propsFilter: {type: $select.search}" >
+                    <div ng-bind-html="type | highlight: $select.search" ng-if='isSeason(year.type)'></div>
                       {{year.type}}
                   </ui-select-choices>
                 </ui-select>
@@ -68,7 +74,9 @@
 
         </div>
 <hr>
-
+        <div class="row" >
+          <alert ng-if="season_status.show_alert" type="season_status.alert_type" class="text-center">{{season_status.message}}</alert>
+        </div>
         <div class="row">
           <div class="small-8 small-centered column">
             <button class="button postfix" ng-click="createSeason(season)" ng-disabled='newSeason.$invalid'>Create</button>
