@@ -316,7 +316,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                         console.log("Adding User: ", $scope.addUserHasRole);
 
                         // if ($scope.user.position != ""){
-                            Data.post(path + result.data, $scope.addUserHasRole).then(function (result) {
+                            Data.post(path, $scope.addUserHasRole).then(function (result) {
                                     if(result.status != 'error'){
                                         console.log("Returned Data from registered User: ", result);
 
