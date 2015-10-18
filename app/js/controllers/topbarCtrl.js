@@ -3,7 +3,7 @@ var app = angular.module('myApp');
 
 app.controller('topbar_controller', ['$scope', '$location', function($scope, $location) {
 
-    $scope.check_logged_in();
+    // $scope.check_logged_in();
 
     $scope.getActive = function (path) {
       if ($location.path() === path) {
