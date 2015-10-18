@@ -80,6 +80,12 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
         $scope.matchError = (user.password != password) ? true : false;
     }
 
+    $scope.forgotPassword = function (){
+        console.log("forgot password");
+        $location.path('/forgot_password');
+
+    }
+
     
     // send a login request and if successful redirect to landing page
     $scope.login = function() {
@@ -193,7 +199,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
                 medical_info: $scope.user.medical_info,
                 phone: $scope.user.phone,
                 gender: $scope.user.gender
-                
+
             }
             console.log("Adding User: ", $scope.addUser);
 

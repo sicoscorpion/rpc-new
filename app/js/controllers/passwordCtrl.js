@@ -3,7 +3,7 @@ var app = angular.module('myApp');
 
 app.controller('password_controller', ['$scope', '$location', '$routeParams', 'Data', function($scope, $location, $routeParams, Data) {
 
-    $scope.check_logged_in();
+    // $scope.check_logged_in();
     $scope.user = {
         reset_key: "",
         email_address:  "",
@@ -26,15 +26,16 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
         $scope.user.email_address = $routeParams.email;
         $scope.user.password_token = $routeParams.password_token;
 
-        var path = "reset_password";
-        Data.post(path, $scope.user).then(function (result) {
-            if(result.status != 'error'){
-                console.log("Returned Data: ", result);
-            }else{
-                console.log("Error resetting: ", result);
-            } 
+        var tmp = {email: $scope.user.email};
+        Data.post("forgot_password", tmp).then(function (result) {
+                    if(result.status != 'error'){
+                        console.log("Email Sent: ", result);
 
-        }) 
+                    }else{
+                        console.log("Error, Email not sent for password: ", result);
+
+                    } 
+            }) 
 
     }
 
