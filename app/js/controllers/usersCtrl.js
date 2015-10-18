@@ -329,8 +329,8 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                                         $scope.register_status.show_alert = true;
                                     } 
                             }) 
-
-                        Data.post("forgot_password", $scope.user.email).then(function (result) {
+                        var tmp = {email: $scope.user.email};
+                        Data.post("forgot_password", tmp).then(function (result) {
                                     if(result.status != 'error'){
                                         console.log("Email Sent: ", result);
 
