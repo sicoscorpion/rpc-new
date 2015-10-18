@@ -37,4 +37,25 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
 
     }
 
+    $scope.resetLink = function(user) {
+        
+        console.log("email: ", user);
+        $scope.user.reset_key = $routeParams.reset_key;
+        $scope.user.password_token = $routeParams.password_token;
+        $scope.user.email_address = $routeParams.email;
+
+        console.log(tmp);
+
+        Data.post("forgot_password", $scope.user).then(function (result) {
+                    if(result.status != 'error'){
+                        console.log("Email Sent: ", result);
+
+                    }else{
+                        console.log("Error, Email not sent for password: ", result);
+
+                    } 
+            }) 
+
+    }
+
 }]);
