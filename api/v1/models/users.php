@@ -118,7 +118,7 @@
         <br><br> 
         To set a new password, please visit this link: 
         <br><br> 
-        http://192.168.0.2/users/password_reset?reset_key=" . $toBePosted['reset_key'] . "&email=" . $toBePosted['email_address'] . "&password_token=" . $password_token ." 
+        http://213.168.249.135:4000/users/password_reset?reset_key=" . $toBePosted['reset_key'] . "&email=" . $toBePosted['email_address'] . "&password_token=" . $password_token ." 
         <br><br> 
         Do not share this link with anyone, it expires in 30 minutes.  
         <br><br> 
@@ -141,35 +141,51 @@
     }
   }
 
-  // public function resetPasswordAction($reset_key, $email_address, $password_token, $password, $user_password_repeat) {
+  function resetPasswordAction($db, $reset_key, $email_address, 
+    $password_token, $password, $user_password_repeat) {
     
-  //   $response = $this->_db->select('SELECT secret, request_timestamp FROM responses 
-  //     WHERE reset_key = :reset_key AND email_address = :email_address 
-  //     AND NOT used AND active', array(':reset_key' => $reset_key, ':email_address' => $email_address));
+    $response = $db->query('SELECT secret, request_timestamp FROM responses 
+      WHERE reset_key = :reset_key AND email_address = :email_address 
+      AND NOT used AND active', array(':reset_key' => $reset_key, ':email_address' => $email_address));
     
-  //   $validatedPassword = parent::validateUserPassword($password, $user_password_repeat);
-  //   if (!$validatedPassword) {
-  //     Session::add('feedback_negative', "INVALID PASSWORD");
-  //     return false;
-  //   }
+    $validatedPassword = self::validateUserPassword($password, $user_password_repeat);
+    if (!$validatedPassword) {
+      return "INVALID PASSWORD";
+    }
     
-  //   if($response){              
-  //     $created = DateTime::createFromFormat('Y-m-d G:i:s', $response[0]->request_timestamp);
-  //     if ( $created >= new DateTime('30 minutes ago') ) { 
-  //       if ( Password::verify($password_token, $response[0]->secret) 
-  //         && $password == $user_password_repeat) {
-  //         $disable_token = $this->_db->update("responses", array('used' => 1), array('reset_key' => $reset_key));
+    if($response){              
+      $created = DateTime::createFromFormat('Y-m-d G:i:s', $response[0]->request_timestamp);
+      if ( $created >= new DateTime('30 minutes ago') ) { 
+        if ( Password::verify($password_token, $response[0]->secret) 
+          && $password == $user_password_repeat) {
+          $disable_token = $db->update("responses", array('used' => 1), array('reset_key' => $reset_key), array());
 
-  //         $hash = Password::make($password, PASSWORD_BCRYPT, array("cost" => 10));
-  //         $password_change = $this->_db->exec('UPDATE Users SET password = :password WHERE email = :email', 
-  //           array(':password' => $hash, ':email' => $email_address));
-  //         return true;
-  //       }
-  //     }
-  //   } else {
-  //     Session::add('feedback_negative', "INVALID RESET TOKEN");
-  //     return false;
-  //   }
-  // }
+          $hash = Password::make($password, PASSWORD_BCRYPT, array("cost" => 10));
+          $password_change = $db->exec('UPDATE Users SET password = :password WHERE email = :email', 
+            array(':password' => $hash, ':email' => $email_address));
+          return true;
+        }
+      }
+    } else {
+      return "INVALID RESET TOKEN";
+    }
+  }
+
+  function validateUserPassword($user_password_new, $user_password_repeat)
+  {
+      if (empty($user_password_new) OR empty($user_password_repeat)) {
+          return false;
+      }
+
+      if ($user_password_new !== $user_password_repeat) {
+          return false;
+      }
+
+      if (strlen($user_password_new) < 6) {
+          return false;
+      }
+
+      return true;
+  }
 }
 ?>

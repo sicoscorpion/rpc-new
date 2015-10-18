@@ -104,6 +104,21 @@ $app->post('/forgot_password', function() use ($app){
   echoResponse(200, $processed);
 });
 
+
+$app->post('/reset_password', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+
+  $result = $user->resetPasswordAction(
+    $data->reset_key, 
+    $data->email_address, 
+    $data->password_token,
+    $data->password,
+    $data->verifyNewPass);
+  
+  echoResponse(200, $result);
+});
+
 // Seasons
 $app->get('/seasons', function() use ($app){ 
   global $db;
