@@ -192,6 +192,171 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
              });
     };
 
+    $scope.openUser = function () {
+
+        console.log("New Role: ");
+        $scope.modalInstance = $modal.open({
+          controller: "users_controller",
+          templateUrl: 'newUser.html',
+          scope: $scope,
+            resolve: {
+                user: function()
+                {
+                    return $scope;
+                }
+            }
+             });
+    };
+
+
+    $scope.registerNewUser = function(user) {
+
+        $scope.user = user;
+
+
+        if (typeof $scope.user.shirt_size.type != "undefined"){
+            $scope.user.shirt_size = $scope.user.shirt_size.type;
+            
+        }else{
+            $scope.user.shirt_size = $scope.user.shirt_size;
+
+        }
+        if (typeof $scope.user.position.type != "undefined"){
+            $scope.user.position = $scope.user.position.type;
+            
+        }else{
+            $scope.user.position = $scope.user.position;
+
+        }
+        if (typeof $scope.user.province.type != "undefined"){
+            $scope.user.province = $scope.user.province.type;
+            
+        }else{
+            $scope.user.province = $scope.user.province;
+
+        }
+        if (typeof $scope.user.gender.type != "undefined"){
+            $scope.user.gender = $scope.user.gender.type;
+            
+        }else{
+            $scope.user.gender = $scope.user.gender;
+
+        }
+
+
+        $scope.emailError = false; 
+        $scope.passwordError = false;
+        
+        if ($scope.user.email == ""){
+            $scope.emailError = true; 
+        }
+
+        if ($scope.user.password == ""){
+           $scope.passwordError = true;
+        }
+
+        if (!$scope.passwordError && !$scope.emailError)
+        {
+
+            $scope.register_status.message = 'Registering';
+            $scope.register_status.disabled = true;
+            $scope.register_status.show_alert = true;
+            $scope.register_status.alert_type = 'info round';
+
+            $scope.addUserHasRole = {
+                first_name: $scope.user.first_name,
+                last_name: $scope.user.last_name,
+                email: $scope.user.email,
+                position: $scope.user.position,
+                DOB: $scope.user.DOB,
+                civic_number: $scope.user.civic_number,
+                street1: $scope.user.street1,
+                street2: $scope.user.street2,
+                city: $scope.user.city,
+                province: $scope.user.province,
+                postal_code: $scope.user.postal_code,
+                medical_info: $scope.user.medical_info,
+                phone: $scope.user.phone,
+                shirt_size: $scope.user.shirt_size,
+                gender: $scope.user.gender
+            }
+
+            $scope.addUser = {
+                first_name: $scope.user.first_name,
+                last_name: $scope.user.last_name,
+                email: $scope.user.email,
+                password: $scope.user.password,
+                DOB: $scope.user.DOB,
+                civic_number: $scope.user.civic_number,
+                street1: $scope.user.street1,
+                street2: $scope.user.street2,
+                city: $scope.user.city,
+                province: $scope.user.province,
+                postal_code: $scope.user.postal_code,
+                medical_info: $scope.user.medical_info,
+                phone: $scope.user.phone,
+                gender: $scope.user.gender
+                
+            }
+            console.log("Adding User: ", $scope.addUser);
+            if (user.position == "Super Admin" || user.position == "Qualifier Admin")
+            {
+                var path = "users/" + "admin";
+
+            }else{
+                var path = "users/" + "coach";
+                
+            }
+
+            Data.post("users", $scope.addUser).then(function (result) {
+                    if(result.status != 'error'){
+                        console.log("Returned Data from registered User: ", result);
+
+                        $scope.addUserHasRole.user_id = result.data;
+                        console.log("Adding User: ", $scope.addUserHasRole);
+
+                        // if ($scope.user.position != ""){
+                            Data.post(path, $scope.addUserHasRole).then(function (result) {
+                                    if(result.status != 'error'){
+                                        console.log("Returned Data from registered User: ", result);
+
+                                    }else{
+                                        console.log("Error: ", result);
+
+                                        $scope.register_status.message = 'Registration Failed';
+                                        $scope.register_status.disabled = false;
+                                        $scope.register_status.alert_type = 'alert round';
+                                        $scope.register_status.show_alert = true;
+                                    } 
+                            }) 
+
+                        Data.post("forgot_password", $scope.user.email).then(function (result) {
+                                    if(result.status != 'error'){
+                                        console.log("Email Sent: ", result);
+
+                                    }else{
+                                        console.log("Error, Email not sent for password: ", result);
+
+                                    } 
+                            }) 
+                        // }
+
+
+                    }else{
+                         console.log("Error: ", result);
+
+                        $scope.register_status.message = 'Registration Failed';
+                        $scope.register_status.disabled = false;
+                        $scope.register_status.alert_type = 'alert round';
+                        $scope.register_status.show_alert = true;
+                    } 
+                    
+
+            })  
+        }
+    }
+
+
     if ($scope.isAdmin()){
         // get registered users
         Data.get("users").then(function (result) {

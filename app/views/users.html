@@ -158,9 +158,6 @@
           </div>
 
 <hr>
-        <div class="row" >
-          <alert ng-if="register_status.show_alert" type="register_status.alert_type" class="text-center">{{register_status.message}}</alert>
-        </div>
         <div class="row">
           <div class="small-8 column">
             <button class="button postfix" ng-click="updateUser(userEdit)" ng-disabled="newUser.$invalid">Save</button>
@@ -233,3 +230,184 @@
     </table>
   </div>
 </div>
+
+
+
+
+<script type="text/ng-template" id="newUser.html">
+
+   <form name="newUser"> 
+      <fieldset>
+        <legend>New User</legend>
+        <div class="row">
+
+          <div class="small-4 column">
+             <label>First Name: <small ng-messages="newUser.userFirstName.$error"><b ng-message="required" class="error">Required</b></small></label>
+              <input type="text" name="userFirstName" ng-model="user.first_name" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Last Name: <small ng-messages="newUser.userLastName.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="userLastName" ng-model="user.last_name" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Email: <small ng-messages="newUser.userEmail.$error"><b ng-message="required" class="error">Required</b> 
+                                                                        <b ng-message="email" class="error">Email is not valid</b></small></label>
+            <input type="email" name="userEmail" ng-model="user.email" required />
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="small-4 column">
+            <label>Password: <small ng-messages="newUser.userPassword.$error"><b ng-message="required" class="error">Required</b>
+                                                                              <b ng-message="minlength" class="error">Password must be >= 10 characters</b>
+                                                                              <b ng-message="maxlength" class="error">Password must be <= 100 characters</b></small></label>
+            <input type="text" name="userPassword" ng-model="user.password" required ng-minlength="10" ng-maxlength="100"/>
+          </div>
+
+
+          <div class="small-4 column">
+            <label>Password Confirm: <small ng-messages="newUser.confirmPassword.$error"><b ng-message="required" class="error">Required</b>
+                                                                      <b ng-if="matchError" class="error">Passwords do not match</b></small></label>
+            <input type="text" name="confirmPassword" ng-model="confirmPassword" required ng-change='match(user, confirmPassword)'/>
+          </div>
+
+          <div class="small-4 column">
+            <label>DOB: <small ng-messages="newUser.userDOB.$error"><b ng-message="required" class="error">Please select a DOB</b></small></label>
+            <datepicker date-format="longDate">
+               <input name="userDOB" ng-model="user.DOB" type="text" required readonly/>
+            </datepicker>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>Civic Address: <small ng-messages="newUser.userCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="number" name="userCivic" ng-model="user.civic_number" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Street Address: <small ng-messages="newUser.userStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="userStreet1" ng-model="user.street1" required/>
+          </div>
+
+          <div class="small-4 column">
+            <label>Street Address:
+            <input type="text" name="userStreet2" ng-model="user.street2"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>City: <small ng-messages="newUser.userCity.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="userCity" ng-model="user.city" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Province: <small ng-messages="newUser.userProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="user.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="userProvince" required>
+                  <ui-select-match placeholder="Select a province...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{province.type}}
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+
+          <div class="small-4 column">
+            <label>Postal Code: <small ng-messages="newUser.userPostalCode.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="userPostalCode" ng-model="user.postal_code"/ required>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="small-4 column">
+            <label>Phone: <small ng-messages="newUser.userPhone.$error"><b ng-message="required" class="error">Please only enter 10 digits</b>
+                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b><//small></label>
+            <input type="text" name="userPhone" ng-model="user.phone" required ng-pattern="/^\d{10}$/"/>
+          </div>
+
+          <div class="small-4 column">
+            <label>Position:
+              <input type="text" ng-model="user.role" disabled value="Role" placeholder="Position" ng-if='user.position == ""'>
+              <input type="text" ng-model="user.role" disabled value="Coach" placeholder="Coach" ng-if='user.position == "Main Coach" || user.position == "Assistant Coach"'>
+              <input type="text" ng-model="user.role" disabled value="Admin" placeholder="admin" ng-if='user.position == "Qualifier Admin" || user.position == "Super Admin"'>              
+                <input type="text" ng-model="user.role" disabled value="Coach" placeholder="coach" ng-if='user.position.type == "Main Coach" || user.position.type == "Assistant Coach"'>
+              <input type="text" ng-model="user.role" disabled value="Admin" placeholder="Admin" ng-if='user.position.type == "Qualifier Admin" || user.position.type == "Super Admin"'>
+            </label>
+          </div>
+
+          <div class="small-4 column">
+
+            <label>Role: <small ng-messages="newUser.userRole.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-change="setRole($select.selected.type)" ng-model="user.position" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="userRole" required>
+                  <ui-select-match placeholder="Select a position...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="position in positions | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{position.type}}
+                  </ui-select-choices>
+                </ui-select>
+            
+          </div>         
+
+        </div>
+
+          <div class="row">
+
+            <div class="small-3 column">
+
+              <label>Gender: <small ng-messages="newUser.userGender.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="user.gender" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="userGender" required>
+                  <ui-select-match placeholder="Select a gender...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="gender in genders | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{gender.type}}
+                  </ui-select-choices>
+                </ui-select>
+            
+            </div>
+            <div class="small-3 column">
+
+              <label>Shirt Size: <small ng-messages="newUser.userShirt.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="user.shirt_size" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="userShirt" required>
+                  <ui-select-match placeholder="Select a shirt size...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="shirt in shirts | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{shirt.type}}
+                  </ui-select-choices>
+                </ui-select>
+            </div>
+
+            <div class="small-6 column">
+
+              <label>Info: </label>
+                <textarea type='text' col='40' row='4' ng-model='user.medical_info'></textarea>
+            
+            </div>
+
+
+          </div>
+
+<hr>
+        <div class="row">
+          <div class="small-8 column">
+            <button class="button postfix" ng-click="registerNewUser(user)" ng-disabled="newUser.$invalid">Register</button>
+          </div>
+
+        </div>
+      </fieldset>
+    </form>
+
+</script>
+
+
+
+
+
+
+
+
+
