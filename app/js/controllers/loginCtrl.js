@@ -55,14 +55,17 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
         ];
 
     $scope.isAdmin = function () {
-        return $scope.getCookieData().admin == 1
-
+        if (!$scope.logged_in){
+           return $scope.getCookieData().admin == 1;
+        }
+        return false;
     }
+
 
     $scope.match = function (user, password) {
-
         $scope.matchError = (user.password != password) ? true : false;
     }
+
     
     // send a login request and if successful redirect to landing page
     $scope.login = function() {
@@ -231,6 +234,8 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
     // log the user out (remove the logged in cookie)
     $scope.log_out = function() {
         $cookies.remove(loginCookie);
+        $location.path('/login');
+        $route.reload();
     }   
 }]);
 
