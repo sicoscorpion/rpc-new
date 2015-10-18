@@ -1,6 +1,7 @@
 <?php
 require '.././libs/Slim/Slim.php';
 require '.././libs/password.php';
+require '.././libs/mail.php';
 
 require 'models/users.php';
 require 'models/seasons.php';
@@ -82,6 +83,25 @@ $app->put('/users/:role/:id', function($role, $id) use ($app){
   if($rows["status"]=="success")
       $rows["message"] = "User information updated successfully.";
   echoResponse(200, $rows);
+});
+
+$app->post('/forgot_password', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+
+  $user_email = $data->email;
+
+  if(filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+    $posted = [];
+    $posted['hash'] = hash('sha256', $user_email);
+    $posted['email'] = $user_email;
+    $time = new DateTime('24 hours ago');   
+    $posted['time_formatted'] = $time->format('Y-m-d H:i:s');
+    
+    $processed = Users_model::forgotPasswordAction($db, $posted);
+
+  } 
+  echoResponse(200, $processed);
 });
 
 // Seasons

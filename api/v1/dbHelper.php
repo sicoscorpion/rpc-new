@@ -212,6 +212,13 @@ class dbHelper {
             exit;
         }
     }
+    function exec($sql, $data) {
+        $stmt = $this->db->prepare($sql);
+        // foreach($data as $key => $value){
+        //  $stmt->bindValue(":$key", $value);
+        // }
+        $stmt->execute($data);
+    }
 }
 
 ?>

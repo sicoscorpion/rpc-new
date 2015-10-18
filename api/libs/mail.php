@@ -1,6 +1,6 @@
 <?php
 
-require_once 'app/vendor/mail.php';
+require_once 'vendor/mail.php';
 
 class Mail
 {
