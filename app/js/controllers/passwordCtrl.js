@@ -26,17 +26,15 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', fu
         $scope.user.email_address = $routeParams.reset_key;
         $scope.user.password_token = $routeParams.password_token;
 
-        // console.log("deleting Competition: ", comp);
-        // console.log("deleting Competition for user: ", $scope.getCookieData());
-        // var path = "competitions/" + comp.competition_id;
-        // Data.delete(path).then(function (result) {
-        //     if(result.status != 'error'){
-        //         console.log("Returned Data from delete comp: ", result);
-        //     }else{
-        //         console.log("Error deleting comp: ", result);
-        //     } 
+        var path = "reset_password/" + comp.competition_id;
+        Data.delete(path, $scope.user).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Data from delete comp: ", result);
+            }else{
+                console.log("Error deleting comp: ", result);
+            } 
 
-        // }) 
+        }) 
 
     }
 
