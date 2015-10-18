@@ -28,6 +28,7 @@ CREATE TABLE Users (
   user_id int(10) not null auto_increment,
   email varchar(128) not NULL unique,
   password varchar(128),
+  api_token varchar(128) not NULL unique,  
   first_name varchar(128) not NULL,
   last_name varchar(128) not NULL,
   phone varchar(30),

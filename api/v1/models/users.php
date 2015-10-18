@@ -27,7 +27,7 @@
     } else {
       $hash = null;
     }
-    
+    $data->api_token = md5(uniqid($data->password, true));
 
     $new_user = $db->insert("Users", $data, array());
     return $new_user;
@@ -103,6 +103,10 @@
     return $db->query("SELECT email FROM "."Users WHERE email = :email", array(':email' => $email));
   }
 
+  public function get_user_by_token($db, $token) {
+    return $db->query("SELECT * FROM "."Users WHERE api_token = :token", array(':token' => $token));
+  }
+
   public function forgotPasswordAction($db, $posted) {
     $count = $db->query("SELECT COUNT(*) FROM sent_emails WHERE email_address = 
       :email_address AND timestamp >= :time", array(':email_address' => $posted['hash'], ':time' => $posted['time_formatted']));
@@ -134,7 +138,7 @@
         <br><br> 
         To set a new password, please visit this link: 
         <br><br> 
-        http://213.168.249.135:4000/users/password_reset?reset_key=" . $toBePosted['reset_key'] . "&email=" . $toBePosted['email_address'] . "&password_token=" . $password_token ." 
+        http://213.168.249.135:4000/#/reset_password?reset_key=" . $toBePosted['reset_key'] . "&email=" . $toBePosted['email_address'] . "&password_token=" . $password_token ." 
         <br><br> 
         Do not share this link with anyone, it expires in 30 minutes.  
         <br><br> 

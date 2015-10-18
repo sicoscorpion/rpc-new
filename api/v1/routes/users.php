@@ -1,4 +1,6 @@
 <?php
+
+
 // Users
 $app->post('/login', function() use ($app){ 
   global $db;
@@ -17,8 +19,8 @@ $app->post('/login', function() use ($app){
 $app->get('/users', function() use ($app) { 
   global $db;
   // $headers = $app->request->headers->get('Authorization');
-  $rows = Users_model::get_users($db);
   // $rows['headers'] = $headers;
+  $rows = Users_model::get_users($db);
   echoResponse(200, $rows);
 });
 
