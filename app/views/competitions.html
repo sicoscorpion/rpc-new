@@ -126,7 +126,7 @@
               <ui-select ng-model="comp.season_year" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="year" required>
                   <ui-select-match placeholder="Year">{{$select.selected.year}}</ui-select-match>
                   <ui-select-choices repeat="season in seasons | propsFilter: {year: $select.search}">
-                    <div ng-bind-html="year | highlight: $select.search"></div>
+                    <div ng-bind-html="season.year | highlight: $select.search"></div>
                       {{season.year}}
                   </ui-select-choices>
                 </ui-select>

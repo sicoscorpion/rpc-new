@@ -68,7 +68,6 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
             }else{
                 console.log("Error deleting comp: ", result);
             } 
-            $route.reload();  
 
         }) 
 
@@ -115,7 +114,7 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
 
     $scope.createComp = function(competition) {
 
-        competition.season_year = competition.season_year.type;
+        competition.season_year = competition.season_year.year;
         competition.status = competition.status.type;
         
         console.log("Creating Competition: ", competition);
