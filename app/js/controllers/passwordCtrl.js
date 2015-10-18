@@ -26,12 +26,12 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', fu
         $scope.user.email_address = $routeParams.reset_key;
         $scope.user.password_token = $routeParams.password_token;
 
-        var path = "reset_password/" + comp.competition_id;
+        var path = "reset_password";
         Data.delete(path, $scope.user).then(function (result) {
             if(result.status != 'error'){
-                console.log("Returned Data from delete comp: ", result);
+                console.log("Returned Data: ", result);
             }else{
-                console.log("Error deleting comp: ", result);
+                console.log("Error resetting: ", result);
             } 
 
         }) 
