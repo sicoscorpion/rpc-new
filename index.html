@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.css">
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
   <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="/app/stylesheets/style.css">
+  <link rel="stylesheet" href="app/stylesheets/style.css">
   <link href="bower_components/angularjs-datepicker/src/css/angular-datepicker.css" rel="stylesheet" type="text/css" />
 
 
@@ -38,7 +38,7 @@
   <ul class="inline-list">
     <li ng-class="getActive('/seasons')"><a href="#/seasons" ng-if='isAdmin()'>Seasons</a></li>
     <li ng-class="getActive('/competitions')"><a href="#/competitions" ng-if='isAdmin()'>Competitions</a></li>
-    <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers" ng-if='isAdmin()'>Qualifiers</a></li>
+    <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers" ng-if='isAdmin() || isQualAdmin()'>Qualifiers</a></li>
     <li ng-class="getActive('/teams')"><a href="#/teams">Teams</a></li>
     <li ng-class="getActive('/users')"><a href="#/users"ng-if='isAdmin()'>Users</a></li>
   </ul>
@@ -61,18 +61,18 @@
 
 <div ng-view ></div>
 
-<script src="/app/app.js"></script>
-<script src="/app/js/controllers/topbarCtrl.js"></script>
-<script src="/app/js/controllers/loginCtrl.js"></script>
-<script src="/app/js/controllers/seasonsCtrl.js"></script>
-<script src="/app/js/controllers/competitionsCtrl.js"></script>
-<script src="/app/js/controllers/qualifiersCtrl.js"></script>
-<script src="/app/js/controllers/teamsCtrl.js"></script>
-<script src="/app/js/controllers/homeCtrl.js"></script>
-<script src="/app/js/controllers/usersCtrl.js"></script>
-<script src="/app/js/controllers/profileCtrl.js"></script>
-<script src="/app/js/services/data.js"></script>
-<script src="/app/js/directives/confirmation_needed.js"></script>
+<script src="app/app.js"></script>
+<script src="app/js/controllers/topbarCtrl.js"></script>
+<script src="app/js/controllers/loginCtrl.js"></script>
+<script src="app/js/controllers/seasonsCtrl.js"></script>
+<script src="app/js/controllers/competitionsCtrl.js"></script>
+<script src="app/js/controllers/qualifiersCtrl.js"></script>
+<script src="app/js/controllers/teamsCtrl.js"></script>
+<script src="app/js/controllers/homeCtrl.js"></script>
+<script src="app/js/controllers/usersCtrl.js"></script>
+<script src="app/js/controllers/profileCtrl.js"></script>
+<script src="app/js/services/data.js"></script>
+<script src="app/js/directives/confirmation_needed.js"></script>
 
 
 <script type="text/javascript"> 

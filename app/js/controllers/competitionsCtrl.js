@@ -28,6 +28,13 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
       {type: "completed"}
     ];
 
+    $scope.positions = [
+      {type: "Super"},
+      {type: "Qualifier"},
+      {type: "H.Coach"},
+      {type: "A.Coach"}
+    ];
+
     $scope.comp_status = {
         disabled: false,
         message: 'Invaild form. Ensure season exists. ',

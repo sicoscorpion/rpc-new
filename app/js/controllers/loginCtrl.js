@@ -1,6 +1,6 @@
 var app = angular.module('myApp');
 
-app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', function($scope, $location, Data, $cookies) {
+app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '$route', function($scope, $location, Data, $cookies, $route) {
     
     var loginCookie = 'login';
     $scope.logged_in = Data.logged_in;
@@ -24,14 +24,22 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
         postal_code: '',
         medical_info: '',
         phone: '',
+        gender: '',
         shirt_size: ''
     }
 
+    $scope.provinces = [{type: 'AB'}, {type: 'BC'}, {type: 'MB'}, {type: 'NB'}, {type: 'NL'}, {type: 'NT'}, {type: 'NS'}, {type: 'NU'}, {type: 'ON'}, {type: 'PE'}, {type: 'QC'}, {type: 'SK'}, {type: 'YT'}];
 
     $scope.shirts = [
         {type: 'small'},
         {type: 'medium'},
         {type: 'large'}
+    ];
+
+    $scope.genders = [
+        {type: 'Male'},
+        {type: 'Female'},
+        {type: 'Other'}
     ];
 
     $scope.login_status = {
@@ -49,18 +57,24 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
     }
 
     $scope.positions = [
-          {type: "Head Coach"},
-          {type: "Assistant Coach"},
-          {type: "None"}
+          {type: "Main Coach"},
+          {type: "Assistant Coach"}
+          // {type: "None"}
         ];
 
     $scope.isAdmin = function () {
         if (typeof $cookies.getObject("login") != "undefined"){
-           return $scope.getCookieData().admin == 1;
+           return $scope.getCookieData().admin == 1 && $scope.getCookieData().position == "Super Admin";
         }
         return false;
     }
 
+    $scope.isQualAdmin = function () {
+        if (typeof $cookies.getObject("login") != "undefined"){
+           return $scope.getCookieData().admin == 1 && $scope.getCookieData().position == "Qualifier Admin";
+        }
+        return false;
+    }
 
     $scope.match = function (user, password) {
         $scope.matchError = (user.password != password) ? true : false;
@@ -124,6 +138,8 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
 
         $scope.user.position = $scope.user.position.type;
         $scope.user.shirt_size = $scope.user.shirt_size.type;
+        $scope.user.province = $scope.user.province.type;
+        $scope.user.gender = $scope.user.gender.type;
 
         $scope.emailError = false; 
         $scope.passwordError = false;
@@ -158,7 +174,8 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
                 postal_code: $scope.user.postal_code,
                 medical_info: $scope.user.medical_info,
                 phone: $scope.user.phone,
-                shirt_size: $scope.user.shirt_size
+                shirt_size: $scope.user.shirt_size,
+                gender: $scope.user.gender
             }
 
             $scope.addUser = {
@@ -174,7 +191,9 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
                 province: $scope.user.province,
                 postal_code: $scope.user.postal_code,
                 medical_info: $scope.user.medical_info,
-                phone: $scope.user.phone
+                phone: $scope.user.phone,
+                gender: $scope.user.gender
+                
             }
             console.log("Adding User: ", $scope.addUser);
 
@@ -185,18 +204,23 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
                         $scope.addUserHasRole.user_id = result.data;
                         console.log("Adding User: ", $scope.addUserHasRole);
 
-                        Data.post("users/coach", $scope.addUserHasRole).then(function (result) {
-                                if(result.status != 'error'){
-                                    console.log("Returned Data from registered User: ", result);
-                                }else{
-                                    console.log("Error: ", result);
+                        // if ($scope.user.position != ""){
+                            Data.post("users/coach", $scope.addUserHasRole).then(function (result) {
+                                    if(result.status != 'error'){
+                                        console.log("Returned Data from registered User: ", result);
+                                        $location.path('/login');
 
-                                    $scope.register_status.message = 'Registration Failed';
-                                    $scope.register_status.disabled = false;
-                                    $scope.register_status.alert_type = 'alert round';
-                                    $scope.register_status.show_alert = true;
-                                } 
-                        }) 
+                                    }else{
+                                        console.log("Error: ", result);
+
+                                        $scope.register_status.message = 'Registration Failed';
+                                        $scope.register_status.disabled = false;
+                                        $scope.register_status.alert_type = 'alert round';
+                                        $scope.register_status.show_alert = true;
+                                    } 
+                            }) 
+                        // }
+
 
                     }else{
                          console.log("Error: ", result);
@@ -207,7 +231,6 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
                         $scope.register_status.show_alert = true;
                     } 
                     
-                    $location.path('/login');
 
             })  
         }

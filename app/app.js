@@ -48,6 +48,12 @@ app.config(['$routeProvider',
       templateUrl: 'app/views/profile.html',
       controller: 'profile_controller'
     })
+    .when('/reset_password', {
+      title: 'Password Reset',
+      templateUrl: 'app/views/reset_password.html',
+      controller: 'password_controller'
+    })
+
 
     .otherwise({redirectTo:'/login'});
 }]);
