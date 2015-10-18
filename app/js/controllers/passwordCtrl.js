@@ -23,7 +23,7 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
         console.log("reset params: ", $routeParams);
 
         $scope.user.reset_key = $routeParams.reset_key;
-        $scope.user.email_address = $routeParams.email_address;
+        $scope.user.email_address = $routeParams.email;
         $scope.user.password_token = $routeParams.password_token;
 
         var path = "reset_password";
