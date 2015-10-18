@@ -85,6 +85,14 @@ $app->put('/users/:role/:id', function($role, $id) use ($app){
   echoResponse(200, $rows);
 });
 
+$app->delete('/users/:role/:id', function($role, $id) use ($app){ 
+  global $db;
+  $rows = Users_model::delete_user($db, $id, $role);
+  if($rows["status"]=="success")
+      $rows["message"] = "User information updated successfully.";
+  echoResponse(200, $rows);
+});
+
 $app->post('/forgot_password', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

@@ -45,12 +45,14 @@
 
     if ($role == 'admin') {
       $data->admin = true;
+      $data->coach = false;
       $db->update("Admins", array(
         'shirt_size' => $data->shirt_size,
         'position' => $data->position), 
       array('user_id' => $data->user_id), array());
     } elseif ($role == 'coach') {
-      $data->coach = true; 
+      $data->coach = true;
+      $data->admin = false;
       $db->update("Coaches", array(
         'shirt_size' => $data->shirt_size,
         'position' => $data->position), 
@@ -81,6 +83,22 @@
     return $added;
   }
 
+  public function delete_user($db, $user_id, $role) {
+
+    $user = $db->delete("HasRole", array('user_id' => $user_id));
+    if($role != null) {      
+      if ($role == 'admin') {
+        $db->delete("Admins", array('user_id' => $user_id));
+      } elseif ($role == 'coach') {
+        $db->delete("Coaches", array('user_id' => $user_id));
+      }
+    }
+    $user = $db->delete("Users", array('user_id' => $user_id));
+    
+    return $user;
+  }
+
+
   public function get_user_by_email($db, $email) {
     return $db->query("SELECT email FROM "."Users WHERE email = :email", array(':email' => $email));
   }
@@ -91,7 +109,6 @@
     $exists = self::get_user_by_email($db, $posted['email']);
 
     if (!$exists) {
-      // Session::add('feedback_negative', "USER DOES NOT EXIST");
       return "User Doesn't Exist";
     }
 
@@ -108,7 +125,6 @@
       $toBePosted['request_ip'] = getenv('REMOTE_ADDR');
       $toBePosted['email_address'] = $posted['email'];
 
-      // var_dump($toBePosted);
       $result = $db->insert("responses", $toBePosted, array());
       $mail_to      = $posted['email'];  
       $mail_subject = 'Reset password';  
@@ -122,7 +138,7 @@
         <br><br> 
         Do not share this link with anyone, it expires in 30 minutes.  
         <br><br> 
-        If the request was not from you, simply ignore this email. Your password will not be changed. 
+        If the request was not from you (or not intended for you), simply ignore this email. Your password will not be changed. 
         <br><br> 
         Do you have further questions? Please contact us at robots@acadiau.ca. 
         <br><br> 
@@ -130,7 +146,7 @@
         <br><br> 
         robots.acadiau.ca";
       $mail = new Mail;
-      $mail_sent = $mail->sendMail($mail_to, "zeratoul@localhost", "ACCOUNT ", $mail_subject, $mail_body);
+      $mail_sent = $mail->sendMail($mail_to, "ww-data@localhost", "ACCOUNT ", $mail_subject, $mail_body);
 
       if ($mail_sent == 1) {
         $new_stmt = $db->exec('INSERT INTO sent_emails (email_address, timestamp) VALUES (:email_address, NOW())', array(':email_address' => $posted['hash']) );
@@ -163,7 +179,7 @@
           $hash = Password::make($password, PASSWORD_BCRYPT, array("cost" => 10));
           $password_change = $db->exec('UPDATE Users SET password = :password WHERE email = :email', 
             array(':password' => $hash, ':email' => $email_address));
-          return true;
+          return "Password Successfully Changed";
         }
       }
     } else {
