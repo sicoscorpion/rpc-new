@@ -57,6 +57,25 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
         }
     }) 
 
+    $scope.deleteComp = function(comp) {
+        
+        console.log("deleting Competition: ", comp);
+        console.log("deleting Competition for user: ", $scope.getCookieData());
+        var path = "competitions/" + comp.competition_id;
+        Data.delete(path).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Data from delete comp: ", result);
+            }else{
+                console.log("Error deleting comp: ", result);
+            } 
+            $route.reload();  
+
+        }) 
+
+    }
+
+
+
     $scope.openProfile = function (comp) {
 
         console.log("Competition Profile: ", comp);

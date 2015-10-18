@@ -54,6 +54,11 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
           {type: "None"}
         ];
 
+    $scope.isAdmin = function () {
+        return $scope.getCookieData().admin == 1
+
+    }
+
     $scope.match = function (user, password) {
 
         $scope.matchError = (user.password != password) ? true : false;

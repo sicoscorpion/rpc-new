@@ -33,15 +33,14 @@
 
 </head>
 <body ng-app="myApp" ng-controller="login_controller">
-
 <nav class="menu" ng-controller="topbar_controller" >
   <a ng-class="getActive('/home')" href="#/home"><h1 class="name">Acadia Robotics Portal</h1></a>
   <ul class="inline-list">
-    <li ng-class="getActive('/seasons')"><a href="#/seasons">Seasons</a></li>
-    <li ng-class="getActive('/competitions')"><a href="#/competitions">Competitions</a></li>
-    <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers">Qualifiers</a></li>
+    <li ng-class="getActive('/seasons')"><a href="#/seasons" ng-if='isAdmin()'>Seasons</a></li>
+    <li ng-class="getActive('/competitions')"><a href="#/competitions" ng-if='isAdmin()'>Competitions</a></li>
+    <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers" ng-if='isAdmin()'>Qualifiers</a></li>
     <li ng-class="getActive('/teams')"><a href="#/teams">Teams</a></li>
-    <li ng-class="getActive('/users')"><a href="#/users">Users</a></li>
+    <li ng-class="getActive('/users')"><a href="#/users"ng-if='isAdmin()'>Users</a></li>
   </ul>
   <ul class="inline-list hide-for-small-only account-action">
     <li ng-class="getActive('/profile')" ng-if="logged_in()">
