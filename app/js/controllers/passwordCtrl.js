@@ -1,7 +1,7 @@
 var app = angular.module('myApp');
 
 
-app.controller('password_controller', ['$scope', '$location', '$routeParams', function($scope, $location, $routeParams) {
+app.controller('password_controller', ['$scope', '$location', '$routeParams', 'Data', function($scope, $location, $routeParams, Data) {
 
     $scope.check_logged_in();
     $scope.user = {
