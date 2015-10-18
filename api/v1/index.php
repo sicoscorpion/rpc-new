@@ -27,6 +27,19 @@ update(table name, column names as associative array, where clause as associativ
 delete(table name, where clause as array)
 */
 
+function authenticateToken() {
+  global $db;
+  $app = \Slim\Slim::getInstance();
+  $token = $app->request->headers->get('Authorization');
+  $tokenFromDB = Users_model::get_user_by_token($db, $token);
+  if (!$tokenFromDB) {
+    echoResponse(403, "Invalid Token");
+    exit();
+  }
+  echo "Token: ".$token;
+}
+
+
 require 'routes/users.php';
 require 'routes/seasons.php';
 require 'routes/competitions.php';
