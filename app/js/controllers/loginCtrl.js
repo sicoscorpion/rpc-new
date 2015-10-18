@@ -55,7 +55,7 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', f
         ];
 
     $scope.isAdmin = function () {
-        if ($scope.logged_in){
+        if (typeof $cookies.getObject("login") != "undefined"){
            return $scope.getCookieData().admin == 1;
         }
         return false;
