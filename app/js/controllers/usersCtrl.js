@@ -301,10 +301,10 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
             console.log("Adding User: ", $scope.addUser);
             if (user.position == "Super Admin" || user.position == "Qualifier Admin")
             {
-                var path = "users/" + "admin/";
+                var path = "users/" + "admin";
 
             }else{
-                var path = "users/" + "coach/";
+                var path = "users/" + "coach";
                 
             }
 
