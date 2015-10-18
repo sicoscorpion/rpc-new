@@ -24,5 +24,11 @@ $app->put('/teams/:id', function($id) use ($app){
   echoResponse(200, $rows);
 });
 
+$app->post('/teams/participate', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Teams_model::create_teamParticipation($db, $data);
+  echoResponse(200, $rows);
+});
 
 ?>
