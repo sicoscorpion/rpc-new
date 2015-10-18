@@ -27,7 +27,7 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
         $scope.user.password_token = $routeParams.password_token;
 
         var path = "reset_password";
-        Data.delete(path, $scope.user).then(function (result) {
+        Data.post(path, $scope.user).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data: ", result);
             }else{
