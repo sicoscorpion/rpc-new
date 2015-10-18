@@ -16,10 +16,8 @@ $app->post('/login', function() use ($app){
   }
 });
 
-$app->get('/users', function() use ($app) { 
+$app->get('/users', 'authenticateToken', function() use ($app) { 
   global $db;
-  // $headers = $app->request->headers->get('Authorization');
-  // $rows['headers'] = $headers;
   $rows = Users_model::get_users($db);
   echoResponse(200, $rows);
 });

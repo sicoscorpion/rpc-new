@@ -16,12 +16,6 @@
       return $data;
     }
 
-    public function get_qualifiers_for_competition($db, $competition_id) {
-      $data = $db->query("SELECT * FROM "."Qualifiers WHERE competition_id = :competition_id", array(':competition_id' => $competition_id));
-      
-      return $data;
-    }
-
     public function update_team($db, $data, $id)
     {
       $where_inCompetition = array('team_id' => $id);    
@@ -30,11 +24,10 @@
       return $team;
     }
 
-    public function delete_qualifier($db, $id) {
-      $qualifier = $db->delete("Qualifiers", 
-        array('qual_id' => $id));
-      
-      return  $qualifier;
+    public function create_teamParticipation($db, $data)
+    {
+      $team = $db->insert("Participates", $data, array());
+      return $team;
     }
   }
 ?>
