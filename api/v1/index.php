@@ -109,7 +109,7 @@ $app->post('/reset_password', function() use ($app){
   global $db;
   $data = json_decode($app->request->getBody());
 
-  $result = $user->resetPasswordAction(
+  $result = Users_model::resetPasswordAction(
     $data->reset_key, 
     $data->email_address, 
     $data->password_token,
