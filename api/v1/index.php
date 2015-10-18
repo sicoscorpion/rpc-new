@@ -64,6 +64,16 @@ $app->post('/users/:role', function($role) use ($app){
   echoResponse(200, $rows);
 });
 
+$app->put('/users/:id', function($id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+
+  $rows = Users_model::update_user($db, $data, $id);
+  if($rows["status"]=="success")
+      $rows["message"] = "User information updated successfully.";
+  echoResponse(200, $rows);
+});
+
 // Seasons
 $app->get('/seasons', function() use ($app){ 
   global $db;

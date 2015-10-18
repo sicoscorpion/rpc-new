@@ -292,7 +292,7 @@ CREATE TABLE Participates (
 
 CREATE TABLE HasRole (
   user_id int(10) not NULL,
-  email varchar(128) not NULL,
+  email varchar(128) not NULL unique,
   first_name varchar(128) not NULL,
   last_name varchar(128) not NULL,
   phone varchar(30),

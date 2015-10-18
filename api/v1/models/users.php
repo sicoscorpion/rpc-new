@@ -11,8 +11,7 @@
   }
 
   public function get_hash($db, $email){
-    $data = $db->query("SELECT * FROM "."Users, HasRole WHERE Users.email = :email", array('email' => $email));
-    // print($data[0]);
+    $data = $db->query("SELECT * FROM Users INNER JOIN HasRole ON Users.email = :email AND Users.user_id = HasRole.user_id", array('email' => $email));
     return $data;
   }
 
@@ -31,6 +30,13 @@
     $new_user = $db->insert("Users", $data, array());
     return $new_user;
   }
+
+  public function update_user($db, $data, $id) {
+    $where_inUsers = array('user_id' => $id);    
+    $user = $db->update("Users", $data, $where_inUsers, array());
+    return $user;
+  }
+
 
   public function add_hasRole($db, $data, $role) {
 
