@@ -16,10 +16,10 @@ $app->post('/login', function() use ($app){
 
 $app->get('/users', function() use ($app) { 
   global $db;
-  $headers = $app->request->headers->get('Authorization');
+  // $headers = $app->request->headers->get('Authorization');
   $rows = Users_model::get_users($db);
-  $rows['headers'] = $headers;
-  echoResponse(200, $rows['headers']);
+  // $rows['headers'] = $headers;
+  echoResponse(200, $rows);
 });
 
 $app->post('/users', function() use ($app){ 
