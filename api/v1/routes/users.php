@@ -1,0 +1,102 @@
+<?php
+// Users
+$app->post('/login', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $user = Users_model::get_hash($db, $data->email);
+  $hash = Password::make($data->password, PASSWORD_BCRYPT, array("cost" => 10));
+
+
+  if(Password::verify($data->password, $user[0]->password) == true) {
+    echoResponse(200, $user[0]);
+  } else {
+    echoResponse(403, "Not a valid password");
+  }
+});
+
+$app->get('/users', function() use ($app) { 
+  global $db;
+  $headers = $app->request->headers->get('Authorization');
+  $rows = Users_model::get_users($db);
+  $rows['headers'] = $headers;
+  echoResponse(200, $rows['headers']);
+});
+
+$app->post('/users', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Users_model::add_user($db, $data);
+  echoResponse(200, $rows);
+});
+
+$app->post('/users/:role', function($role) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  
+  $rows = Users_model::add_hasRole($db, $data, $role);
+
+  echoResponse(200, $rows);
+});
+
+$app->put('/users/:id', function($id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+
+  $rows = Users_model::update_user($db, $data, $id);
+  if($rows["status"]=="success")
+      $rows["message"] = "User information updated successfully.";
+  echoResponse(200, $rows);
+});
+
+$app->put('/users/:role/:id', function($role, $id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $data->user_id = $id;
+  $rows = Users_model::update_userRole($db, $data, $role);
+  if($rows["status"]=="success")
+      $rows["message"] = "User information updated successfully.";
+  echoResponse(200, $rows);
+});
+
+$app->delete('/users/:role/:id', function($role, $id) use ($app){ 
+  global $db;
+  $rows = Users_model::delete_user($db, $id, $role);
+  if($rows["status"]=="success")
+      $rows["message"] = "User information updated successfully.";
+  echoResponse(200, $rows);
+});
+
+$app->post('/forgot_password', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+
+  $user_email = $data->email;
+
+  if(filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+    $posted = [];
+    $posted['hash'] = hash('sha256', $user_email);
+    $posted['email'] = $user_email;
+    $time = new DateTime('24 hours ago');   
+    $posted['time_formatted'] = $time->format('Y-m-d H:i:s');
+    
+    $processed = Users_model::forgotPasswordAction($db, $posted);
+
+  } 
+  echoResponse(200, $processed);
+});
+
+
+$app->post('/reset_password', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+
+  $result = Users_model::resetPasswordAction($db,
+    $data->reset_key, 
+    $data->email_address, 
+    $data->password_token,
+    $data->password,
+    $data->verifyNewPass);
+  
+  echoResponse(200, $result);
+});
+?>
