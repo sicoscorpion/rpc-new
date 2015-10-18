@@ -26,7 +26,7 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
         $scope.user.email_address = $routeParams.email;
         $scope.user.password_token = $routeParams.password_token;
 
-        var tmp = {email: $scope.user.email};
+        var tmp = {email: $scope.user.email_address};
         Data.post("forgot_password", tmp).then(function (result) {
                     if(result.status != 'error'){
                         console.log("Email Sent: ", result);
