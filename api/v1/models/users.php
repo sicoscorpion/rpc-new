@@ -34,13 +34,33 @@
   public function update_user($db, $data, $id) {
     $where_inUsers = array('user_id' => $id);    
     $user = $db->update("Users", $data, $where_inUsers, array());
+    $user = $db->update("HasRole", $data, $where_inUsers, array());
+
     return $user;
   }
 
+  public function update_userRole($db, $data, $role) {
+
+    if ($role == 'admin') {
+      $data->admin = true;
+      $db->update("Admins", array(
+        'shirt_size' => $data->shirt_size,
+        'position' => $data->position), 
+      array('user_id' => $data->user_id), array());
+    } elseif ($role == 'coach') {
+      $data->coach = true; 
+      $db->update("Coaches", array(
+        'shirt_size' => $data->shirt_size,
+        'position' => $data->position), 
+      array('user_id' => $data->user_id), array());
+    }
+
+    $added = $db->update("HasRole", $data, 
+      array('user_id' => $data->user_id), array());
+    return $added;
+  }
 
   public function add_hasRole($db, $data, $role) {
-
-
     if ($role == 'admin') {
       $data->admin = true;
       $db->insert("Admins", array(
