@@ -58,7 +58,7 @@ CREATE TABLE Seasons (
 
 
 CREATE TABLE Teams (
-  team_id varchar(30) not null, 
+  team_id varchar(128) not null, 
   local_id int(10) not null unique AUTO_INCREMENT,
   name varchar(255) unique not null,
   organization varchar(255) not null,
@@ -253,16 +253,16 @@ CREATE TABLE Helps (
 
 
 CREATE TABLE Manages (
-  team_id varchar(128) not NULL,
-  user_id int(10) not NULL,
+  `team_id` varchar(128) not NULL,
+  `user_id` int(10) not NULL,
 
-  FOREIGN KEY (team_id)
-      REFERENCES Teams(team_id),
+  FOREIGN KEY (`team_id`)
+      REFERENCES Teams(`team_id`),
 
-  FOREIGN KEY (user_id)
-      REFERENCES Users(user_id),
+  FOREIGN KEY (`user_id`)
+      REFERENCES Users(`user_id`),
 
-  PRIMARY KEY (team_id, user_id)
+  PRIMARY KEY (`team_id`, `user_id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

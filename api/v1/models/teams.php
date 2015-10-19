@@ -29,5 +29,19 @@
       $team = $db->insert("Participates", $data, array());
       return $team;
     }
+
+    public function get_teamParticipation($db, $team_id) {
+      $data = $db->query("SELECT * FROM Participates Where team_id = :team_id", array(':team_id' => $team_id));
+      return $data;
+    }
+
+    public function delete_teamParticipation($db, $team_id, $qual_id, $comp_id, $season_year) {
+      $data = $db->delete("Participates", 
+        array('qual_id' => $qual_id,  
+          'competition_id' => $comp_id,
+          'team_id' => $team_id,
+          'season_year' => $season_year) );
+      return $data;
+    }
   }
 ?>

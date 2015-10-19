@@ -99,6 +99,25 @@
   }
 
 
+  public function create_userManage($db, $data)
+  {
+    $manage = $db->insert("Manages", $data, array());
+    return $manage;
+  }
+
+  public function get_userManage($db, $user_id) {
+    $data = $db->query("SELECT * FROM Manages Where user_id = :user_id", array(':user_id' => $user_id));
+    return $data;
+  }
+
+  public function delete_userManage($db, $team_id, $user_id) {
+    $data = $db->delete("Manages", 
+      array('team_id' => $team_id,
+        'user_id' => $user_id) );
+    return $data;
+  }
+
+
   public function get_user_by_email($db, $email) {
     return $db->query("SELECT email FROM "."Users WHERE email = :email", array(':email' => $email));
   }

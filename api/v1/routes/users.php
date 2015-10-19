@@ -16,7 +16,7 @@ $app->post('/login', function() use ($app){
   }
 });
 
-$app->get('/users', 'authenticateToken', function() use ($app) { 
+$app->get('/users',  function() use ($app) { 
   global $db;
   $rows = Users_model::get_users($db);
   echoResponse(200, $rows);
@@ -65,6 +65,31 @@ $app->delete('/users/:role/:id', function($role, $id) use ($app){
       $rows["message"] = "User information updated successfully.";
   echoResponse(200, $rows);
 });
+
+
+
+$app->post('/manage', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Users_model::create_userManage($db, $data);
+  echoResponse(200, $rows);
+});
+
+$app->get('/manage/:user_id', function($user_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Users_model::get_userManage($db, $user_id);
+  echoResponse(200, $rows);
+});
+
+$app->delete('/manage/:team_id/:user_id', 
+  function($team_id, $user_id) use ($app){
+  global $db;
+  $rows = Users_model::delete_userManage($db, $team_id, $user_id);
+  echoResponse(200, $rows);
+});
+
+
 
 $app->post('/forgot_password', function() use ($app){ 
   global $db;
