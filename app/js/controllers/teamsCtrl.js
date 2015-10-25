@@ -212,7 +212,50 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
 
     }
 
+    $scope.deleteTeamCoach = function(team, coach) {
+        
+        console.log("deleting coach : ", coach);
+        var path = "manage/" + team.team_id + "/" + coach.user_id;
+        Data.delete(path).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Data from delete team part: ", result);
+                $scope.saved();
+                $route.reload();
+                $scope.modalInstance.dismiss('cancel');
 
+
+            }else{
+                console.log("Error deleting team part: ", result);
+                $scope.fail();
+
+            } 
+        }) 
+        // $route.reload();  
+
+    }
+
+    $scope.editTeam = function(team) {
+        
+        console.log("Updating Team: ", team);
+        console.log("Updating Team for user: ", $scope.getCookieData());
+        var path = "teams/" + team.team_id;
+        Data.put(path, team).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Data from edit team: ", result);
+                $scope.saved();
+                $route.reload();
+                
+            }else{
+                console.log("Error saving team", result);
+                $scope.fail();
+
+            } 
+            
+            // $route.reload();  
+
+        }) 
+
+    }
 
 
             // MODAL WINDOW

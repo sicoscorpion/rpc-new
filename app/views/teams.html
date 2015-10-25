@@ -9,9 +9,7 @@
             <td title="'Team ID'" filter="{ team_id: 'text'}" sortable="'team_id'">
                 <input type="text" ng-model='team.team_id' readonly></input>
             </td>
-            <td title="'Local ID'" filter="{ local_id: 'text'}" sortable="'local_id'">
-                <input type="text" ng-model='team.local_id' ></input>
-            </td>
+
             
             <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
                 <input type="text" ng-model='team.name' ></input>    
@@ -25,9 +23,12 @@
             </td>
 
             <td title="'Qualifiers'">
-                <button class="tiny round button success" ng-click='updateTeamQual(team)'>Edit</button></td>
+                <button class="tiny round button" ng-click='updateTeamQual(team)'>Edit</button></td>
             <td title="'Coaches'">
-                <button class="tiny round button success" ng-click='updateTeamCoach(team)'>Edit</button></td>
+                <button class="tiny round button" ng-click='updateTeamCoach(team)'>Edit</button></td>
+            <td title="'Edit'">
+                <button class="tiny round button success" ng-click='editTeam(team)'>Save</button></td>
+
 <!--             <td title="'Delete'">
                 <button class="tiny round button alert" ng-click='deleteTeam(team)' confirmation-needed>Delete</button></td> -->
         </tr>
@@ -51,10 +52,6 @@
 
           </div>
 
-            <div class="medium-6 column">
-             <label>Local ID: <small ng-messages="newTeam.local_id.$error"><b ng-message="required" class="error">Required</b></small></label>
-              <input type="text" ng-model='team.local_id' required></input>
-            </div>
         </div>
 
         <div class="row">
@@ -142,6 +139,9 @@
           <td title="'Team ID'">
               <input type="text" ng-model='team.team_id' readonly></input>
           </td>
+          <td title="'Local ID'">
+              <input type="text" ng-model='team.local_id' readonly></input>
+          </td>
           <td title="'Delete'">
               <button class="tiny round button alert" ng-click='deleteTeamPart(team)' confirmation-needed>Delete</button></td>
       </tr>
@@ -183,6 +183,10 @@
         </div>
       </fieldset>
     </form>
+
+<div class="row">
+  <div class="large-12 large-centered columns">
+
 <form name="deleteCoaches"> 
 
 <fieldset>
@@ -191,17 +195,24 @@
     <table ng-table="teamCoachTableParams" class="table" show-filter="true">
         <tr ng-repeat="coach in $data">
             <td title="'User ID'">
-                <input type="text" ng-model='coach.user_id' ></input>    
+                <input type="text" ng-model='coach.email' ></input>    
+            </td>
+            <td title="'First Name'">
+                <input type="text" ng-model='coach.first_name' ></input>    
+            </td>
+            <td title="'Last Name'">
+                <input type="text" ng-model='coach.last_name' ></input>    
             </td>
 
             <td title="'Delete'">
-                <button class="tiny round button alert" ng-click='deleteTeamCoach(coach)' confirmation-needed>Delete</button></td>
+                <button class="tiny round button alert" ng-click='deleteTeamCoach(t, coach)' confirmation-needed>Delete</button></td>
         </tr>
     </table>
 
 </fieldset>
 </form>
-
+</div>
+</div>
 </div>
 
 </script>
