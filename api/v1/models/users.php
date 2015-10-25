@@ -111,7 +111,7 @@
   }
 
   public function get_teamsManage($db, $team_id) {
-    $data = $db->query("SELECT * FROM Manages Where team_id = :team_id", array(':team_id' => $team_id));
+    $data = $db->query("SELECT * FROM Manages, HasRole Where team_id = :team_id AND Manages.user_id = HasRole.user_id", array(':team_id' => $team_id));
     return $data;
   }
 
