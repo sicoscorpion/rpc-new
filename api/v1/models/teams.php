@@ -18,8 +18,8 @@
 
     public function update_team($db, $data, $id)
     {
-      $where_inCompetition = array('team_id' => $id);    
-      $team = $db->update("Teams", $data, $where_inCompetition, array());
+      $where_inTeams = array('team_id' => $id);    
+      $team = $db->update("Teams", $data, $where_inTeams, array());
       
       return $team;
     }
@@ -41,6 +41,12 @@
           'competition_id' => $comp_id,
           'team_id' => $team_id,
           'season_year' => $season_year) );
+      return $data;
+    }
+
+    public function delete_team($db, $team_id) {
+      $data = $db->delete("Teams", 
+        array('team_id' => $team_id) );
       return $data;
     }
   }

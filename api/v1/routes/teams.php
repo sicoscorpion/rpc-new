@@ -38,6 +38,13 @@ $app->get('/teams/participate/:team_id', function($team_id) use ($app){
   echoResponse(200, $rows);
 });
 
+$app->delete('/teams/:team_id', 
+  function($team_id) use ($app){
+  global $db;
+  $rows = Teams_model::delete_team($db, $team_id);
+  echoResponse(200, $rows);
+});
+
 $app->delete('/teams/participate/:team_id/:qual_id/:comp_id/:season_year', 
   function($team_id, $qual_id, $comp_id, $season_year) use ($app){
   global $db;

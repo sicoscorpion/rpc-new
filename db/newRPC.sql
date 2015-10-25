@@ -5,6 +5,7 @@ create database if not exists rpc;
 use rpc;
 
 drop table if exists HasRole;
+drop table if exists HasPosition;
 drop table if exists Participates;
 drop table if exists Helps;
 drop table if exists Hosts;
@@ -94,6 +95,7 @@ CREATE TABLE Coaches (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Volunteers (
+  volunteer_id int(10) not null auto_increment,
   email varchar(128) not NULL,
   first_name varchar(128) not NULL,
   last_name varchar(128) not NULL,
@@ -115,9 +117,9 @@ CREATE TABLE Volunteers (
   FOREIGN KEY (season_year)
       REFERENCES Seasons(year),
 
-  PRIMARY KEY (email, season_year)
+  PRIMARY KEY (volunteer_id, season_year)
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB auto_increment=100000 DEFAULT CHARSET=utf8;
 
 CREATE TABLE Competitions (
   competition_id int(10) not NULL auto_increment,
@@ -150,14 +152,11 @@ CREATE TABLE ShirtSizes(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE VolunteerPositions(
+  position_id int(10) not NULL auto_increment,
   position varchar(128) not NULL,
-  season_year varchar(128) not NULL,
-  
-  FOREIGN KEY (season_year)
-      REFERENCES Seasons(year),
 
-  PRIMARY KEY (position)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (position_id)
+) ENGINE=InnoDB auto_increment=100000 DEFAULT CHARSET=utf8;
 
 CREATE TABLE Qualifiers (
   qual_id int(10) not NULL auto_increment,
@@ -184,20 +183,20 @@ CREATE TABLE Qualifiers (
 )ENGINE=InnoDB auto_increment=100000 DEFAULT CHARSET=utf8;
 
 CREATE TABLE Members (
-  member_id varchar(128) not NULL,
+  member_id int(10) not NULL auto_increment,
   team_id varchar(128) not NULL,
   email varchar(128) not NULL,
-  first_name varchar(128) not NULL,
-  last_name varchar(128) not NULL,
-  civic_number varchar(128) not NULL,
-  street1 varchar(128) not NULL,
-  street2 varchar(128) not NULL,
-  city varchar(128) not NULL,
-  province varchar(128) not NULL,
-  postal_code char(7) not NULL,
-  dob varchar(128) not NULL,
-  gender varchar(30) not null,
-  shirt_size varchar(30) not null,
+  first_name varchar(128),
+  last_name varchar(128),
+  civic_number varchar(128),
+  street1 varchar(128),
+  street2 varchar(128),
+  city varchar(128),
+  province varchar(128),
+  postal_code char(7),
+  dob varchar(128),
+  gender varchar(30),
+  shirt_size varchar(30),
   guardian_name varchar(128),
   guardian_email varchar(128),
   guardian_phone varchar(30),
@@ -209,7 +208,7 @@ CREATE TABLE Members (
 
   PRIMARY KEY (member_id, team_id)
 
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)ENGINE=InnoDB auto_increment=100000 DEFAULT CHARSET=utf8;
 
 
 
@@ -229,10 +228,10 @@ CREATE TABLE Hosts (
 
 
 CREATE TABLE Helps (
-  qual_id int(10) not NULL auto_increment,
+  qual_id int(10) not NULL,
   competition_id int(10) not NULL,
   season_year varchar(128) not NULL,
-  volunteer_email varchar(128) not NULL,
+  volunteer_id int(10) not NULL,
 
   FOREIGN KEY (qual_id)
       REFERENCES Qualifiers(qual_id),
@@ -240,13 +239,13 @@ CREATE TABLE Helps (
   FOREIGN KEY (competition_id)
       REFERENCES Competitions(competition_id),
 
-  FOREIGN KEY (volunteer_email)
-      REFERENCES Volunteers(email),
+  FOREIGN KEY (volunteer_id)
+      REFERENCES Volunteers(volunteer_id),
 
   FOREIGN KEY (season_year)
       REFERENCES Seasons(year),
   
-  PRIMARY KEY (qual_id, competition_id, season_year, volunteer_email)
+  PRIMARY KEY (qual_id, competition_id, season_year, volunteer_id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -313,6 +312,20 @@ CREATE TABLE HasRole (
   coach boolean not null DEFAULT false,
 
   PRIMARY KEY (user_id)
+
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE HasPosition (
+  volunteer_id int(10) not null,
+  position_id int(10) not null,
+
+  FOREIGN KEY (volunteer_id)
+      REFERENCES Volunteers(volunteer_id),
+
+  FOREIGN KEY (position_id)
+      REFERENCES VolunteerPositions(position_id),
+
+  PRIMARY KEY (volunteer_id, position_id)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
