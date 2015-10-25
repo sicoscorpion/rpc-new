@@ -110,6 +110,11 @@
     return $data;
   }
 
+  public function get_teamsManage($db, $team_id) {
+    $data = $db->query("SELECT * FROM Manages Where team_id = :team_id", array(':team_id' => $team_id));
+    return $data;
+  }
+
   public function delete_userManage($db, $team_id, $user_id) {
     $data = $db->delete("Manages", 
       array('team_id' => $team_id,

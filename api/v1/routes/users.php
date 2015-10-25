@@ -77,10 +77,17 @@ $app->post('/manage', function() use ($app){
   echoResponse(200, $rows);
 });
 
-$app->get('/manage/:user_id', function($user_id) use ($app){ 
+$app->get('/manage/teams/:user_id', function($user_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Users_model::get_userManage($db, $user_id);
+  echoResponse(200, $rows);
+});
+
+$app->get('/manage/users/:team_id', function($team_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Users_model::get_teamsManage($db, $team_id);
   echoResponse(200, $rows);
 });
 
