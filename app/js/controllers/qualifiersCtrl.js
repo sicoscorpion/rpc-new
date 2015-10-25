@@ -45,8 +45,12 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
         Data.put(path, qual).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit qual: ", result);
+                $scope.saved();
+
             }else{
                 console.log("Error saving qual", result);
+                $scope.fail();
+
             } 
             
             $route.reload();  
@@ -83,6 +87,8 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
             if(result.status != 'error'){
                 console.log("Returned Data from create qual: ", result);
                 $scope.modalInstance.dismiss('cancel');
+                $scope.saved();
+
                 $route.reload();  
 
             }else{
@@ -91,6 +97,8 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
                 $scope.comp_status.disabled = false;
                 $scope.comp_status.alert_type = 'alert round';
                 $scope.comp_status.show_alert = true;
+                $scope.failed();
+
             } 
         }) 
 

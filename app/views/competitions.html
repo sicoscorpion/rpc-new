@@ -2,7 +2,8 @@
             <button class="tiny round button alert" ng-click='openCompetition()' >New Competition</button></td>
 
 <div class='large-12 large-centered columns'>
-
+<i class="success" ng-show="succeeded">Saved!</i>
+<i class="failure" ng-show="failed">Failed!</i>
     <table ng-table="compTableParams" class="table" show-filter="true">
         <tr ng-repeat="comp in $data">
             <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
@@ -120,7 +121,6 @@
       <fieldset>
         <legend>Create Competition</legend>
         <div class="row">
-{{seasons}}
           <div class="small-4 column">
              <label>Year: <small ng-messages="newComp.year.$error"><b ng-message="required" class="error">Required</b></small></label>
               <ui-select ng-model="comp.season_year" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="year" required>

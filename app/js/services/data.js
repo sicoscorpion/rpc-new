@@ -6,8 +6,8 @@ app.factory("Data", ['$http', '$location', '$cookies', '$route', function ($http
         var loginCookie = 'login';
         var obj = {};
 
-        obj.get = function (q) {
-            return $http.get(serviceBase + q).then(function (results) {
+        obj.get = function (q, head) {
+            return $http.get(serviceBase + q, head).then(function (results) {
                 return results.data;
             });
         };
@@ -18,6 +18,7 @@ app.factory("Data", ['$http', '$location', '$cookies', '$route', function ($http
         };
         obj.put = function (q, object) {
             return $http.put(serviceBase + q, object).then(function (results) {
+      
                 return results.data;
             });
         };

@@ -73,3 +73,19 @@
 .error {
   color: red;
 }
+
+.success {
+  color: black;
+  font-variant: small-caps;
+  font-weight: bold;
+  /*width: 40px;*/
+  background: limegreen;
+}
+.failure {
+  color: black;
+  font-variant: small-caps;
+  font-weight: bold;
+  /*width: 40px;*/
+  background: red;
+}
+

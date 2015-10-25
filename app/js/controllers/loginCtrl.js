@@ -1,6 +1,6 @@
 var app = angular.module('myApp');
 
-app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '$route', function($scope, $location, Data, $cookies, $route) {
+app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '$route', '$timeout', function($scope, $location, Data, $cookies, $route, $timeout) {
     
     var loginCookie = 'login';
     $scope.logged_in = Data.logged_in;
@@ -61,6 +61,24 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
           {type: "Assistant Coach"}
           // {type: "None"}
         ];
+
+        $scope.succeeded = false;
+        $scope.failed = false;
+
+    $scope.saved = function() {
+        $scope.succeeded = true;
+        $timeout(function(){
+            $scope.succeeded = false;
+        }, 3000);
+    }
+
+    $scope.fail = function() {
+        $scope.failed = true;
+            $timeout(function(){
+                $scope.failed = false;
+            }, 3000);
+
+    }
 
     $scope.isAdmin = function () {
         if (typeof $cookies.getObject("login") != "undefined"){

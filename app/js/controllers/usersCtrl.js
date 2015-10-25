@@ -74,12 +74,16 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                 if(result.status != 'error'){
                     console.log("Returned Data from registered User: ", result);
                     console.log("Editing User: ", $scope.addUserHasRole);
+                    $scope.saved();
+
                 }else{
                      console.log("Error: ", result);
                     $scope.register_status.message = 'Edit Failed';
                     $scope.register_status.disabled = false;
                     $scope.register_status.alert_type = 'alert round';
                     $scope.register_status.show_alert = true;
+                    $scope.fail();
+
                 } 
         })
     }
@@ -123,12 +127,16 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                 if(result.status != 'error'){
                     console.log("Returned Data from update user role User: ", result);
                     console.log("Editing User: ", $scope.addUserHasRole);
+                    $scope.saved();
+
                 }else{
                      console.log("Error: ", result);
                     $scope.register_status.message = 'Edit Failed';
                     $scope.register_status.disabled = false;
                     $scope.register_status.alert_type = 'alert round';
                     $scope.register_status.show_alert = true;
+                    $scope.failed();
+
                 } 
         })
     }
@@ -150,8 +158,12 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
         Data.delete(path).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from delete user: ", result);
+                $scope.saved();
+
             }else{
                 console.log("Error deleting user: ", result);
+                $scope.failed();
+
             } 
         }) 
         $route.reload();  
@@ -327,16 +339,20 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                                         $scope.register_status.disabled = false;
                                         $scope.register_status.alert_type = 'alert round';
                                         $scope.register_status.show_alert = true;
+                                        $scope.saved();
+
                                     } 
                             }) 
                         var tmp = {email: $scope.user.email};
                         Data.post("forgot_password", tmp).then(function (result) {
                                     if(result.status != 'error'){
                                         console.log("Email Sent: ", result);
+                                        $scope.saved();
+
 
                                     }else{
                                         console.log("Error, Email not sent for password: ", result);
-
+                                        $scope.fail();
                                     } 
                             }) 
                         // }
@@ -344,6 +360,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
 
                     }else{
                          console.log("Error: ", result);
+                        $scope.fail();
 
                         $scope.register_status.message = 'Registration Failed';
                         $scope.register_status.disabled = false;
@@ -359,7 +376,8 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
 
     if ($scope.isAdmin()){
         // get registered users
-        Data.get("users").then(function (result) {
+        console.log("token: ", $scope.getCookieData("login").api_token);
+        Data.get("users", {headers: {'Authorization': $scope.getCookieData("login").api_token}}).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Users: ", result);
                 $scope.users = result;

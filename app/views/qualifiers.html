@@ -2,7 +2,8 @@
             <button class="tiny round button alert" ng-click='openQual()' >New Qualifier</button></td>
 
 <div class='large-12 large-centered columns'>
-
+<i class="success" ng-show="succeeded">Saved!</i>
+<i class="failure" ng-show="failed">Failed!</i>
     <table ng-table="qualTableParams" class="table" show-filter="true">
         <tr ng-repeat="qual in $data">
             <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
@@ -35,6 +36,7 @@
                 <!--MODAL WINDOW--> 
                     <script type="text/ng-template" id="profile.html">
                         <div class="modal-body">
+
                             <fieldset>
                             <legend>Edit Profile for Comp {{ qualEdit.qualifier_id }}</legend>
 

@@ -54,15 +54,18 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
         high++;
     }
 
-    // get competitions
-    Data.get("competitions").then(function (result) {
-        if(result.status != 'error'){
-            console.log("Returned Competitions: ", result);
-            $scope.competitions = result;
-            data = $scope.competitions;
-            $scope.compTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
-        }
-    }) 
+
+    $scope.getCompetitions = function (){
+        // get competitions
+        Data.get("competitions").then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Competitions: ", result);
+                $scope.competitions = result;
+                data = $scope.competitions;
+                $scope.compTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        }) 
+    }
 
     $scope.deleteComp = function(comp) {
         
@@ -72,8 +75,14 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
         Data.delete(path).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from delete comp: ", result);
+                $scope.saved();
+                $scope.getCompetitions();
+
+
             }else{
                 console.log("Error deleting comp: ", result);
+                $scope.failed();
+
             } 
 
         }) 
@@ -109,8 +118,14 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
         Data.put(path, comp).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit competition: ", result);
+                $scope.saved();
+                $scope.getCompetitions();
+
+
             }else{
                 console.log("Error saving competition", result);
+                $scope.failed();
+
             } 
             
             $route.reload();  
@@ -131,7 +146,11 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
             if(result.status != 'error'){
                 console.log("Returned Data from create competition: ", result);
                 $scope.modalInstance.dismiss('cancel');
+                $scope.saved();
+
+                $scope.getCompetitions();
                 $route.reload();  
+
 
             }else{
                 console.log("Error creating competition", result);
@@ -139,6 +158,8 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
                 $scope.comp_status.disabled = false;
                 $scope.comp_status.alert_type = 'alert round';
                 $scope.comp_status.show_alert = true;
+                $scope.failed();
+
             } 
         }) 
 
@@ -162,6 +183,6 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
 
         });
     };
-
+    $scope.getCompetitions();
 
 }]);

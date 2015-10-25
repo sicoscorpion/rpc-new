@@ -2,6 +2,8 @@
             <button class="tiny round button alert" ng-click='openUser()' >New User</button></td>
 
 <div class='large-8 large-centered columns'>
+  <i class="success" ng-show="succeeded">Saved!</i>
+<i class="failure" ng-show="failed">Failed!</i>
     <table ng-table="userTableParams" class="table" show-filter="true">
         <tr ng-repeat="user in $data">
             <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">

@@ -1,7 +1,7 @@
 var app = angular.module('myApp');
 
 
-app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTableParams', '$modal', '$cookies', '$route', function($scope, $location, Data, NgTableParams, $modal, $cookies, $route) {
+app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTableParams', '$modal', '$cookies', '$route', '$timeout', function($scope, $location, Data, NgTableParams, $modal, $cookies, $route, $timeout) {
 
     $scope.check_logged_in();
     $scope.$watch('$invalid', function(validity) {})
@@ -70,11 +70,15 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         Data.put(path, season).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit season: ", result);
+                $scope.saved();
+                
             }else{
                 console.log("Error saving season", result);
+                $scope.fail();
+
             } 
             
-            $route.reload();  
+            // $route.reload();  
 
         }) 
 
@@ -89,11 +93,16 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
             if(result.status != 'error'){
                 console.log("Returned Data from delete season: ", result);
                 $scope.getSeasons();
+                $scope.saved();
+
+
             }else{
                 console.log("Error deleting season: ", result);
+                $scope.fail();
+
             } 
         }) 
-        $route.reload();  
+        // $route.reload();  
 
     }
 
@@ -123,6 +132,7 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
                         console.log("Returned Data from create season: ", result);
                         $route.reload(); 
                         $scope.modalInstance.dismiss('cancel');
+                        $scope.saved();
 
 
                     }else{
@@ -131,6 +141,8 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
                         $scope.season_status.disabled = false;
                         $scope.season_status.alert_type = 'alert round';
                         $scope.season_status.show_alert = true;
+                        $scope.fail();
+
                     } 
                 })
             }else{
@@ -139,6 +151,8 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 $scope.season_status.disabled = false;
                 $scope.season_status.alert_type = 'alert round';
                 $scope.season_status.show_alert = true;
+                $scope.fail();
+                
             } 
         }) 
 
