@@ -60,13 +60,12 @@ CREATE TABLE Seasons (
 
 CREATE TABLE Teams (
   team_id varchar(128) not null, 
-  local_id int(10) not null unique AUTO_INCREMENT,
   name varchar(255) unique not null,
   organization varchar(255) not null,
   approved boolean DEFAULT false,
 
   PRIMARY KEY (team_id)
-) ENGINE=InnoDB auto_increment=100000 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -272,7 +271,7 @@ CREATE TABLE Participates (
   competition_id int(10) not NULL,
   team_id varchar(128) not NULL,
   season_year varchar(128) not NULL,
-
+  local_id int(10) not null unique,
 
   FOREIGN KEY (qual_id)
       REFERENCES Qualifiers(qual_id),
