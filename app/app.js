@@ -58,6 +58,11 @@ app.config(['$routeProvider',
       templateUrl: 'app/views/forgot_password.html',
       controller: 'password_controller'
     })
+    .when('/members', {
+      title: 'Members',
+      templateUrl: 'app/views/members.html',
+      controller: 'members_controller'
+    })
 
 
     .otherwise({redirectTo:'/login'});

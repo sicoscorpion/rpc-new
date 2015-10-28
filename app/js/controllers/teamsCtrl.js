@@ -7,11 +7,21 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
 
     $scope.team = {
         team_id: '',
-        local_id: '',
         name: '',
         organization: '',
         approved: ''
     }
+
+
+
+    $scope.team_status = {
+        disabled: false,
+        message: 'Invaild form. Ensure team doesnt exist',
+        show_alert: false,
+        alert_type: 'warning round'
+    }
+
+
 
 
     Data.get("teams").then(function (result) {
@@ -56,13 +66,6 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
         })
     }
 
-    $scope.team_status = {
-        disabled: false,
-        message: 'Invaild form. Ensure team doesnt exist',
-        show_alert: false,
-        alert_type: 'warning round'
-    }
-
     $scope.createTeam = function(team) {
 
         $scope.team_status.message = 'Logging in';
@@ -93,6 +96,7 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
         }) 
 
     }
+
 
     $scope.setQual = function(qualifier){
         console.log("Setting Qual: ", qualifier);
@@ -318,5 +322,7 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
 
         });
     };
+
+
 
 }]);

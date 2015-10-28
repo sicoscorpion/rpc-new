@@ -40,6 +40,7 @@
     <li ng-class="getActive('/competitions')"><a href="#/competitions" ng-if='isAdmin()'>Competitions</a></li>
     <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers" ng-if='isAdmin() || isQualAdmin()'>Qualifiers</a></li>
     <li ng-class="getActive('/teams')"><a href="#/teams">Teams</a></li>
+    <li ng-class="getActive('/members')"><a href="#/members">Members</a></li>
     <li ng-class="getActive('/users')"><a href="#/users"ng-if='isAdmin()'>Users</a></li>
   </ul>
   <ul class="inline-list hide-for-small-only account-action">
@@ -73,6 +74,7 @@
 <script src="app/js/controllers/homeCtrl.js"></script>
 <script src="app/js/controllers/usersCtrl.js"></script>
 <script src="app/js/controllers/profileCtrl.js"></script>
+<script src="app/js/controllers/memberCtrl.js"></script>
 <script src="app/js/controllers/passwordCtrl.js"></script>
 <script src="app/js/services/data.js"></script>
 <script src="app/js/directives/confirmation_needed.js"></script>

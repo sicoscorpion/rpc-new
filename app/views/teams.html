@@ -1,7 +1,7 @@
 <div class='row'>
             <button class="tiny round button alert" ng-click='openTeams()' >New Team</button></td>
 
-<div class='large-10 large-centered columns'>
+<div class='large-12 large-centered columns'>
 <i class="success" ng-show="succeeded">Saved!</i>
 <i class="failure" ng-show="failed">Failed!</i>
     <table ng-table="teamTableParams" class="table" show-filter="true">
@@ -18,14 +18,15 @@
                 <input type="text" ng-model='team.organization' ></input>    
             </td>
             <td title="'Approved'" filter="{ approved: 'text'}" sortable="'approved'">
-                <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='1'>Yes 
-                <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='0'>No    
+                <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='1'>Yes   </input> 
+                <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='0'>No</input>
             </td>
 
             <td title="'Qualifiers'">
                 <button class="tiny round button" ng-click='updateTeamQual(team)'>Edit</button></td>
             <td title="'Coaches'">
                 <button class="tiny round button" ng-click='updateTeamCoach(team)'>Edit</button></td>
+
             <td title="'Edit'">
                 <button class="tiny round button success" ng-click='editTeam(team)'>Save</button></td>
 
@@ -214,5 +215,5 @@
 </div>
 </div>
 </div>
-
 </script>
+
