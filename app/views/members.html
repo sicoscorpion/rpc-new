@@ -1,38 +1,171 @@
 <div class='row'>
-            <button class="tiny round button alert" ng-click='openMembers()' >New Member</button></td>
+        <div class="row">
 
-<div class='large-12 large-centered columns'>
-<i class="success" ng-show="succeeded">Saved!</i>
+          <div class="small-4 column">
+            <button class="tiny round button alert" ng-click='openMembers()' >New Member</button>
+
+          </div>
+
+          <div class="small-4 column">
+            <label>Team: <small ng-messages="newMember.memberTeam.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-change='getMembers()' ng-model="team.team_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
+                  <ui-select-match placeholder="Select a team..."><b>Team ID: </b>{{$select.selected.team_id}} <b>Team Name: </b>{{$select.selected.name}} </ui-select-match>
+                  <ui-select-choices repeat="team in teams | propsFilter: {team_id: $select.search}">
+                    <div ng-bind-html="team_id | highlight: $select.search"></div>
+                      <b>Team ID: </b>{{team.team_id}} <b>Team Name: </b>{{team.name}}
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+        </div>
+
+<div class='large-8 large-centered columns'>
+  <i class="success" ng-show="succeeded">Saved!</i>
 <i class="failure" ng-show="failed">Failed!</i>
-    <table ng-table="memberTableParams" class="table" show-filter="true">
+    <table ng-table="teamMemberTableParams" class="table" show-filter="true">
         <tr ng-repeat="member in $data">
-<!--             <td title="'Team ID'" filter="{ team_id: 'text'}" sortable="'team_id'">
-                <input type="text" ng-model='team.team_id' readonly></input>
+            <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">
+                <input type="email" ng-model='member.email' readonly></input>
             </td>
-
+            <td title="'First Name'" filter="{ first_name: 'text'}" sortable="'first_name'">
+                            <input type="text" ng-model='member.first_name' readonly></input>
+            </td>
+            <td title="'Last Name'" filter="{ last_name: 'text'}" sortable="'last_name'">
+                    <input type="text" ng-model='member.last_name' readonly></input>
+            </td>
             
-            <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-                <input type="text" ng-model='team.name' ></input>    
+            <td title="'Profile Info'">
+                <button class="tiny round button" ng-click="openProfile(member)"/>Edit</button>
             </td>
-            <td title="'Organization'" filter="{ organization: 'text'}" sortable="'organization'">
-                <input type="text" ng-model='team.organization' ></input>    
-            </td>
-            <td title="'Approved'" filter="{ approved: 'text'}" sortable="'approved'">
-                <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='1'>Yes   </input> 
-                <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='0'>No</input>
+                <!--MODAL WINDOW--> 
+          
+
+
+          <script type="text/ng-template" id="profile.html">
+              <div class="modal-body">
+                  <fieldset>
+                  <legend>Edit Profile for {{ memberEdit.first_name }}</legend>
+ 
+<form name="editMember"> 
+        <div class="row">
+
+          <div class="small-3 column">
+             <label>First Name: <small ng-messages="editMember.memberFirstName.$error"><b ng-message="required" class="error">Required</b></small></label>
+              <input type="text" name="memberFirstName" ng-model="memberEdit.first_name" required />
+          </div>
+
+          <div class="small-3 column">
+            <label>Last Name: <small ng-messages="editMember.memberLastName.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="memberLastName" ng-model="memberEdit.last_name" required />
+          </div>
+
+          <div class="small-3 column">
+            <label>Email: <small ng-messages="editMember.memberEmail.$error"><b ng-message="required" class="error">Required</b> 
+                                                                        <b ng-message="email" class="error">Email is not valid</b></small></label>
+            <input type="email" name="memberEmail" ng-model="memberEdit.email" required readonly/>
+          </div>
+
+          <div class="small-3 column">
+            <label>DOB: <small ng-messages="editMember.memberDOB.$error"><b ng-message="required" class="error">Please select a DOB</b></small></label>
+            <datepicker date-format="longDate">
+               <input name="memberDOB" ng-model="memberEdit.dob" type="text" required readonly/>
+            </datepicker>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>Civic Address: <small ng-messages="editMember.memberCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="number" name="memberCivic" ng-model="memberEdit.civic_number" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Street Address: <small ng-messages="editMember.memberStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="memberStreet1" ng-model="memberEdit.street1" required/>
+          </div>
+
+          <div class="small-4 column">
+            <label>Street Address:
+            <input type="text" name="memberStreet2" ng-model="memberEdit.street2"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>City: <small ng-messages="editMember.memberCity.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="memberCity" ng-model="memberEdit.city" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Province: <small ng-messages="editMember.memberProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="memberEdit.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="memberProvince" required>
+                  <ui-select-match placeholder="Select a province...">{{$select.selected.type || memberEdit.province}}</ui-select-match>
+                  <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{province.type}}
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+
+          <div class="small-4 column">
+            <label>Postal Code: <small ng-messages="editMember.memberPostalCode.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="memberPostalCode" ng-model="memberEdit.postal_code"/ required>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="small-4 column">
+            <label>Phone: <small ng-messages="editMember.memberPhone.$error"><b ng-message="required" class="error">Please only enter 10 digits</b>
+                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b><//small></label>
+            <input type="text" name="memberPhone" ng-model="memberEdit.guardian_phone" required ng-pattern="/^\d{10}$/"/>
+          </div>
+         
+
+        </div>
+
+          <div class="row">
+
+            <div class="small-3 column">
+
+              <label>Gender: <small ng-messages="editMember.memberGender.$error"><b ng-message="required" class="error">Required</b></small></label>
+                  <input type="radio" name="memberGender" value="Male" ng-model="memberEdit.gender" required>Male   
+                  <input type="radio" name="memberGender" value="Female" ng-model="memberEdit.gender" required>Female   
+                  <input type="radio" name="memberGender" value="Other" ng-model="memberEdit.gender" required>Other
+            
+            </div>
+
+
+            <div class="small-6 column">
+
+              <label>Medical Info: </label>
+                <textarea type='text' col='40' row='4' ng-model='memberEdit.medical_info'></textarea>
+            
+            </div>
+
+
+          </div>
+
+<hr>
+        <div class="row">
+          <div class="small-8 column">
+            <button class="button postfix" ng-click="updateMember(memberEdit)" ng-disabled="editMember.$invalid">Save</button>
+          </div>
+
+        </div>
+      </fieldset>
+    </form>
+ <hr>
+                    </script>
+
             </td>
 
-            <td title="'Qualifiers'">
-                <button class="tiny round button" ng-click='updateTeamQual(team)'>Edit</button></td>
-            <td title="'Coaches'">
-                <button class="tiny round button" ng-click='updateTeamCoach(team)'>Edit</button></td>
-            <td title="'Team Members'"  style='width: 150px'>
-                <button class="tiny round button alert" ng-click='addTeamMember(team)'>Add</button>   <button class="tiny round button" ng-click='updateTeamMember(team)'>Edit</button></td>
-            <td title="'Edit'">
-                <button class="tiny round button success" ng-click='editTeam(team)'>Save</button></td> -->
 
-<!--             <td title="'Delete'">
-                <button class="tiny round button alert" ng-click='deleteTeam(team)' confirmation-needed>Delete</button></td> -->
+         
+
+            <td title="'Delete'">
+                <button class="tiny round button alert" ng-click='deleteMember(member)' confirmation-needed>Delete</button>
+            </td>
         </tr>
     </table>
   </div>
@@ -69,7 +202,7 @@
 
           <div class="small-4 column">
             <label>Team: <small ng-messages="newMember.memberTeam.$error"><b ng-message="required" class="error">Required</b></small></label>
-                <ui-select ng-model="member.team_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
+                <ui-select ng-model="team.team_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
                   <ui-select-match placeholder="Select a team..."><b>Team ID: </b>{{$select.selected.team_id}} <b>Team Name: </b>{{$select.selected.name}} </ui-select-match>
                   <ui-select-choices repeat="team in teams | propsFilter: {team_id: $select.search}">
                     <div ng-bind-html="team_id | highlight: $select.search"></div>

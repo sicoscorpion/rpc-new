@@ -17,14 +17,14 @@
             <td title="'Organization'" filter="{ organization: 'text'}" sortable="'organization'">
                 <input type="text" ng-model='team.organization' ></input>    
             </td>
-            <td title="'Approved'" filter="{ approved: 'text'}" sortable="'approved'">
+            <td title="'Approved'" filter="{ approved: 'text'}" sortable="'approved'" ng-if='isAdmin()'>
                 <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='1'>Yes   </input> 
                 <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='0'>No</input>
             </td>
 
             <td title="'Qualifiers'">
                 <button class="tiny round button" ng-click='updateTeamQual(team)'>Edit</button></td>
-            <td title="'Coaches'">
+            <td title="'Coaches'"  ng-if='isAdmin()'>
                 <button class="tiny round button" ng-click='updateTeamCoach(team)'>Edit</button></td>
 
             <td title="'Edit'">

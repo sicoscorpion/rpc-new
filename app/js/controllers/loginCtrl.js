@@ -95,6 +95,13 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
         return false;
     }
 
+    $scope.isCoach = function () {
+        if (typeof $cookies.getObject("login") != "undefined"){
+           return $scope.getCookieData().coach == 1;
+        }
+        return false;
+    }
+
     $scope.match = function (user, password) {
         $scope.matchError = (user.password != password) ? true : false;
     }

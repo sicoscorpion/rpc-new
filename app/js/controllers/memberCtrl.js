@@ -31,8 +31,16 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
         shirt_size: ''
     }
 
+    $scope.team = {};
 
-    if ($scope.isAdmin){
+    $scope.member_status = {
+        disabled: false,
+        message: 'Invaild form. Ensure member doesnt exist',
+        show_alert: false,
+        alert_type: 'warning round'
+    }
+
+    if ($scope.isAdmin()){
         Data.get("teams").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Teams for Admin: ", result);
@@ -41,16 +49,125 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
             }
         })
-    }else{
+    }else if ($scope.isCoach()){
         Data.get("manage/teams/" + $scope.getCookieData().user_id).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Teams for coach: ", result);
-                $scope.coaches = result;
-                data = $scope.coaches;
-                $scope.teamCoachTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                $scope.teams = result;
+                data = $scope.teams;
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         })
     }
+
+    // Data.get("members/" + $scope.team.team_id.team_id).then(function (result) {
+    //     if(result.status != 'error'){
+    //         console.log("Returned members: ", result);
+    //         $scope.members = result;
+    //         data = $scope.member;
+    //         $scope.teamMemberTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+    //     }
+    // })
+
+    $scope.openProfile = function (member) {
+
+        console.log("Member Profile: ", member);
+        $scope.memberEdit = member;
+        $scope.modalInstance = $modal.open({
+          controller: "members_controller",
+          templateUrl: 'profile.html',
+          scope: $scope,
+            resolve: {
+                member: function()
+                {
+                    return $scope;
+                }
+            }
+             });
+    };
+
+    $scope.getMembers = function(){
+                console.log("selected team: ", $scope.team.team_id.team_id);
+
+        Data.get("members/" + $scope.team.team_id.team_id).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned members: ", result);
+                $scope.members = result;
+                data = $scope.members;
+                $scope.teamMemberTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+            }
+        })
+    }
+
+    $scope.updateMember = function(member) {
+
+        $scope.member_status.message = 'Logging in';
+        $scope.member_status.disabled = true;
+        $scope.member_status.show_alert = true;
+        $scope.member_status.alert_type = 'info round';
+        
+        console.log("Updating Member: ", member);
+        console.log("Updating Member for member: ", $scope.getCookieData());
+        var path = "members/";
+
+        $scope.addMember = {
+            first_name: member.first_name,
+            last_name: member.last_name,
+            email: member.email,
+            dob: member.dob,
+            civic_number: member.civic_number,
+            street1: member.street1,
+            street2: member.street2,
+            city: member.city,
+            province: member.province,
+            postal_code: member.postal_code,
+            medical_info: member.medical_info,
+            guardian_phone: member.guardian_phone,
+            gender: member.gender
+        }
+
+        var path = "member/" + member.member_id;
+        console.log("Edit Member: ", $scope.addMember);
+        Data.put(path, $scope.addMember).then(function (result) {
+                if(result.status != 'error'){
+                    console.log("Returned Data from edit Member: ", result);
+                    console.log("Editing Member: ", $scope.addMember);
+                    $scope.saved();
+
+                }else{
+                    console.log("Error: ", result);
+                    $scope.member_status.message = 'Edit Failed';
+                    $scope.member_status.disabled = false;
+                    $scope.member_status.alert_type = 'alert round';
+                    $scope.member_status.show_alert = true;
+                    $scope.fail();
+
+                } 
+        })
+    }
+
+    $scope.deleteMember = function(member) {
+        
+        console.log("deleting member: ", member);
+        console.log("deleting member: ", $scope.getCookieData());
+        var path = "member/" + member.member_id;
+        Data.delete(path).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Data from delete member: ", result);
+                $scope.getMembers();
+                $scope.saved();
+
+
+            }else{
+                console.log("Error deleting season: ", result);
+                $scope.fail();
+
+            } 
+        }) 
+        // $route.reload();  
+
+    }
+
 
     $scope.addNewMember = function(member) {
 
@@ -58,7 +175,7 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
         $scope.member_status.disabled = true;
         $scope.member_status.show_alert = true;
         $scope.member_status.alert_type = 'info round';
-        // member.team_id = team.team_id;
+        member.team_id = $scope.team.team_id;
 
         if (typeof $scope.member.shirt_size.type != "undefined"){
             $scope.member.shirt_size = $scope.member.shirt_size.type;
@@ -91,13 +208,14 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
         
         console.log("Creating Member: ", member);
-        console.log("Creating Member for user: ", $scope.getCookieData());
+        console.log("Creating Member for member: ", $scope.getCookieData());
 
         Data.post("member", member).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from add member: ", result);
                 $scope.saved();
-                $scope.getTeams();
+                $scope.getMembers();
+                $scope.modalInstance.dismiss('cancel');
 
 
             }else{
@@ -107,10 +225,10 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 $scope.member_status.alert_type = 'alert round';
                 $scope.member_status.show_alert = true;
                 $scope.fail();
+                $scope.modalInstance.dismiss('cancel');
                 
             } 
 
-            $scope.modalInstance.dismiss('cancel');
 
         }) 
 

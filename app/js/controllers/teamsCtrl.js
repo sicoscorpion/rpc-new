@@ -21,24 +21,35 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
         alert_type: 'warning round'
     }
 
+console.log("is admin: ", $scope.isAdmin());
 
-
-
-    Data.get("teams").then(function (result) {
-        if(result.status != 'error'){
-            console.log("Returned Teams for Admin: ", result);
-            $scope.seasons = result;
-            data = $scope.seasons;
-            $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
-        }
-    })
+    if ($scope.isAdmin()){
+        Data.get("teams").then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Teams for Admin: ", result);
+                $scope.teams = result;
+                data = $scope.teams;
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        })
+    }
+    else if ($scope.isCoach()){
+        Data.get("manage/teams/" + $scope.getCookieData().user_id).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Teams for coach: ", result);
+                $scope.teams = result;
+                data = $scope.teams;
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+            }
+        })
+    }
 
     $scope.getTeams = function(){
         Data.get("teams").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Teams for Admin: ", result);
-                $scope.seasons = result;
-                data = $scope.seasons;
+                $scope.teams = result;
+                data = $scope.teams;
                 $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
             }
         })
@@ -82,6 +93,7 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
                 console.log("Returned Data from create team: ", result);
                 $scope.saved();
                 $scope.getTeams();
+                $scope.modalInstance.dismiss('cancel');
 
 
             }else{
@@ -91,6 +103,7 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
                 $scope.team_status.alert_type = 'alert round';
                 $scope.team_status.show_alert = true;
                 $scope.fail();
+                $scope.modalInstance.dismiss('cancel');
                 
             } 
         }) 
@@ -243,6 +256,9 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
         console.log("Updating Team: ", team);
         console.log("Updating Team for user: ", $scope.getCookieData());
         var path = "teams/" + team.team_id;
+
+        delete team.user_id;
+
         Data.put(path, team).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit team: ", result);
