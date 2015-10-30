@@ -106,7 +106,7 @@
   }
 
   public function get_userManage($db, $user_id) {
-    $data = $db->query("SELECT * FROM Manages Where user_id = :user_id", array(':user_id' => $user_id));
+    $data = $db->query("SELECT * FROM Manages, Teams Where Manages.team_id = Teams.team_id AND user_id = :user_id", array(':user_id' => $user_id));
     return $data;
   }
 
