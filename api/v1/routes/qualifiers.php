@@ -21,6 +21,13 @@ $app->get('/qualifiers/competition/:comp_id', function($comp_id) use ($app){
   echoResponse(200, $rows);
 });
 
+$app->get('/qualifiers/open', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Qualifiers_model::get_open_qualifiers($db);
+  echoResponse(200, $rows);
+});
+
 $app->put('/qualifiers/:id', function($id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

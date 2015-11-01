@@ -22,6 +22,13 @@
       return $data;
     }
 
+    public function get_open_qualifiers($db)
+    {
+      $data = $db->query("SELECT *, Competitions.name AS competition_name FROM Qualifiers, Competitions WHERE Competitions.competition_id = Qualifiers.competition_id and Qualifiers.status=\"open\"");
+
+      return $data;
+    }
+
     public function update_qualifier($db, $data, $id)
     {
       $where_inCompetition = array('qual_id' => $id);    
