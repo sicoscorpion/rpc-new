@@ -25,6 +25,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
         consent: '',
         position: '',
         admin: '',
+        qualifier_admin: '',
         coach: '',
         shirt_size: ''
     }
@@ -114,16 +115,23 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
             position: position
         }
 
-        if (user.position == "Super Admin" || user.position == "Qualifier Admin")
+        if (user.position == "Super Admin")
         {
             var path = "users/" + "admin/" + user.user_id;
+            var tmp =  $scope.addUserHasRole;
+            delete tmp.position;
 
-        }else{
-            var path = "users/" + "coach/" + user.user_id;
-            
+        }else if (user.position == "Qualifier Admin"){
+            var path = "users/" + "qualifier_admin/" + user.user_id;
+            var tmp =  $scope.addUserHasRole;
+            delete tmp.position;
         }
-        console.log("Edit User: ", $scope.addUserHasRole);
-        Data.put(path, $scope.addUserHasRole).then(function (result) {
+        else{
+            var path = "users/" + "coach/" + user.user_id;
+            var tmp =  $scope.addUserHasRole;
+        }
+        console.log("Edit User: ", tmp);
+        Data.put(path, tmp).then(function (result) {
                 if(result.status != 'error'){
                     console.log("Returned Data from update user role User: ", result);
                     console.log("Editing User: ", $scope.addUserHasRole);
@@ -311,12 +319,22 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                 
             }
             console.log("Adding User: ", $scope.addUser);
-            if (user.position == "Super Admin" || user.position == "Qualifier Admin")
+            if (user.position == "Super Admin")
             {
                 var path = "users/" + "admin";
+                var tmp =  $scope.addUserHasRole;
+                tmp.admin = 1;
+                delete tmp.position;
 
-            }else{
+            }else if (user.position == "Qualifier Admin"){
+                var path = "users/" + "qualifier_admin";
+                var tmp =  $scope.addUserHasRole;
+                tmp.qualifier_admin = 1;
+                delete tmp.position;
+            }
+            else{
                 var path = "users/" + "coach";
+                var tmp =  $scope.addUserHasRole;
                 
             }
 
@@ -328,7 +346,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                         console.log("Adding User: ", $scope.addUserHasRole);
 
                         // if ($scope.user.position != ""){
-                            Data.post(path, $scope.addUserHasRole).then(function (result) {
+                            Data.post(path, tmp).then(function (result) {
                                     if(result.status != 'error'){
                                         console.log("Returned Data from registered User: ", result);
 

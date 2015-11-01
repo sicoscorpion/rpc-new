@@ -85,14 +85,14 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
     $scope.isAdmin = function () {
         if (typeof $cookies.getObject("login") != "undefined"){
             // console.log("User: ", $scope.getCookieData());
-           return $scope.getCookieData().admin == 1 && $scope.getCookieData().position == "Super Admin";
+           return $scope.getCookieData().admin == 1;
         }
         return false;
     }
 
     $scope.isQualAdmin = function () {
         if (typeof $cookies.getObject("login") != "undefined"){
-           return $scope.getCookieData().admin == 1 && $scope.getCookieData().position == "Qualifier Admin";
+           return $scope.getCookieData().qualifier_admin == 1;
         }
         return false;
     }
