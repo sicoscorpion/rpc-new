@@ -68,6 +68,19 @@ $app->delete('/users/:role/:id', function($role, $id) use ($app){
   echoResponse(200, $rows);
 });
 
+$app->post('/host', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Users_model::create_hostQualifier($db, $data);
+  echoResponse(200, $rows);
+});
+
+$app->get('/host', function($user_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Users_model::get_hostedQualifiers($db, $user_id);
+  echoResponse(200, $rows);
+});
 
 
 $app->post('/manage', function() use ($app){ 

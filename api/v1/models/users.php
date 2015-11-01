@@ -45,17 +45,24 @@
 
     if ($role == 'admin') {
       $data->admin = true;
+      $data->qulifier_admin = false;      
       $data->coach = false;
       $db->update("Admins", array(
-        'shirt_size' => $data->shirt_size,
-        'position' => $data->position), 
+        'shirt_size' => $data->shirt_size), 
+      array('user_id' => $data->user_id), array());
+    } elseif ($role == 'qualifier_admin') {
+      $data->admin = false;
+      $data->qulifier_admin = true;
+      $data->coach = false;
+      $db->update("Admins", array(
+        'shirt_size' => $data->shirt_size), 
       array('user_id' => $data->user_id), array());
     } elseif ($role == 'coach') {
       $data->coach = true;
+      $data->qulifier_admin = false;
       $data->admin = false;
       $db->update("Coaches", array(
-        'shirt_size' => $data->shirt_size,
-        'position' => $data->position), 
+        'shirt_size' => $data->shirt_size), 
       array('user_id' => $data->user_id), array());
     }
 
@@ -69,14 +76,17 @@
       $data->admin = true;
       $db->insert("Admins", array(
         'user_id' => $data->user_id,
-        'shirt_size' => $data->shirt_size,
-        'position' => $data->position), array());
+        'shirt_size' => $data->shirt_size), array());
+    } elseif ($role == 'qualifier_admin') {
+      $data->qualifier_admin = true;
+      $db->insert("QualifierAdmins", array(
+        'user_id' => $data->user_id,
+        'shirt_size' => $data->shirt_size), array());
     } elseif ($role == 'coach') {
       $data->coach = true; 
       $db->insert("Coaches", array(
         'user_id' => $data->user_id,
-        'shirt_size' => $data->shirt_size,
-        'position' => $data->position), array());
+        'shirt_size' => $data->shirt_size), array());
     }
 
     $added = $db->insert("HasRole", $data, array());
@@ -89,6 +99,8 @@
     if($role != null) {      
       if ($role == 'admin') {
         $db->delete("Admins", array('user_id' => $user_id));
+      } if ($role == 'qualifier_admin') {
+        $db->delete("QualifierAdmins", array('user_id' => $user_id));
       } elseif ($role == 'coach') {
         $db->delete("Coaches", array('user_id' => $user_id));
       }
@@ -98,6 +110,16 @@
     return $user;
   }
 
+  public function create_hostQualifier($db, $data)
+  {
+    $host = $db->insert("HostQualifiers", $data, array());
+    return $host;
+  }
+
+  public function get_hostedQualifiers($db, $user_id) {
+    $data = $db->query("SELECT * FROM HostQualifiers, Qualifiers Where HostQualifiers.qual_id = Qualifiers.qual_id AND user_id = :user_id", array(':user_id' => $user_id));
+    return $data;
+  }
 
   public function create_userManage($db, $data)
   {
@@ -174,7 +196,7 @@
         <br><br> 
         robots.acadiau.ca";
       $mail = new Mail;
-      $mail_sent = $mail->sendMail($mail_to, "ww-data@localhost", "ACCOUNT ", $mail_subject, $mail_body);
+      $mail_sent = $mail->sendMail($mail_to, "www-data@localhost", "ACCOUNT ", $mail_subject, $mail_body);
 
       if ($mail_sent == 1) {
         $new_stmt = $db->exec('INSERT INTO sent_emails (email_address, timestamp) VALUES (:email_address, NOW())', array(':email_address' => $posted['hash']) );

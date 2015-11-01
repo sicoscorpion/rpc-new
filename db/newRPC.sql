@@ -7,6 +7,8 @@ use rpc;
 drop table if exists HasRole;
 drop table if exists HasPosition;
 drop table if exists Participates;
+drop table if exists QualifierAdmins;
+drop table if exists HostQualifiers;
 drop table if exists Helps;
 drop table if exists Hosts;
 drop table if exists Manages;
@@ -73,7 +75,17 @@ CREATE TABLE Admins (
   user_id int(10) not null,
   shirt_size varchar(255) not null,
   consent varchar(128) DEFAULT null,
-  position ENUM("Super Admin", "Qualifier Admin") DEFAULT null,
+
+  FOREIGN KEY (user_id)
+      REFERENCES Users(user_id),
+
+  PRIMARY KEY (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE QualifierAdmins (
+  user_id int(10) not null,
+  shirt_size varchar(255) not null,
+  consent varchar(128) DEFAULT null,
 
   FOREIGN KEY (user_id)
       REFERENCES Users(user_id),
@@ -211,6 +223,29 @@ CREATE TABLE Members (
 
 
 
+CREATE TABLE HostQualifiers (
+  user_id int(10) not NULL,
+  qual_id int(10) not NULL auto_increment,
+  competition_id int(10) not NULL,
+  season_year varchar(128) not NULL,
+    
+  FOREIGN KEY (user_id)
+      REFERENCES Users(user_id),
+
+  FOREIGN KEY (season_year)
+      REFERENCES Qualifiers(season_year),
+
+  FOREIGN KEY (competition_id)
+      REFERENCES Qualifiers(competition_id),
+
+  FOREIGN KEY (qual_id)
+      REFERENCES Qualifiers(qual_id),
+
+  PRIMARY KEY (user_id, qual_id, competition_id, season_year)
+
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE Hosts (
   user_id int(10) not NULL,
   season_year varchar(128) not NULL,
@@ -224,7 +259,6 @@ CREATE TABLE Hosts (
   PRIMARY KEY (user_id, season_year)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 CREATE TABLE Helps (
   qual_id int(10) not NULL,
@@ -306,9 +340,11 @@ CREATE TABLE HasRole (
   medical_info varchar(128),
   shirt_size varchar(128),
   consent varchar(128),
-  position ENUM("Super Admin", "Qualifier Admin", "Main Coach", "Assistant Coach")  DEFAULT null,
+  position ENUM("Admin", "Qualifier Admin", "Main Coach", "Assistant Coach")  DEFAULT null,
   admin boolean not null DEFAULT false, 
+  qualifier_admin boolean not null DEFAULT false,
   coach boolean not null DEFAULT false,
+
 
   PRIMARY KEY (user_id)
 
