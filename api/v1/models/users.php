@@ -62,7 +62,8 @@
       $data->qulifier_admin = false;
       $data->admin = false;
       $db->update("Coaches", array(
-        'shirt_size' => $data->shirt_size), 
+        'shirt_size' => $data->shirt_size,
+        'position' => $data->position), 
       array('user_id' => $data->user_id), array());
     }
 
@@ -86,7 +87,8 @@
       $data->coach = true; 
       $db->insert("Coaches", array(
         'user_id' => $data->user_id,
-        'shirt_size' => $data->shirt_size), array());
+        'shirt_size' => $data->shirt_size,
+        'position' => $data->position), array());
     }
 
     $added = $db->insert("HasRole", $data, array());

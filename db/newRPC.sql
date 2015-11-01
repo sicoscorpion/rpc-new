@@ -340,7 +340,7 @@ CREATE TABLE HasRole (
   medical_info varchar(128),
   shirt_size varchar(128),
   consent varchar(128),
-  position ENUM("Admin", "Qualifier Admin", "Main Coach", "Assistant Coach")  DEFAULT null,
+  position ENUM("Main Coach", "Assistant Coach")  DEFAULT null,
   admin boolean not null DEFAULT false, 
   qualifier_admin boolean not null DEFAULT false,
   coach boolean not null DEFAULT false,
