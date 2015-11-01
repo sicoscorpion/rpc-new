@@ -28,14 +28,30 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
     ];
 
     // get qualifiers
-    Data.get("qualifiers").then(function (result) {
-        if(result.status != 'error'){
-            console.log("Returned Qualifiers: ", result);
-            $scope.qualifiers = result;
-            data = $scope.qualifiers;
-            $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
-        }
-    }) 
+
+
+    // if ($scope.isAdmin()){
+        Data.get("qualifiers").then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Qualifiers: ", result);
+                $scope.qualifiers = result;
+                data = $scope.qualifiers;
+                $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        }) 
+    // }
+    // else if ($scope.isCoach()){
+        Data.get("qualifiers/open").then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Qualifiers: ", result);
+                $scope.openQual = result;
+                // data = $scope.openQual;
+                // $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        })
+    // }
+
+
 
     $scope.updateQual = function(qual) {
         qual.status = qual.status.type;

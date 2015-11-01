@@ -17,10 +17,10 @@
             <td title="'Organization'" filter="{ organization: 'text'}" sortable="'organization'">
                 <input type="text" ng-model='team.organization' ></input>    
             </td>
-            <td title="'Approved'" filter="{ approved: 'text'}" sortable="'approved'" ng-if='isAdmin()'>
+<!--             <td title="'Approved'" filter="{ approved: 'text'}" sortable="'approved'" ng-if='isAdmin()'>
                 <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='1'>Yes   </input> 
                 <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='0'>No</input>
-            </td>
+            </td> -->
 
             <td title="'Qualifiers'">
                 <button class="tiny round button" ng-click='updateTeamQual(team)'>Edit</button></td>
@@ -105,7 +105,7 @@
             <ui-select ng-change='setQual($select.selected)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 500px;" name="year" ng-required>
                 <ui-select-match placeholder="Select a qualifier"><b>Year:</b> {{$select.selected.season_year}} <b>Competition ID:</b> {{$select.selected.competition_id}} 
                                                                       <b>Qual ID:</b> {{$select.selected.qual_id}}</ui-select-match>
-                <ui-select-choices repeat="qualifier in qualifiers | propsFilter: {season_year: $select.search}">
+                <ui-select-choices repeat="qualifier in openQual | propsFilter: {season_year: $select.search}">
                   <div ng-bind-html="qualifier.season_year | highlight: $select.search"></div>
                     <b>Year:</b> {{qualifier.season_year}} <b>Competition ID:</b> {{qualifier.competition_id}} <b>Qual ID:</b> {{qualifier.qual_id}}<hr>
                 </ui-select-choices>
@@ -170,8 +170,8 @@
               <ui-select ng-change='setCoach($select.selected)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 500px;" name="year" ng-required>
                   <ui-select-match placeholder="Select a user"><b>Email:</b> {{$select.selected.email}} <b>First Name:</b> {{$select.selected.first_name}} 
                                                                         <b>Last Name:</b> {{$select.selected.last_name}}</ui-select-match>
-                  <ui-select-choices repeat="user in users | propsFilter: {email: $select.search}">
-                    <div ng-bind-html="user | highlight: $select.search"></div>
+                  <ui-select-choices repeat="user in users | qualFilter">
+                    <div ng-bind-html="user | highlight: $select.search" ></div>
                       <b>Email:</b> {{user.email}} <b>First Name:</b> {{user.first_name}} <b>Last Name:</b> {{user.last_name}}<hr>
                   </ui-select-choices>
                 </ui-select>

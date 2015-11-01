@@ -343,18 +343,18 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
 
                                     } 
                             }) 
-                        var tmp = {email: $scope.user.email};
-                        Data.post("forgot_password", tmp).then(function (result) {
-                                    if(result.status != 'error'){
-                                        console.log("Email Sent: ", result);
-                                        $scope.saved();
+                            var tmp = {email: $scope.user.email};
+                            Data.post("forgot_password", tmp).then(function (result) {
+                                        if(result.status != 'error'){
+                                            console.log("Email Sent: ", result);
+                                            $scope.saved();
 
 
-                                    }else{
-                                        console.log("Error, Email not sent for password: ", result);
-                                        $scope.fail();
-                                    } 
-                            }) 
+                                        }else{
+                                            console.log("Error, Email not sent for password: ", result);
+                                            $scope.fail();
+                                        } 
+                                }) 
                         // }
 
 

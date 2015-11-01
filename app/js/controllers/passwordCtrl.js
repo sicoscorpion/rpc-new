@@ -21,8 +21,7 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
     $scope.reset = function(user) {
         
         console.log("email: ", user);
-
-        var tmp = {email: $scope.user.email_address};
+        var tmp = {email: user.email_address};
         console.log(tmp);
 
         Data.post("forgot_password", tmp).then(function (result) {

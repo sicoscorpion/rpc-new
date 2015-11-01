@@ -62,8 +62,8 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
           // {type: "None"}
         ];
 
-        $scope.succeeded = false;
-        $scope.failed = false;
+    $scope.succeeded = false;
+    $scope.failed = false;
 
     $scope.saved = function() {
         $scope.succeeded = true;
@@ -79,6 +79,8 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
             }, 3000);
 
     }
+
+
 
     $scope.isAdmin = function () {
         if (typeof $cookies.getObject("login") != "undefined"){
@@ -323,4 +325,18 @@ app.filter('propsFilter', function() {
 
     return out;
   }
+});
+
+app.filter('qualFilter', function() {
+
+    return function(input, uppercase) {
+        var out = [];
+        for (var i = 0; i < input.length; i++) {
+            if(input[i].coach == 1){
+                out.push(input[i]);
+            }
+        }
+        return out;
+    }
+
 });
