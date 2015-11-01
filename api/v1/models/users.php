@@ -45,21 +45,21 @@
 
     if ($role == 'admin') {
       $data->admin = true;
-      $data->qulifier_admin = false;      
+      $data->qualifier_admin = false;      
       $data->coach = false;
       $db->update("Admins", array(
         'shirt_size' => $data->shirt_size), 
       array('user_id' => $data->user_id), array());
     } elseif ($role == 'qualifier_admin') {
       $data->admin = false;
-      $data->qulifier_admin = true;
+      $data->qualifier_admin = true;
       $data->coach = false;
       $db->update("Admins", array(
         'shirt_size' => $data->shirt_size), 
       array('user_id' => $data->user_id), array());
     } elseif ($role == 'coach') {
       $data->coach = true;
-      $data->qulifier_admin = false;
+      $data->qualifier_admin = false;
       $data->admin = false;
       $db->update("Coaches", array(
         'shirt_size' => $data->shirt_size,
