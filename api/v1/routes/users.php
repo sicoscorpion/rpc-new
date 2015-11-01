@@ -34,7 +34,7 @@ $app->post('/users', function() use ($app){
 $app->post('/users/:role', function($role) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
-  
+  echo $data;
   $rows = Users_model::add_hasRole($db, $data, $role);
 
   echoResponse(200, $rows);
@@ -75,7 +75,7 @@ $app->post('/host', function() use ($app){
   echoResponse(200, $rows);
 });
 
-$app->get('/host', function($user_id) use ($app){ 
+$app->get('/host/:user_id', function($user_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Users_model::get_hostedQualifiers($db, $user_id);

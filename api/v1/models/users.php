@@ -54,7 +54,7 @@
       $data->admin = false;
       $data->qualifier_admin = true;
       $data->coach = false;
-      $db->update("Admins", array(
+      $db->update("QualifierAdmins", array(
         'shirt_size' => $data->shirt_size), 
       array('user_id' => $data->user_id), array());
     } elseif ($role == 'coach') {
@@ -79,6 +79,8 @@
         'user_id' => $data->user_id,
         'shirt_size' => $data->shirt_size), array());
     } elseif ($role == 'qualifier_admin') {
+      var_dump("asdasdasdasdasd");
+      echo $data;
       $data->qualifier_admin = true;
       $db->insert("QualifierAdmins", array(
         'user_id' => $data->user_id,
