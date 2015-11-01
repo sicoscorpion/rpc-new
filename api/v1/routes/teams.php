@@ -14,6 +14,13 @@ $app->get('/teams', function() use ($app){
   echoResponse(200, $rows);
 });
 
+$app->get('/teams/:qual_id', function($qual_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Teams_model::get_qualifierTeams($db, $qual_id);
+  echoResponse(200, $rows);
+});
+
 $app->put('/teams/:id', function($id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

@@ -16,6 +16,11 @@
       return $data;
     }
 
+    public function get_qualifierTeams($db, $qual_id) {
+      $data = $db->query("SELECT * FROM Teams, Participates WHERE Teams.team_id = Participates.team_id AND Participates.qual_id = :qual_id", array(':qual_id' => $qual_id));
+      return $data;
+    }
+
     public function update_team($db, $data, $id)
     {
       $where_inTeams = array('team_id' => $id);    
