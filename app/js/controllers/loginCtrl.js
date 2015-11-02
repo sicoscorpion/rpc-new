@@ -340,3 +340,17 @@ app.filter('qualFilter', function() {
     }
 
 });
+
+app.filter('filterQualAdmin', function() {
+
+    return function(input, uppercase) {
+        var out = [];
+        for (var i = 0; i < input.length; i++) {
+            if(input[i].qualifier_admin == 1){
+                out.push(input[i]);
+            }
+        }
+        return out;
+    }
+
+});

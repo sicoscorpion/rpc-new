@@ -105,7 +105,7 @@
             <ui-select ng-change='setQual($select.selected)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 500px;" name="year" ng-required>
                 <ui-select-match placeholder="Select a qualifier"><b>Year:</b> {{$select.selected.season_year}} <b>Competition ID:</b> {{$select.selected.competition_id}} 
                                                                       <b>Qual ID:</b> {{$select.selected.qual_id}}</ui-select-match>
-                <ui-select-choices repeat="qualifier in openQual | propsFilter: {season_year: $select.search}">
+                <ui-select-choices repeat="qualifier in openQualifiers | propsFilter: {season_year: $select.search}">
                   <div ng-bind-html="qualifier.season_year | highlight: $select.search"></div>
                     <b>Year:</b> {{qualifier.season_year}} <b>Competition ID:</b> {{qualifier.competition_id}} <b>Qual ID:</b> {{qualifier.qual_id}}<hr>
                 </ui-select-choices>

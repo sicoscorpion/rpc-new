@@ -44,7 +44,7 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
         Data.get("qualifiers/open").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Qualifiers: ", result);
-                $scope.openQual = result;
+                $scope.openQualifiers = result;
                 // data = $scope.openQual;
                 // $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
             }
@@ -92,6 +92,22 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
              });
     };
 
+    $scope.openAdmins = function (qual) {
+
+        console.log("Qualifier Profile: ", qual);
+        $scope.q = qual;
+        $scope.modalInstance = $modal.open({
+          controller: "qualifiers_controller",
+          templateUrl: 'admin.html',
+          scope: $scope,
+            resolve: {
+                admin: function()
+                {
+                    return $scope;
+                }
+            }
+             });
+    };
 
     $scope.createQual = function(qual) {
 
@@ -128,6 +144,10 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
     }
 
 
+    $scope.setQualAdmin = function (admin){
+        $scope.adminForQual = admin;
+    }
+
         // MODAL WINDOW
     $scope.openQual = function () {
         console.log("Open Qual Modal");
@@ -146,5 +166,40 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
 
         });
     };
+
+
+    $scope.addQualAdmin = function(qual, admin) {
+
+        console.log("qual: ", qual);
+        console.log("admin: ", admin);
+
+        $scope.part = {
+            user_id: admin.admin_id,
+            qual_id: qual.qual_id,
+            competition_id: qual.competition_id,
+            season_year: qual.season_year
+        }
+
+        
+        console.log("Adding admin qual: ", admin);
+        console.log("Adding admin for user: ", $scope.getCookieData());
+
+        Data.post("host", $scope.part).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Data from add team part: ", result);
+                $scope.saved();
+                $route.reload();
+                $scope.modalInstance.dismiss('cancel');
+
+            }else{
+                $scope.modalInstance.dismiss('cancel');
+                console.log("Error creating team", result);
+                $scope.fail();
+                
+            } 
+        }) 
+
+    }
+
 
 }]);
