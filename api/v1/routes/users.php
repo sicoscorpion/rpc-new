@@ -89,6 +89,13 @@ $app->get('/host/admins/:qual_id', function($qual_id) use ($app){
   echoResponse(200, $rows);
 });
 
+$app->delete('/host/:qual_id/:user_id', 
+  function($qual_id, $user_id) use ($app){
+  global $db;
+  $rows = Users_model::delete_qualifierHost($db, $qual_id, $user_id);
+  echoResponse(200, $rows);
+});
+
 $app->post('/manage', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

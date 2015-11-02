@@ -128,6 +128,13 @@
     return $data;
   }
 
+  public function delete_qualifierHost($db, $qual_id, $user_id) {
+    $data = $db->delete("HostQualifiers", 
+      array('qual_id' => $qual_id,
+        'user_id' => $user_id) );
+    return $data;
+  }
+
   public function create_userManage($db, $data)
   {
     $manage = $db->insert("Manages", $data, array());
