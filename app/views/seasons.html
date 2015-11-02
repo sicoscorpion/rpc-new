@@ -1,36 +1,42 @@
-<div class='row'>
-            <button class="tiny round button alert" ng-click='openSeason()' >New Season</button></td>
 
-<div class='large-10 large-centered columns'>
-<i class="success" ng-show="succeeded">Saved!</i>
-<i class="failure" ng-show="failed">Failed!</i>
+
+
+<div class='row'> <fieldset>
+    <legend> Manage Seasons </legend>
+  <div class='large-2 large-offset-10 columns'>
+    <button class="tiny round button alert" ng-click='openSeason()' >New Season</button>
+  </div>
+  <div class='large-12 columns'>
+
+    <i class="success" ng-show="succeeded">Saved!</i>
+    <i class="failure" ng-show="failed">Failed!</i>
     <table ng-table="tableParams" class="table" show-filter="true">
-        <tr ng-repeat="season in $data">
-            <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
-                <input type="text" ng-model='season.year' readonly></input>
-            </td>
-            <td title="'Status'" filter="{ status: 'text'}" sortable="'status'">
-                <ui-select ng-model="season.status" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="status" required>
-                  <ui-select-match placeholder="Status ">{{$select.selected.type || season.status}}</ui-select-match>
-                  <ui-select-choices repeat="option in options | propsFilter: {type: $select.search}">
-                    <div ng-bind-html="type | highlight: $select.search"></div>
-                      {{option.type}}
-                  </ui-select-choices>
-                </input>
-            </td>
-            
-            <td title="'Info'" filter="{ info: 'text'}" sortable="'info'">
-                <input type="text" ng-model='season.info' ></input>    
-            </td>
+      <tr ng-repeat="season in $data">
+        <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
+            <input type="text" ng-model='season.year' readonly></input>
+        </td>
+        <td title="'Status'" filter="{ status: 'text'}" sortable="'status'">
+            <ui-select ng-model="season.status" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="status" required>
+              <ui-select-match placeholder="Status ">{{$select.selected.type || season.status}}</ui-select-match>
+              <ui-select-choices repeat="option in options | propsFilter: {type: $select.search}">
+                <div ng-bind-html="type | highlight: $select.search"></div>
+                  {{option.type}}
+              </ui-select-choices>
+            </input>
+        </td>
+        
+        <td title="'Info'" filter="{ info: 'text'}" sortable="'info'">
+            <input type="text" ng-model='season.info' ></input>    
+        </td>
 
-            <td title="'Edit'">
-                <button class="tiny round button success" ng-click='updateSeason(season)'>Edit</button></td>
-            <td title="'Delete'">
-                <button class="tiny round button alert" ng-click='deleteSeason(season)' confirmation-needed>Delete</button></td>
-        </tr>
+        <td title="'Edit'">
+            <button class="tiny round button success" ng-click='updateSeason(season)'>Save</button></td>
+        <td title="'Delete'">
+            <button class="tiny round button alert" ng-click='deleteSeason(season)' confirmation-needed>Delete</button></td>
+      </tr>
     </table>
   </div>
-</div>
+</fieldset></div>
 
 <!--MODAL WINDOW--> 
 <script type="text/ng-template" id="newSeason.html">

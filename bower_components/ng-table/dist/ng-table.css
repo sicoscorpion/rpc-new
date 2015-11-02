@@ -84,6 +84,7 @@
   box-sizing: border-box;
 }
 .ng-table + .pagination {
+  @include pagination;
   margin-top: 0;
 }
 @media only screen and (max-width: 800px) {

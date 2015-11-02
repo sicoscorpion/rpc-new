@@ -65,6 +65,6 @@ app.config(['$routeProvider',
     })
 
 
-    .otherwise({redirectTo:'/login'});
+    .otherwise({redirectTo:'/home'});
 }]);
 

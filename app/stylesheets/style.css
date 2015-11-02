@@ -1,5 +1,8 @@
-.row {
-  width: 99%; }
+/*.row {
+  width: 99%;
+  max-width: 80%; 
+
+}*/
 
 .menu {
   background-color: black;
@@ -89,3 +92,251 @@
   background: red;
 }
 
+.logo {
+  width: 485px;
+  margin-left: 5px; }
+
+
+  .top-bar {
+    height: 18rem;
+    padding-top: 3rem;
+    position: relative; 
+    background: url(Robotics_2015_456.jpg) 0px -358px !important;
+    box-shadow: 0px 0px 30px black; }
+
+  .top-bar-section {
+    top: 195px;
+    width: 100%;
+    height: 45px;
+    background-color: #333333;
+    font-variant: small-caps;
+  }
+.top-bar-section ul li a {
+  font-size: 1rem !important;
+}
+
+
+  .social-icons {
+    position: absolute;
+    top: -220px; 
+    right: 10px;
+    font-size: 35px !important;
+  } 
+
+
+.logo img {
+  height: 110px;
+  border: 0px solid #fff;
+  -moz-box-shadow: 0px 6px 5px #ccc;
+  -webkit-box-shadow: 0px 6px 5px #ccc;
+  box-shadow: 0px 6px 5px #ccc;
+  -moz-border-radius: 190px;
+  -webkit-border-radius: 190px;
+  border-radius: 10px;
+}
+
+.logo .title-head {
+  margin-left: 110px;
+  margin-top: -100px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bolder;
+  font-size:38px; 
+  line-height:89px; 
+  color:#fff; 
+  text-decoration:none; 
+  text-transform:uppercase;
+}
+.logo .title-sub { 
+  margin-left: 110px;
+  margin-top: -30px;
+  font-family:"Courier New", Courier, monospace;
+  font-size:12px; 
+  line-height:24px; 
+  color:#fff; 
+  font-weight: bolder;
+  text-decoration:none; 
+  text-transform:uppercase;
+}
+
+/* Styles for signup panels */
+.auth-plain {
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-top: 0px;
+}
+
+.left-solid {
+margin-top: 0px;
+margin-bottom: 0px;
+}
+
+.signup-panel {
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background: #fff;
+}
+
+.signup-panel a{
+  color: #fff;
+}
+
+.signup-panel i {
+  font-size: 30px;
+  line-height: 50px;
+  color: #999;
+}
+.signup-panel form input, .signup-panel form span {
+  height: 50px;
+}
+.signup-panel .welcome {
+  font-size: 26px;
+  text-align: center;
+  margin-left: 0;
+}
+.signup-panel p {
+  font-size: 13px;
+  font-weight: 200;
+  text-align: center;
+}
+.signup-panel .button {
+  margin-left: 35%;
+}
+
+.newusers {
+  background: #fff;
+}
+
+
+.footer {
+  background-color: #292c2f;
+  text-align: center;
+  /*position: fixed;*/
+  bottom: 0;
+  width: 100%;
+  z-index: 0;
+  font-size: 1.2rem;
+  padding: 1rem; 
+}
+.footer p.slogan {
+  color: #8d9093;
+  font-size: 1.8rem;
+  margin: 0 0 1rem; }
+.footer p.copywrite {
+  color: #8f9296;
+  font-size: 0.875rem;
+  margin: 0; }
+.footer .links a {
+  list-style: none;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 3rem 0 2rem;
+  margin: 0; }
+.footer .links a::after {
+  content: "•";
+  padding: 0 0.4rem 0 0.8rem; }
+.footer .links a:last-child::after {
+  content: "";
+  padding: 0 0.4rem 0 0.8rem; }
+
+/* *********************** ADMIN *************************/
+
+.secondary-tabs .tabs {
+text-align: center; }
+.secondary-tabs .tabs i {
+  font-size: 1rem;
+  /*margin-right: 1rem; */
+}
+.secondary-tabs .tabs li {
+  width: 20%; 
+}
+
+.secondary-tabs .tabs li:hover i {
+  font-size: 1.5rem;
+}
+.secondary-tabs .tabs .tab-title > a {
+  background-color: #333333;
+  outline: none;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 1.15);
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  font-variant: small-caps;
+  color: white; }
+.secondary-tabs .tabs .tab-title.active > a {
+  background-color: #008CBA;
+}
+.secondary-tabs .tabs-content {
+  border: 1px solid #999;
+  border-top: none; }
+.secondary-tabs .tabs-content h3 {
+  margin-left: 2.7rem; }
+.secondary-tabs .tabs-content h5 {
+  color: #e74c3c;
+  margin-left: 2.7rem; }
+.secondary-tabs .tabs-content p {
+  margin-bottom: 0.2rem; }
+.secondary-tabs .tabs-content .switch {
+  margin-bottom: 1rem; }
+
+.divider  {
+    border-top: 1px solid;
+      height: 0;
+      list-style: none;
+      padding: 0;
+      border-top-color: #e6e6e6;  }
+
+
+
+.progress {
+  margin: 0 auto 2rem auto;
+  padding: 0;
+  width: 90%;
+  height: 30px;
+  overflow: hidden;
+  background: #e5e5e5;
+  border-radius: 6px; }
+
+.meter {
+  position: relative;
+  float: left;
+  min-width: 1%;
+  height: 100%; }
+
+.percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-family: tahoma,arial,helvetica;
+  font-size: 12px;
+  color: white; }
+
+.meter.blue {
+  background: cornflowerblue; }
+
+.meter.red {
+  background: #e74c3c; }
+
+.meter.orange {
+  background: #e67e22; }
+
+.meter.green {
+  background: #2ecc71; }
+
+.meter.purple {
+  background: #9b59b6; }
+/* *********************** END OF ADMIN *************************/
+
+/* *********************** COACHES *************************/
+.secondary-tabs #coach-view li {
+  width: 50%; 
+}
+/* *********************** END OF COACHES *************************/
+
+table {
+  width: 100%;
+
+}

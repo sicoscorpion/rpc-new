@@ -31,7 +31,7 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
             console.log("Returned Seasons: ", result);
             $scope.seasons = result;
             data = $scope.seasons;
-            $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: []});
         }
 
         $scope.years = [];
@@ -54,7 +54,7 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 console.log("Returned Seasons: ", result);
                 $scope.seasons = result;
                 data = $scope.seasons;
-                $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                $scope.tableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         }) 
     }

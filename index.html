@@ -33,34 +33,68 @@
 
 </head>
 <body ng-app="myApp" ng-controller="login_controller">
-<nav class="menu" ng-controller="topbar_controller" >
-  <a ng-class="getActive('/home')" href="#/home"><h1 class="name">Acadia Robotics Portal</h1></a>
-  <ul class="inline-list">
-    <li ng-class="getActive('/seasons')"><a href="#/seasons" ng-if='isAdmin()'>Seasons</a></li>
-    <li ng-class="getActive('/competitions')"><a href="#/competitions" ng-if='isAdmin()'>Competitions</a></li>
-    <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers" ng-if='isAdmin() || isQualAdmin()'>Qualifiers</a></li>
-    <li ng-class="getActive('/teams')"><a href="#/teams">Teams</a></li>
-    <li ng-class="getActive('/members')"><a href="#/members">Members</a></li>
-    <li ng-class="getActive('/users')"><a href="#/users"ng-if='isAdmin()'>Users</a></li>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+
+<nav class="top-bar" data-topbar role="navigation" ng-controller="topbar_controller">
+  <ul class="title-area">
+    
+    <div class="logo">
+      <!-- <a href="/"> -->
+        <img src="app/images/logo.png">
+        <div class="title-head">Acadia Robotics</div>
+        <div class="title-sub">Computer Programming . Problem Solving . Teamwork</div>
+      <!-- </a> -->
+    </div>
+     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
   </ul>
-  <ul class="inline-list hide-for-small-only account-action">
-    <li ng-class="getActive('/profile')" ng-if="logged_in()">
-        <a href="#/profile">Profile</a>
-    </li>
-    <li ng-class="getActive('/login')" ng-if="logged_in()" ng-click="log_out()">
-        <a href="#/home">Logout</a>
-    </li>
-    <li ng-class="getActive('/login')" ng-if="!logged_in()">
-        <a href="#/login">Login</a>
-    </li>
-    <li ng-class="getActive('/signup')" ng-if="!logged_in()">
-        <a href="#/signup">Signup</a>
-    </li>
-  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->  
+    <ul class="left">
+      <li><a ng-class="getActive('/home')" href="#/home">Home</a></li>
+      <li class="divider"></li>
+      <li ng-class="getActive('/seasons')"><a href="#/seasons" ng-if='isAdmin()'>Seasons</a></li>
+      <li ng-class="getActive('/competitions')"><a href="#/competitions" ng-if='isAdmin()'>Competitions</a></li>
+      <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers" ng-if='isAdmin() || isQualAdmin()'>Qualifiers</a></li>
+      <li ng-class="getActive('/teams')" ng-if="logged_in()"><a href="#/teams">Teams</a></li>
+      <li ng-class="getActive('/members')" ng-if="logged_in()"><a href="#/members">Members</a></li>
+      <li ng-class="getActive('/users')"><a href="#/users"ng-if='isAdmin()'>Users</a></li>
+
+    </ul>
+    <ul class="right">
+      <li ng-class="getActive('/profile')" ng-if="logged_in()">
+          <a href="#/profile">Profile</a>
+      </li>
+      <li ng-class="getActive('/login')" ng-if="logged_in()" ng-click="log_out()">
+          <a href="#/home">Logout</a>
+      </li>
+      <li ng-class="getActive('/login')" ng-if="!logged_in()">
+          <a href="#/login">Login</a>
+      </li>
+      <li ng-class="getActive('/signup')" ng-if="!logged_in()">
+          <a href="#/signup">Signup</a>
+      </li>
+    </ul>
+    <ul class="social-icons">
+      <a href=""><i class="fi-telephone"></i></a>
+      <a href=""><i class="fi-social-linkedin"></i></a>
+      <a href=""><i class="fi-social-twitter"></i></a>
+      <a href=""><i class="fi-social-facebook"></i></a>
+    </ul>
+    
+  </section>
 </nav>
 
+<div data-alert ng-show="succeeded" class="alert-box success radius">
+  This is a success alert with a radius.
+  <a href="#" class="close">&times;</a>
+</div>
 
-
+<div data-alert ng-show="failed" class="alert-box alert round">
+  This is an alert - alert that is rounded.
+  <a href="#" class="close">&times;</a>
+</div>
 
 <div ng-view ></div>
 
@@ -79,6 +113,18 @@
 <script src="app/js/services/data.js"></script>
 <script src="app/js/directives/confirmation_needed.js"></script>
 
+ <footer class="footer">
+  <div class="row">
+    <div class="small-12 columns">
+      <p class="slogan">Finger-lickin' good</p>
+      <p class="links">
+        <a href="#/home">Home</a>
+        <a href="#/contact">Contact</a>
+      </p>
+      <p class="copywrite">Copyleft © 2015</p>
+    </div>
+  </div>
+  </footer>
 
 <script type="text/javascript"> 
     $(document).foundation();

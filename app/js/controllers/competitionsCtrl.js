@@ -62,7 +62,7 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
                 console.log("Returned Competitions: ", result);
                 $scope.competitions = result;
                 data = $scope.competitions;
-                $scope.compTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                $scope.compTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         }) 
     }
