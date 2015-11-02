@@ -175,7 +175,7 @@
 
          
 
-            <td title="'Delete'">
+            <td title="'Delete'" ng-if='!isQualAdmin()'>
                 <button class="tiny round button alert" ng-click='deleteMember(member)' confirmation-needed>Delete</button>
             </td>
         </tr>

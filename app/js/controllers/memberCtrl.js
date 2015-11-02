@@ -157,6 +157,7 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
                     console.log("Returned Data from edit Member: ", result);
                     console.log("Editing Member: ", $scope.addMember);
                     $scope.saved();
+                    $route.reload();
 
                 }else{
                     console.log("Error: ", result);
@@ -253,6 +254,7 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 
             } 
 
+            $route.reload();
 
         }) 
 

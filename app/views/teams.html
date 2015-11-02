@@ -1,6 +1,6 @@
 <div class='row' ng-controller='qualifiers_controller'>
             <div class="small-4 column">
-              <button class="tiny round button alert" ng-click='openTeams()' ng-if="isAdmin()">New Team</button></td>
+              <button class="tiny round button alert" ng-click='openTeams()' ng-if="isAdmin() || isCoach()">New Team</button></td>
             </div>
 
           <div class="small-4 column" ng-if='isQualAdmin()'>
@@ -40,7 +40,7 @@
 
             <td title="'Qualifiers'" ng-if='isAdmin() || isCoach()'>
                 <button class="tiny round button" ng-click='updateTeamQual(team)'>Edit</button></td>
-            <td title="'Coaches'"  ng-if='isAdmin()'>
+            <td title="'Coaches'"  ng-if='isAdmin() || isCoach()'>
                 <button class="tiny round button" ng-click='updateTeamCoach(team)'>Edit</button></td>
 
             <td title="'Edit'">
@@ -123,7 +123,7 @@
                                                                       <b>Qual ID:</b> {{$select.selected.qual_id}}</ui-select-match>
                 <ui-select-choices repeat="qualifier in openQualifiers | propsFilter: {season_year: $select.search}">
                   <div ng-bind-html="qualifier.season_year | highlight: $select.search"></div>
-                    <b>Year:</b> {{qualifier.season_year}} <b>Competition ID:</b> {{qualifier.competition_id}} <b>Qual ID:</b> {{qualifier.qual_id}}<hr>
+                    <b>Year:</b> {{qualifier.season_year}} <b>Competition ID:</b> {{qualifier.competition_id}} <b>Name:</b> {{qualifier.name}}<hr>
                 </ui-select-choices>
               </ui-select>
         </div>
@@ -219,6 +219,9 @@
             </td>
             <td title="'Last Name'">
                 <input type="text" ng-model='coach.last_name' ></input>    
+            </td>
+            <td title="'Position'">
+                <input type="text" ng-model='coach.position' ></input>    
             </td>
 
             <td title="'Delete'">

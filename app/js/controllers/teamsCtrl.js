@@ -105,6 +105,10 @@ console.log("is admin: ", $scope.isAdmin());
                 $scope.saved();
                 $scope.getTeams();
                 $scope.modalInstance.dismiss('cancel');
+        
+                if ($scope.isCoach()){
+                    $scope.addTeamCoach(team, $scope.getCookieData());
+                }
 
 
             }else{
@@ -118,6 +122,8 @@ console.log("is admin: ", $scope.isAdmin());
                 
             } 
         }) 
+
+
 
     }
 

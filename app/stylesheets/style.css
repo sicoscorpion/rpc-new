@@ -9,6 +9,11 @@
 
 }
 
+.html {
+    position: relative;
+    min-height: 100%;
+}
+
 .menu {
   background-color: black;
   padding: 1.5rem 3rem;
@@ -223,7 +228,7 @@ margin-bottom: 0px;
   z-index: 0;
   font-size: 1.2rem;
   padding: 1rem; 
-  position: absolute;
+  position: relative;
   left: 0;
   height: 150px;
 }

@@ -63,6 +63,11 @@ app.config(['$routeProvider',
       templateUrl: 'app/views/members.html',
       controller: 'members_controller'
     })
+    .when('/contact', {
+      title: 'Contact',
+      templateUrl: 'app/views/contact.html',
+      // controller: 'contact_controller'
+    })
 
 
     .otherwise({redirectTo:'/home'});

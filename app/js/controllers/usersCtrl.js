@@ -31,12 +31,6 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
     }
 
 
-    $scope.shirts = [
-        {type: 'small'},
-        {type: 'medium'},
-        {type: 'large'}
-    ];
-
     $scope.positions = [
           {type: "Main Coach"},
           {type: "Assistant Coach"},
@@ -352,15 +346,13 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                             Data.post(path, $scope.tmp).then(function (result) {
                                     if(result.status != 'error'){
                                         console.log("Returned Data from registered User: ", result);
+                                        $scope.saved();
+
+                                        $route.reload(); 
 
                                     }else{
                                         console.log("Error: ", result);
-
-                                        $scope.register_status.message = 'Registration Failed';
-                                        $scope.register_status.disabled = false;
-                                        $scope.register_status.alert_type = 'alert round';
-                                        $scope.register_status.show_alert = true;
-                                        $scope.saved();
+                                        $scope.failed();
 
                                     } 
                             }) 
@@ -376,6 +368,9 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                                             $scope.fail();
                                         } 
                                 }) 
+
+                            $scope.modalInstance.dismiss('cancel');
+
                         // }
 
 
