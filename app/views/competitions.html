@@ -7,7 +7,7 @@
   <div class='large-12 columns'>
     <table ng-table="compTableParams" class="table" show-filter="true">
       <tr ng-repeat="comp in $data">
-        <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
+        <td title="'Year'" filter="{ year: 'text'}" sortable="'year'" style="min-width: 150px;">
             <input type="text" ng-model='comp.season_year' name='year' readonly></input></small>
         </td>
         <td title="'Status'" filter="{ status: 'text'}" sortable="'status'">
@@ -20,13 +20,13 @@
             </ui-select></input>
         </td>
           <td title="'Capacity'" filter="{ capacity: 'number'}" sortable="'capacity'">
-            <input type="number" ng-model='comp.capacity' ></input>
+            <input type="number" ng-model='comp.capacity' readonly></input>
         </td>  
 
         </td>
-          <td title="'Date'" filter="{ time: 'text'}" sortable="'time'">
+          <td title="'Date'" filter="{ time: 'text'}" sortable="'time'" style="min-width: 200px;">
             <datepicker date-format="longDate">
-               <input name="compTime" ng-model="comp.time" type="text" required/>
+               <input name="compTime" ng-model="comp.time" type="text" required readonly/>
             </datepicker></input>
         </td>         
 
@@ -49,7 +49,7 @@
             </div>
           <div class="small-3 column">
             <label>Civic Address: <small ng-messages="editComp.compCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="number" name="compCivic" ng-model="compEdit.civic_number" required />
+            <input type="text" name="compCivic" ng-model="compEdit.civic_number" required />
           </div>
 
           <div class="small-3 column">
@@ -71,13 +71,31 @@
 
           <div class="small-4 column">
             <label>Province: <small ng-messages="editComp.compProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="compProvince" ng-model="compEdit.province" required/>
+            <ui-select ng-model="compEdit.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="compProvince" required>
+                  <ui-select-match placeholder="Select a province...">{{$select.selected.type || compEdit.province}}</ui-select-match>
+                  <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{province.type}}
+                  </ui-select-choices>
+                </ui-select>
+            <div class="small-4 column">
+
+              <label>Status: <small ng-messages="editComp.status.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="compEdit.status" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="status" required>
+                  <ui-select-match placeholder="Status">{{$select.selected.type || compEdit.status}}</ui-select-match>
+                  <ui-select-choices repeat="option in options | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{option.type}}
+                  </ui-select-choices>
+                </ui-select>
+            </div>
+
           </div>
 
           <div class="small-4 column">
             <label>Postal Code: <small ng-messages="editComp.compPostalCode.$error"><b ng-message="required" class="error">Required</b>
-                                                                                   </small></label>
-            <input type="text" name="compPostalCode" ng-model="compEdit.postal_code"/ required>
+                                                                                  <b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
+            <input type="text" name="compPostalCode" ng-model="compEdit.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
 
@@ -85,8 +103,9 @@
 
 
           <div class="small-6 column">
-            <label>Phone: <small ng-messages="editComp.compPhone.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="number" name="compPhone" ng-model="compEdit.phone" required/>
+            <label>Phone: <small ng-messages="editComp.compPhone.$error"><b ng-message="required" class="error">Required</b>
+                                                                        <b ng-message="pattern" class="error">Please only enter a valid phone number</b><//small></label>
+            <input type="text" name="compPhone" ng-model="compEdit.phone" required/ ng-pattern='phoneNumberPattern'>
           </div>
 
           <div class="small-6 column">
@@ -155,7 +174,7 @@
         <div class="row">
           <div class="small-4 column">
             <label>Civic Address: <small ng-messages="newComp.compCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="number" name="compCivic" ng-model="comp.civic_number" required />
+            <input type="text" name="compCivic" ng-model="comp.civic_number" required />
           </div>
 
           <div class="small-4 column">
@@ -177,13 +196,21 @@
 
           <div class="small-4 column">
             <label>Province: <small ng-messages="newComp.compProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="compProvince" ng-model="comp.province" required/>
+                <ui-select ng-model="newComp.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="compProvince" required>
+                  <ui-select-match placeholder="Select a province...">{{$select.selected.type || userEdit.province}}</ui-select-match>
+                  <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{province.type}}
+                  </ui-select-choices>
+                </ui-select>
+
+
           </div>
 
           <div class="small-4 column">
             <label>Postal Code: <small ng-messages="newComp.compPostalCode.$error"><b ng-message="required" class="error">Required</b>
-                                                                                   </small></label>
-            <input type="text" name="compPostalCode" ng-model="comp.postal_code"/ required>
+                                                                                  <b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
+            <input type="text" name="compPostalCode" ng-model="comp.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
 
@@ -196,8 +223,9 @@
           </div>
 
           <div class="small-4 column">
-            <label>Phone: <small ng-messages="newComp.compPhone.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="number" name="compPhone" ng-model="comp.phone" required/>
+            <label>Phone: <small ng-messages="newComp.compPhone.$error"><b ng-message="required" class="error">Required</b>
+                                                                      <b ng-message="pattern" class="error">Please only enter a valid phone number</b><//small></label>
+            <input type="text" name="compPhone" ng-model="comp.phone" required/ ng-pattern='phoneNumberPattern'>
           </div>
 
           <div class="small-4 column">

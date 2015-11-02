@@ -64,6 +64,15 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
 
 
     $scope.updateQual = function(qual) {
+
+        if (typeof qual.province.type != "undefined"){
+            qual.province = qual.province.type;
+            
+        }else{
+            qual.province = qual.province;
+
+        }
+
         qual.status = qual.status.type;
         delete qual.user_id;
         console.log("Updating Qualifiers: ", qual);
@@ -123,6 +132,15 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
     };
 
     $scope.createQual = function(qual) {
+        console.log("Creating Qualifier: ", qual);
+
+        if (typeof qual.province.type != "undefined"){
+            qual.province = qual.province.type;
+            
+        }else{
+            qual.province = qual.province;
+
+        }
 
         qual.status = qual.status.type;
         console.log("Creating Qualifier: ", qual);

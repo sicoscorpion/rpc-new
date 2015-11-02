@@ -1,5 +1,4 @@
 <h1>Profile</h1>
-{{getCookieData()}}
 <hr>
 <div class='row'>
 
@@ -27,7 +26,7 @@
                   <fieldset>
                   <legend>Edit Profile for {{ userEdit.first_name }}</legend>
  
-<form name="editUser"> 
+<form name="newUser"> 
         <div class="row">
 
           <div class="small-3 column">
@@ -58,7 +57,7 @@
         <div class="row">
           <div class="small-4 column">
             <label>Civic Address: <small ng-messages="newUser.userCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="number" name="userCivic" ng-model="userEdit.civic_number" required />
+            <input type="text" name="userCivic" ng-model="userEdit.civic_number" required />
           </div>
 
           <div class="small-4 column">
@@ -90,8 +89,10 @@
           </div>
 
           <div class="small-4 column">
-            <label>Postal Code: <small ng-messages="newUser.userPostalCode.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="userPostalCode" ng-model="userEdit.postal_code"/ required>
+            <label>Postal Code: <small ng-messages="newUser.userPostalCode.$error"><b ng-message="required" class="error">Required</b>
+                                                                          <b ng-message="pattern" class="error">Please enter a valid postal code </b></small></label>
+
+            <input type="text" name="userPostalCode" ng-model="userEdit.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
 
@@ -99,10 +100,10 @@
 
           <div class="small-4 column">
             <label>Phone: <small ng-messages="newUser.userPhone.$error"><b ng-message="required" class="error">Please only enter 10 digits</b>
-                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b><//small></label>
-            <input type="text" name="userPhone" ng-model="userEdit.phone" required ng-pattern="/^\d{10}$/"/>
+                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b></small></label>
+            <input type="text" name="userPhone" ng-model="userEdit.phone" required ng-pattern="phoneNumberPattern"/>
           </div>
-
+<!-- 
           <div class="small-4 column">
             <label>Position:
               <input type="text" ng-model="userEdit.role" disabled value="Role" placeholder="Position" ng-if='userEdit.position == ""'>
@@ -124,7 +125,7 @@
                   </ui-select-choices>
                 </ui-select>
             
-          </div>         
+          </div> -->         
 
         </div>
 
@@ -153,7 +154,7 @@
 <hr>
         <div class="row">
           <div class="small-8 column">
-            <button class="button postfix" ng-click="updateUserProfile(userEdit)" ng-disabled="userEdit.$invalid">Save</button>
+            <button class="button postfix" ng-click="updateUserProfile(userEdit)" ng-disabled="newUser.$invalid">Save</button>
           </div>
 
         </div>

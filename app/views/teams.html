@@ -65,7 +65,7 @@
 
           <div class="medium-6 column">
              <label>Team ID: <small ng-messages="newTeam.team_id.$error"><b ng-message="required" class="error">Required</b></small></label>
-              <input type="text" ng-model='team.team_id' required></input>
+              <input type="text" ng-model='team.team_id' name='team_id' required></input>
 
           </div>
 
@@ -75,20 +75,20 @@
 
           <div class="medium-4 column">
              <label>Name: <small ng-messages="newTeam.name.$error"><b ng-message="required" class="error">Required</b></small></label>
-              <input type="text" ng-model='team.name' required></input>
+              <input type="text" ng-model='team.name' name='name' required></input>
 
           </div>
 
             <div class="medium-4 column">
              <label>Organization: <small ng-messages="newTeam.organization.$error"><b ng-message="required" class="error">Required</b></small></label>
-              <input type="text" ng-model='team.organization' required></input>
+              <input type="text" ng-model='team.organization' name='organization' required></input>
             </div>
             
             <div class="small-12 column">
 
-              <label>Approved: </lable>
-               <input type="radio" name="approved" ng-model='team.approved' value='1'>Yes 
-                <input type="radio" name="approved" ng-model='team.approved' value='0'>No 
+              <label>Approved: <small ng-messages="newTeam.approved.$error"><b ng-message="required" class="error">Required</b></small></label>
+               <input type="radio" name="approved" ng-model='team.approved' value='1' required>Yes 
+                <input type="radio" name="approved" ng-model='team.approved' value='0' required>No 
             </div>
 
         </div>
@@ -118,7 +118,7 @@
 
         <div class="small-8 column">
            <label>Event: <small ng-messages="editTeamQual.qual.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <ui-select ng-change='setQual($select.selected)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 500px;" name="year" ng-required>
+            <ui-select ng-change='setQual($select.selected)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 500px;" name="qual" required>
                 <ui-select-match placeholder="Select a qualifier"><b>Year:</b> {{$select.selected.season_year}} <b>Competition ID:</b> {{$select.selected.competition_id}} 
                                                                       <b>Qual ID:</b> {{$select.selected.qual_id}}</ui-select-match>
                 <ui-select-choices repeat="qualifier in openQualifiers | propsFilter: {season_year: $select.search}">
@@ -130,7 +130,7 @@
 
 
         <div class="small-4 column">
-          <button class="button postfix" ng-click="addTeamQual(t, qualForTeam)" ng-disabled='newTeam.$invalid'>Add</button>
+          <button class="button postfix" ng-click="addTeamQual(t, qualForTeam)" ng-disabled='editTeamQual.$invalid'>Add</button>
         </div>
       </div>
     </fieldset>
@@ -183,7 +183,7 @@
 
           <div class="small-8 column">
              <label>Users: <small ng-messages="editTeamCoach.user.$error"><b ng-message="required" class="error">Required</b></small></label>
-              <ui-select ng-change='setCoach($select.selected)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 500px;" name="year" ng-required>
+              <ui-select ng-change='setCoach($select.selected)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 500px;" name="user" required>
                   <ui-select-match placeholder="Select a user"><b>Email:</b> {{$select.selected.email}} <b>First Name:</b> {{$select.selected.first_name}} 
                                                                         <b>Last Name:</b> {{$select.selected.last_name}}</ui-select-match>
                   <ui-select-choices repeat="user in users | qualFilter">
@@ -195,7 +195,7 @@
 
 
           <div class="small-4 column">
-            <button class="button postfix" ng-click="addTeamCoach(t, coachForTeam)" ng-disabled='newTeam.$invalid'>Add</button>
+            <button class="button postfix" ng-click="addTeamCoach(t, coachForTeam)" ng-disabled='editTeamCoach.$invalid'>Add</button>
           </div>
         </div>
       </fieldset>

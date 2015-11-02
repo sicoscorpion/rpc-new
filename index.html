@@ -29,7 +29,16 @@
   <script src="bower_components/foundation/js/vendor/jquery.js"></script>
   <script src="bower_components/foundation/js/foundation.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+  <script src="bower_components/jquery.maskedinput.js"></script>
 
+  <script type="text/javascript">
+$(document).ready(function(){
+   $("#phone").mask("(999) 999-9999? x99999");
+
+
+);
+
+  </script>
 
 </head>
 <body ng-app="myApp" ng-controller="login_controller">
@@ -129,6 +138,8 @@
 <script type="text/javascript"> 
     $(document).foundation();
 </script>
+
+
 
 </body>
 </html>

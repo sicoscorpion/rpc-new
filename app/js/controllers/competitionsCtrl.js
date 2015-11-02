@@ -111,6 +111,14 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
 
     $scope.updateComp = function(comp) {
         comp.status = comp.status.type;
+
+        if (typeof comp.province.type != "undefined"){
+            comp.province = comp.province.type;
+            
+        }else{
+            comp.province = comp.province;
+
+        }
         
         console.log("Updating Competition: ", comp);
         console.log("Updating Competition for user: ", $scope.getCookieData());
@@ -135,6 +143,14 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
     }
 
     $scope.createComp = function(competition) {
+
+        if (typeof competition.province.type != "undefined"){
+            competition.province = competition.province.type;
+            
+        }else{
+            competition.province = competition.province;
+
+        }
 
         competition.season_year = competition.season_year.year;
         competition.status = competition.status.type;

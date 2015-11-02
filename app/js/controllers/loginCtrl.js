@@ -31,10 +31,19 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
     $scope.provinces = [{type: 'AB'}, {type: 'BC'}, {type: 'MB'}, {type: 'NB'}, {type: 'NL'}, {type: 'NT'}, {type: 'NS'}, {type: 'NU'}, {type: 'ON'}, {type: 'PE'}, {type: 'QC'}, {type: 'SK'}, {type: 'YT'}];
 
     $scope.shirts = [
-        {type: 'small'},
-        {type: 'medium'},
-        {type: 'large'}
+        {type: 'Adult XS'},
+        {type: 'Adult S'},
+        {type: 'Adult M'},
+        {type: 'Adult L'},
+        {type: 'Adult XL'},
+        {type: 'Adult XXL'},
+        {type: 'Adult XXXL'},
+        {type: 'Youth S'},
+        {type: 'Youth M'},
+        {type: 'Youth L'},
+        {type: 'Youth XL'}
     ];
+
 
     $scope.genders = [
         {type: 'Male'},
@@ -64,6 +73,19 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
 
     $scope.succeeded = false;
     $scope.failed = false;
+
+    $scope.phoneNumberPattern = (function() {
+        var regexp = /^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/;
+        return {
+            test: function(value) {
+                if( $scope.requireTel === false ) {
+                    return true;
+                }
+                return regexp.test(value);
+            }
+        };
+    })();
+
 
     $scope.saved = function() {
         $scope.succeeded = true;
@@ -354,3 +376,5 @@ app.filter('filterQualAdmin', function() {
     }
 
 });
+
+

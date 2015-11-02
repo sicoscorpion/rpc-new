@@ -409,7 +409,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
     }else{
         $scope.users = [];
         $scope.users[0] = $scope.getCookieData();
-        console.log("Returned Users: ", users);
+        console.log("Returned Users: ", $scope.users);
         data = $scope.users;
         $scope.userTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
     }

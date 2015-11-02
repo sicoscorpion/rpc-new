@@ -87,7 +87,7 @@
         <div class="row">
           <div class="small-4 column">
             <label>Civic Address: <small ng-messages="editMember.memberCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="number" name="memberCivic" ng-model="memberEdit.civic_number" required />
+            <input type="text" name="memberCivic" ng-model="memberEdit.civic_number" required />
           </div>
 
           <div class="small-4 column">
@@ -119,17 +119,18 @@
           </div>
 
           <div class="small-4 column">
-            <label>Postal Code: <small ng-messages="editMember.memberPostalCode.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="memberPostalCode" ng-model="memberEdit.postal_code"/ required>
+            <label>Postal Code: <small ng-messages="editMember.memberPostalCode.$error"><b ng-message="required" class="error">Required</b>
+                                                        <b ng-message="pattern" class="error">Please enter a valid postal code </b></small></label>
+            <input type="text" name="memberPostalCode" ng-model="memberEdit.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
 
         <div class="row">
 
           <div class="small-4 column">
-            <label>Phone: <small ng-messages="editMember.memberPhone.$error"><b ng-message="required" class="error">Please only enter 10 digits</b>
-                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b><//small></label>
-            <input type="text" name="memberPhone" ng-model="memberEdit.guardian_phone" required ng-pattern="/^\d{10}$/"/>
+            <label>Phone: <small ng-messages="editMember.memberPhone.$error"><b ng-message="required" class="error">Required</b>
+                                                                        <b ng-message="pattern" class="error">Please only enter a valid phone number</b><//small></label>
+            <input type="text" name="memberPhone" ng-model="memberEdit.guardian_phone" required ng-pattern="phoneNumberPattern"/>
           </div>
          
 
@@ -234,7 +235,7 @@
         <div class="row">
           <div class="small-4 column">
             <label>Civic Address: <small ng-messages="newMember.memberCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="number" name="memberCivic" ng-model="member.civic_number" required />
+            <input type="text" name="memberCivic" ng-model="member.civic_number" required />
           </div>
 
           <div class="small-4 column">
@@ -266,17 +267,19 @@
           </div>
 
           <div class="small-4 column">
-            <label>Postal Code: <small ng-messages="newMember.memberPostalCode.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="memberPostalCode" ng-model="member.postal_code"/ required>
+            <label>Postal Code: <small ng-messages="newMember.memberPostalCode.$error"><b ng-message="required" class="error">Required</b>
+                                                            <b ng-message="pattern" class="error">Please enter a valid postal code </b></small></label>
+
+            <input type="text" name="memberPostalCode" ng-model="member.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
 
         <div class="row">
 
           <div class="small-4 column">
-            <label>Phone: <small ng-messages="newMember.memberPhone.$error"><b ng-message="required" class="error">Please only enter 10 digits</b>
-                                                                        <b ng-message="pattern" class="error">Please only enter 10 digits</b><//small></label>
-            <input type="text" name="memberPhone" ng-model="member.guardian_phone" required ng-pattern="/^\d{10}$/"/>
+            <label>Phone: <small ng-messages="newMember.memberPhone.$error"><b ng-message="required" class="error">Required</b>
+                                                                        <b ng-message="pattern" class="error">Please only a valid phone number</b><//small></label>
+            <input type="text" name="memberPhone" ng-model="member.guardian_phone" required ng-pattern="phoneNumberPattern"/>
           </div>
 
         
