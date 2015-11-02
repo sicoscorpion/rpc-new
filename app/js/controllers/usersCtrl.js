@@ -337,6 +337,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
             else{
                 var path = "users/" + "coach";
                 $scope.tmp =  $scope.addUserHasRole;
+                $scope.tmp.coach = 1;
                 
             }
 

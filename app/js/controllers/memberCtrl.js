@@ -99,6 +99,30 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
         })
     }
 
+    $scope.getMembersForTeam = function(team_id){
+                console.log("selected team: ", $scope.team.team_id.team_id);
+
+        Data.get("members/" + team_id).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned members: ", result);
+                $scope.members = result;
+                data = $scope.members;
+                $scope.teamMemberTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+            }
+        })
+    }
+
+    $scope.getTeamsForQualAdmin = function(qual_id){
+        Data.get("teams/" + qual_id).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Teams for qual admin: ", result);
+                $scope.teams = result;
+                data = $scope.teams;
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        })
+    }
+
     $scope.updateMember = function(member) {
 
         $scope.member_status.message = 'Logging in';

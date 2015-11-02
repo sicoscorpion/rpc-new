@@ -1,5 +1,5 @@
 <div class='row'>
-            <button class="tiny round button alert" ng-click='openQual()' >New Qualifier</button></td>
+            <button class="tiny round button alert" ng-click='openQual()' ng-if="isAdmin()">New Qualifier</button></td>
 
 <div class='large-12 large-centered columns'>
 <i class="success" ng-show="succeeded">Saved!</i>
@@ -29,7 +29,7 @@
                 </datepicker>
                 </input>
             </td>         
-              <td title="'Admins'">
+              <td title="'Admins'" ng-if="isAdmin()">
                 <button class="tiny round button" ng-click="openAdmins(qual)"/>Edit</button>
 
 
@@ -114,7 +114,7 @@
 
             <td title="'Edit'">
                 <button class="tiny round button success" ng-click='updateQual(qual)'>Save</button></td>
-            <td title="'Delete'">
+            <td title="'Delete'" ng-if="isAdmin()">
                 <button class="tiny round button alert" ng-click='deleteQual(qual)' confirmation-needed>Delete</button></td>
         </tr>
     </table>
@@ -261,29 +261,24 @@
 <form name="deleteQuals"> 
 
 <fieldset>
-<legend>Participating In:</legend>
+<legend>Qualifier Admins:</legend>
 
-  <table ng-table="teamPartTableParams" class="table" show-filter="true">
-      <tr ng-repeat="team in $data">
-          <td title="'Season'">
-              <input type="text" ng-model='team.season_year' ></input>    
+  <table ng-table="qualPartTableParams" class="table" show-filter="true">
+      <tr ng-repeat="admin in $data">
+          <td title="'First Name'">
+              <input type="text" ng-model='admin.first_name' readonly></input>    
           </td>
 
-          <td title="'Competition ID'">
-              <input type="text" ng-model='team.competition_id' readonly></input>
+          <td title="'Last Name'">
+              <input type="text" ng-model='admin.last_name' readonly></input>    
           </td>
           
-          <td title="'Qual ID'">
-              <input type="text" ng-model='team.qual_id' readonly></input>    
+          <td title="'Email'">
+              <input type="text" ng-model='admin.email' readonly></input>    
           </td>
-          <td title="'Team ID'">
-              <input type="text" ng-model='team.team_id' readonly></input>
-          </td>
-          <td title="'Local ID'">
-              <input type="text" ng-model='team.local_id' readonly></input>
-          </td>
+         
           <td title="'Delete'">
-              <button class="tiny round button alert" ng-click='deleteTeamPart(team)' confirmation-needed>Delete</button></td>
+              <button class="tiny round button alert" ng-click='deleteAdminPart(q, admin)' confirmation-needed>Delete</button></td>
       </tr>
   </table>
 

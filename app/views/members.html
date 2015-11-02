@@ -1,14 +1,25 @@
-<div class='row'>
-        <div class="row">
+<div class='row' ng-cpontroller="teams_controller">
+        <div class="row" ng-controller="qualifiers_controller">
 
-          <div class="small-4 column">
+          <div class="small-2 column">
             <button class="tiny round button alert" ng-click='openMembers()' >New Member</button>
 
           </div>
 
-          <div class="small-4 column">
-            <label>Team: <small ng-messages="newMember.memberTeam.$error"><b ng-message="required" class="error">Required</b></small></label>
-                <ui-select ng-change='getMembers()' ng-model="team.team_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
+          <div class="small-5 column" ng-if='isQualAdmin()'>
+            <label>Qualifier:</label>
+                <ui-select ng-change='getTeamsForQualAdmin($select.selected.qual_id)' ng-model="qual.qual_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
+                  <ui-select-match placeholder="Select a qualifier..."><b>Qual ID: </b>{{$select.selected.qual_id}} <b>Qual Name: </b>{{$select.selected.name}} </ui-select-match>
+                  <ui-select-choices repeat="qualifier in qualifiers">
+                    <div ng-bind-html="qual_id | highlight: $select.search"></div>
+                      <b>Qual ID: </b>{{qualifier.qual_id}} <b>Qual Name: </b>{{qualifier.name}}
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+
+          <div class="small-5 column">
+            <label>Team: </label>
+                <ui-select ng-change='getMembers($select.selected.team_id)' ng-model="team.team_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
                   <ui-select-match placeholder="Select a team..."><b>Team ID: </b>{{$select.selected.team_id}} <b>Team Name: </b>{{$select.selected.name}} </ui-select-match>
                   <ui-select-choices repeat="team in teams | propsFilter: {team_id: $select.search}">
                     <div ng-bind-html="team_id | highlight: $select.search"></div>

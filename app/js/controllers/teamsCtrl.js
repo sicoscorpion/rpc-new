@@ -55,6 +55,17 @@ console.log("is admin: ", $scope.isAdmin());
         })
     }
 
+    $scope.getTeamsForQual = function(qual_id){
+        Data.get("teams/" + qual_id).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Teams for qual admin: ", result);
+                $scope.teams = result;
+                data = $scope.teams;
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        })
+    }
+
     $scope.getTeamsParticipate = function(team){
         Data.get("teams/participate/" + team.team_id).then(function (result) {
             if(result.status != 'error'){
@@ -258,6 +269,10 @@ console.log("is admin: ", $scope.isAdmin());
         var path = "teams/" + team.team_id;
 
         delete team.user_id;
+        delete team.qual_id;
+        delete team.competition_id;
+        delete team.season_year;
+        delete team.local_id;
 
         Data.put(path, team).then(function (result) {
             if(result.status != 'error'){

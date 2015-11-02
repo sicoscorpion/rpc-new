@@ -30,7 +30,7 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
     // get qualifiers
 
 
-    // if ($scope.isAdmin()){
+    if ($scope.isAdmin()){
         Data.get("qualifiers").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Qualifiers: ", result);
@@ -39,7 +39,17 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
                 $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
             }
         }) 
-    // }
+    }else if ($scope.isQualAdmin()){
+        Data.get("host/qualifiers/" + $cookies.getObject("login").user_id).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Qualifiers for qual admin: ", result);
+                $scope.qualifiers = result;
+                data = $scope.qualifiers;
+                $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        }) 
+
+    }
     // else if ($scope.isCoach()){
         Data.get("qualifiers/open").then(function (result) {
             if(result.status != 'error'){
@@ -55,9 +65,10 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
 
     $scope.updateQual = function(qual) {
         qual.status = qual.status.type;
+        delete qual.user_id;
         console.log("Updating Qualifiers: ", qual);
         console.log("Updating Qualifiers for user: ", $scope.getCookieData());
-        var path = "qualifiers/" + qual.qualifier_id;
+        var path = "qualifiers/" + qual.qual_id;
         Data.put(path, qual).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit qual: ", result);
@@ -96,6 +107,8 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
 
         console.log("Qualifier Profile: ", qual);
         $scope.q = qual;
+        $scope.getQualAdmins(qual);
+
         $scope.modalInstance = $modal.open({
           controller: "qualifiers_controller",
           templateUrl: 'admin.html',
@@ -137,6 +150,19 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
   }
 
 
+
+    $scope.getQualAdmins = function(qual){
+        Data.get("host/admins/" + $scope.q.qual_id).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Admins for qualifier: ", result);
+                $scope.participates = result;
+                data = $scope.participates;
+                $scope.qualPartTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+            }
+        })
+    }
+
+
     $scope.setYearNComp = function (year, id){
 
         $scope.qual.season_year = year;
@@ -174,14 +200,14 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
         console.log("admin: ", admin);
 
         $scope.part = {
-            user_id: admin.admin_id,
+            user_id: admin.user_id,
             qual_id: qual.qual_id,
             competition_id: qual.competition_id,
             season_year: qual.season_year
         }
 
         
-        console.log("Adding admin qual: ", admin);
+        console.log("Adding part: ", $scope.part);
         console.log("Adding admin for user: ", $scope.getCookieData());
 
         Data.post("host", $scope.part).then(function (result) {
@@ -200,6 +226,30 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
         }) 
 
     }
+
+
+    $scope.deleteAdminPart = function(qual, admin) {
+        
+        console.log("deleting admin part : ", admin);
+        var path = "host/" + qual.qual_id + "/" + admin.user_id;
+        Data.delete(path).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Data from delete admin part: ", result);
+                $scope.saved();
+                $route.reload();
+                $scope.modalInstance.dismiss('cancel');
+
+
+            }else{
+                console.log("Error deleting admin part: ", result);
+                $scope.fail();
+
+            } 
+        }) 
+        // $route.reload();  
+
+    }
+
 
 
 }]);

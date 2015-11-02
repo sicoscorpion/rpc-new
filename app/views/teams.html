@@ -1,5 +1,21 @@
+<div class='row' ng-controller='qualifiers_controller'>
+            <div class="small-4 column">
+              <button class="tiny round button alert" ng-click='openTeams()' ng-if="isAdmin()">New Team</button></td>
+            </div>
+
+          <div class="small-4 column" ng-if='isQualAdmin()'>
+            <label>Qualifier: <small ng-messages="newMember.memberTeam.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-change='getTeamsForQual($select.selected.qual_id)' ng-model="qual.qual_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
+                  <ui-select-match placeholder="Select a qualifier..."><b>Qual ID: </b>{{$select.selected.qual_id}} <b>Qual Name: </b>{{$select.selected.name}} </ui-select-match>
+                  <ui-select-choices repeat="qualifier in qualifiers">
+                    <div ng-bind-html="qual_id | highlight: $select.search"></div>
+                      <b>Qual ID: </b>{{qualifier.qual_id}} <b>Qual Name: </b>{{qualifier.name}}
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+</div>
 <div class='row'>
-            <button class="tiny round button alert" ng-click='openTeams()' >New Team</button></td>
+
 
 <div class='large-12 large-centered columns'>
 <i class="success" ng-show="succeeded">Saved!</i>
@@ -22,7 +38,7 @@
                 <input type="radio" name="{{team.team_id}}" ng-model='team.approved' value='0'>No</input>
             </td> -->
 
-            <td title="'Qualifiers'">
+            <td title="'Qualifiers'" ng-if='isAdmin() || isCoach()'>
                 <button class="tiny round button" ng-click='updateTeamQual(team)'>Edit</button></td>
             <td title="'Coaches'"  ng-if='isAdmin()'>
                 <button class="tiny round button" ng-click='updateTeamCoach(team)'>Edit</button></td>
