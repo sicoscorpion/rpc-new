@@ -225,7 +225,7 @@ CREATE TABLE Members (
 
 CREATE TABLE HostQualifiers (
   user_id int(10) not NULL,
-  qual_id int(10) not NULL auto_increment,
+  qual_id int(10) not NULL,
   competition_id int(10) not NULL,
   season_year varchar(128) not NULL,
     

@@ -79,8 +79,6 @@
         'user_id' => $data->user_id,
         'shirt_size' => $data->shirt_size), array());
     } elseif ($role == 'qualifier_admin') {
-      var_dump("asdasdasdasdasd");
-      echo $data;
       $data->qualifier_admin = true;
       $db->insert("QualifierAdmins", array(
         'user_id' => $data->user_id,
@@ -122,6 +120,11 @@
 
   public function get_hostedQualifiers($db, $user_id) {
     $data = $db->query("SELECT * FROM HostQualifiers, Qualifiers Where HostQualifiers.qual_id = Qualifiers.qual_id AND user_id = :user_id", array(':user_id' => $user_id));
+    return $data;
+  }
+
+  public function get_hostsForQualifier($db, $qual_id) {
+    $data = $db->query("SELECT * FROM HasRole, HostQualifiers Where HostQualifiers.qual_id = :qual_id AND HasRole.user_id = HostQualifiers.user_id", array(':qual_id' => $qual_id));
     return $data;
   }
 
