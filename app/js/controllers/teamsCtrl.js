@@ -29,7 +29,7 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Returned Teams for Admin: ", result);
                 $scope.teams = result;
                 data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         })
     }
@@ -50,20 +50,49 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Returned Teams for Admin: ", result);
                 $scope.teams = result;
                 data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         })
     }
 
-    $scope.getTeamsForQual = function(qual_id){
+    $scope.getTeamsForQual = function(qual_id, qual){
         Data.get("teams/" + qual_id).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Teams for qual admin: ", result);
                 $scope.teams = result;
                 data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+            
+                if (typeof qual != 'undefined'){
+                    console.log("Qualifier shit: ", $scope.teams.length, qual.capacity);
+                   if ($scope.teams.length === qual.capacity){
+                        console.log("Qualifier full, closing qualifier", qual);
+                        qual.status = "closed";
+                        console.log("Qualifier full, closing qualifier", qual);
+                        $scope.updateQual(qual);
+                   } 
+                }
             }
         })
+    }
+
+    $scope.updateQual = function(qual) {
+
+        console.log("Updating Qualifiers: ", qual);
+        console.log("Updating Qualifiers for user: ", $scope.getCookieData());
+        var path = "qualifiers/" + qual.qual_id;
+        Data.put(path, qual).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Data from edit qual: ", result);
+                $scope.saved();
+
+            }else{
+                console.log("Error saving qual", result);
+                $scope.fail();
+
+            } 
+        }) 
+
     }
 
     $scope.getTeamsParticipate = function(team){
@@ -105,10 +134,10 @@ console.log("is admin: ", $scope.isAdmin());
                 $scope.saved();
                 $scope.getTeams();
                 $scope.modalInstance.dismiss('cancel');
-        
                 if ($scope.isCoach()){
                     $scope.addTeamCoach(team, $scope.getCookieData());
                 }
+                $route.reload();
 
 
             }else{
@@ -167,6 +196,9 @@ console.log("is admin: ", $scope.isAdmin());
                 $scope.saved();
                 $route.reload();
                 $scope.modalInstance.dismiss('cancel');
+
+                $scope.getTeamsForQual(qual.qual_id, qual)
+
 
             }else{
                 $scope.modalInstance.dismiss('cancel');

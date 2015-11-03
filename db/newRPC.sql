@@ -305,7 +305,7 @@ CREATE TABLE Participates (
   competition_id int(10) not NULL,
   team_id varchar(128) not NULL,
   season_year varchar(128) not NULL,
-  local_id int(10) not null unique,
+  local_id int(10) not null unique auto_increment,
 
   FOREIGN KEY (qual_id)
       REFERENCES Qualifiers(qual_id),
@@ -321,7 +321,7 @@ CREATE TABLE Participates (
 
   PRIMARY KEY (qual_id, team_id, competition_id, season_year)
 
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)ENGINE=InnoDB auto_increment=100000 DEFAULT CHARSET=utf8;
 
 CREATE TABLE HasRole (
   user_id int(10) not NULL,

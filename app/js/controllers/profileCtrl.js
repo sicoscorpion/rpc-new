@@ -55,6 +55,14 @@ app.controller('profile_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
     $scope.updateUserProfile = function(user) {
         
+            if (typeof user.gender.type != "undefined"){
+                user.gender = user.gender.type;
+                
+            }else{
+                user.gender = user.gender;
+
+            }
+
         console.log("Updating User: ", user);
         console.log("Updating User for user: ", $scope.getCookieData());
         var path = "users/";
@@ -98,6 +106,9 @@ app.controller('profile_controller', ['$scope', '$location', 'Data', 'NgTablePar
                     $scope.fail();
 
                 } 
+    
+                $scope.modalInstance.dismiss('cancel');
+
         })
     }
 

@@ -15,3 +15,18 @@ app.directive('confirmationNeeded', function () {
     }
   };
 });
+app.directive('confirmationSent', function () {
+  return {
+    priority: 1,
+    terminal: true,
+    link: function (scope, element, attr) {
+      var msg = attr.confirmationSent || "Reset Password Email Sent .. Please Check your email inbox";
+      var clickAction = attr.ngClick;
+      element.bind('click',function () {
+        if ( window.confirm(msg) ) {
+          scope.$eval(clickAction)
+        }
+      });
+    }
+  };
+});

@@ -143,6 +143,7 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
     }
 
     $scope.createComp = function(competition) {
+        console.log("Creating Competition: ", competition);
 
         if (typeof competition.province.type != "undefined"){
             competition.province = competition.province.type;

@@ -36,7 +36,7 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
                 console.log("Returned Qualifiers: ", result);
                 $scope.qualifiers = result;
                 data = $scope.qualifiers;
-                $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         }) 
     }else if ($scope.isQualAdmin()){
@@ -45,7 +45,7 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
                 console.log("Returned Qualifiers for qual admin: ", result);
                 $scope.qualifiers = result;
                 data = $scope.qualifiers;
-                $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         }) 
 
@@ -56,10 +56,33 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
                 console.log("Returned Qualifiers: ", result);
                 $scope.openQualifiers = result;
                 // data = $scope.openQual;
-                // $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                // $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         })
     // }
+
+    $scope.getQualifiers = function () {
+        if ($scope.isAdmin()){
+            Data.get("qualifiers").then(function (result) {
+                if(result.status != 'error'){
+                    console.log("Returned Qualifiers: ", result);
+                    $scope.qualifiers = result;
+                    data = $scope.qualifiers;
+                    $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                }
+            }) 
+        }else if ($scope.isQualAdmin()){
+            Data.get("host/qualifiers/" + $cookies.getObject("login").user_id).then(function (result) {
+                if(result.status != 'error'){
+                    console.log("Returned Qualifiers for qual admin: ", result);
+                    $scope.qualifiers = result;
+                    data = $scope.qualifiers;
+                    $scope.qualTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                }
+            }) 
+
+        }
+    }
 
 
 
@@ -81,6 +104,7 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
         Data.put(path, qual).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit qual: ", result);
+                $scope.getQualifiers();
                 $scope.saved();
 
             }else{
@@ -88,6 +112,8 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
                 $scope.fail();
 
             } 
+
+            $scope.modalInstance.dismiss('cancel');
             
             $route.reload();  
 

@@ -377,4 +377,18 @@ app.filter('filterQualAdmin', function() {
 
 });
 
+app.filter('open', function() {
+
+    return function(input, uppercase) {
+        var out = [];
+        for (var i = 0; i < input.length; i++) {
+            if(input[i].status == "open"){
+                out.push(input[i]);
+            }
+        }
+        return out;
+    }
+
+});
+
 

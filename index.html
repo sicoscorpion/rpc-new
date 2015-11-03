@@ -36,7 +36,7 @@ $(document).ready(function(){
    $("#phone").mask("(999) 999-9999? x99999");
 
 
-);
+});
 
   </script>
 
@@ -96,12 +96,12 @@ $(document).ready(function(){
 </nav>
 
 <div data-alert ng-show="succeeded" class="alert-box success radius">
-  This is a success alert with a radius.
+  SUCCESS !
   <a href="#" class="close">&times;</a>
 </div>
 
 <div data-alert ng-show="failed" class="alert-box alert round">
-  This is an alert - alert that is rounded.
+  FAILED
   <a href="#" class="close">&times;</a>
 </div>
 
@@ -128,15 +128,26 @@ $(document).ready(function(){
       <p class="slogan">Finger-lickin' good</p>
       <p class="links">
         <a href="#/home">Home</a>
-        <a href="#/contact">Contact</a>
+        <a target="_blank" href="http://robots.acadiau.ca/contact-us.html">Contact</a>
       </p>
-      <p class="copywrite">Copyleft © 2015</p>
     </div>
   </div>
   </footer>
 
 <script type="text/javascript"> 
     $(document).foundation();
+    $(window).bind("load", function () {
+        var footer = $(".footer");
+        var pos = footer.position();
+        var height = $(window).height();
+        height = height - pos.top;
+        height = height - footer.height();
+        if (height > 0) {
+            footer.css({
+                'margin-top': height + 'px'
+            });
+        }
+    });
 </script>
 
 

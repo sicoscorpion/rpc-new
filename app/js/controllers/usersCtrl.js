@@ -43,6 +43,22 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
 
     $scope.updateUser = function(user) {
         
+        if (typeof user.province.type != "undefined"){
+            user.province = user.province.type;
+            
+        }else{
+            user.province = user.province;
+
+        }
+
+        if (typeof user.gender.type != "undefined"){
+            user.gender = user.gender.type;
+            
+        }else{
+            user.gender = user.gender;
+
+        }
+
         console.log("Updating User: ", user);
         console.log("Updating User for user: ", $scope.getCookieData());
         var path = "users/";
@@ -80,6 +96,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                     $scope.fail();
 
                 } 
+                $scope.modalInstance.dismiss('cancel');
         })
     }
 
@@ -140,8 +157,9 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                     $scope.register_status.show_alert = true;
                     $scope.failed();
 
-                } 
-        })
+                }
+                $scope.modalInstance.dismiss('cancel');
+        });
     }
 
     $scope.deleteUser = function(user) {
@@ -398,7 +416,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                 console.log("Returned Users: ", result);
                 $scope.users = result;
                 data = $scope.users;
-                $scope.userTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+                $scope.userTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
         }) 
     }else{

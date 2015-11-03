@@ -70,6 +70,7 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         Data.put(path, season).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Data from edit season: ", result);
+                $scope.getSeasons();
                 $scope.saved();
                 
             }else{

@@ -125,10 +125,13 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
     $scope.updateMember = function(member) {
 
-        $scope.member_status.message = 'Logging in';
-        $scope.member_status.disabled = true;
-        $scope.member_status.show_alert = true;
-        $scope.member_status.alert_type = 'info round';
+        if (typeof member.gender.type != "undefined"){
+            member.gender = member.gender.type;
+            
+        }else{
+            member.gender = member.gender;
+
+        }
         
         console.log("Updating Member: ", member);
         console.log("Updating Member for member: ", $scope.getCookieData());
@@ -157,17 +160,16 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
                     console.log("Returned Data from edit Member: ", result);
                     console.log("Editing Member: ", $scope.addMember);
                     $scope.saved();
-                    $route.reload();
 
                 }else{
                     console.log("Error: ", result);
-                    $scope.member_status.message = 'Edit Failed';
-                    $scope.member_status.disabled = false;
-                    $scope.member_status.alert_type = 'alert round';
-                    $scope.member_status.show_alert = true;
+
                     $scope.fail();
 
                 } 
+                $scope.modalInstance.dismiss('cancel');
+                
+                $route.reload();
         })
     }
 

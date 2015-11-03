@@ -1,16 +1,17 @@
-<div class='row'>
-            <button class="tiny round button alert" ng-click='openQual()' ng-if="isAdmin()">New Qualifier</button></td>
+<div class='row'> <fieldset>
+  <legend> Manage Qualifiers </legend>
+  <div class='large-2 large-offset-10 columns'>
+    <button class="tiny round button alert" ng-click='openQual()' ng-if="isAdmin()">New Qualifier</button></td>
+ </div>
 
-<div class='large-12 large-centered columns'>
-<i class="success" ng-show="succeeded">Saved!</i>
-<i class="failure" ng-show="failed">Failed!</i>
+  <div class='large-12 columns'>
     <table ng-table="qualTableParams" class="table" show-filter="true">
         <tr ng-repeat="qual in $data">
             <td title="'Year'" filter="{ year: 'text'}" sortable="'year'"  style="min-width: 150px;">
                 <input type="text" ng-model='qual.season_year' readonly></input>
             </td>
             <td title="'Status'" filter="{ status: 'text'}" sortable="'status'">
-                <ui-select ng-model="qual.status" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="status" required>
+                <ui-select ng-model="qual.status" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="status" required>
                   <ui-select-match placeholder="Status ">{{$select.selected.type || qual.status}}</ui-select-match>
                   <ui-select-choices repeat="option in options | propsFilter: {type: $select.search}">
                     <div ng-bind-html="type | highlight: $select.search"></div>
@@ -30,7 +31,7 @@
                 </input>
             </td>         
               <td title="'Admins'" ng-if="isAdmin()">
-                <button class="tiny round button" ng-click="openAdmins(qual)"/>Edit</button>
+                <button class="tiny round button" ng-click="openAdmins(qual)" style="min-width: 120px;"/>Manage Qualifier Admins</button>
 
 
 
@@ -39,7 +40,7 @@
 
             </td>
               <td title="'Profile Info'">
-                <button class="tiny round button" ng-click="openProfile(qual)"/>Edit</button>
+                <button class="tiny round button" ng-click="openProfile(qual)" style="min-width: 100px;"/>Edit Qualifier </button>
                 <!--MODAL WINDOW--> 
                     <script type="text/ng-template" id="profile.html">
                         <div class="modal-body">
@@ -89,9 +90,7 @@
           </div>
 
           <div class="small-4 column">
-            <label>Postal Code: <small ng-messages="editQual.qualPostalCode.$error"><b ng-message="required" class="error">Required</b>
-                                                                                  <b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
-            <input type="text" name="qualPostalCode" ng-model="qualEdit.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
+            <label>Postal Code: <small ng-messages="editQual.qualPostalCode.$error"><b ng-message="required" class="error">Required</b><b ng-message="pattern" class="error">Please enter a valid postal code</b></small><input type="text" name="qualPostalCode" ng-model="qualEdit.postal_code"  ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/" required>
           </div>
         </div>
 
@@ -99,8 +98,7 @@
 
 
           <div class="small-6 column">
-            <label>Phone: <small ng-messages="editQual.qualPhone.$error"><b ng-message="required" class="error">Required</b>
-                                                                        <b ng-message="pattern" class="error">Please only enter a valid phone number</b></small></label>
+            <label>Phone: <small ng-messages="editQual.qualPhone.$error"><b ng-message="required" class="error">Required</b><b ng-message="pattern" class="error">Please only enter a valid phone number</b></small></label>
             <input type="number" name="qualPhone" ng-model="qualEdit.phone" required/ ng-pattern='phoneNumberPattern'>
           </div>
 
@@ -111,7 +109,7 @@
         </div>
 
         <form>                  <hr>
-                              <button class="tiny round button success" ng-click='updateQual(qualEdit)'>Save</button>
+                              <button class="button success postfix" ng-click='updateQual(qualEdit)'>Save</button>
                             </fieldset>
                       </div>
                     </script>
@@ -126,6 +124,7 @@
         </tr>
     </table>
 </div>
+</fieldset>
 </div>
 
 <!--MODAL WINDOW--> 
@@ -140,11 +139,10 @@
           <div class="small-6 column">
              <label>Year and Competition: <small ng-messages="newQual.year.$error"><b ng-message="required" class="error">Required</b></small></label>
               <ui-select ng-change='setYearNComp($select.selected.season_year, $select.selected.competition_id)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 450px;" name="year" required>
-                  <ui-select-match placeholder="Select a competition"><b>Year:</b> {{$select.selected.season_year}} <b>Competition ID:</b> {{$select.selected.competition_id}} 
-                                                                        <b>Name:</b> {{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="competition in competitions | propsFilter: {season_year: $select.search}">
+                  <ui-select-match placeholder="Select a competition"><b>Year:</b> {{$select.selected.season_year}}  <b>Name:</b> {{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="competition in competitions | open">
                     <div ng-bind-html="competiton.season_year | highlight: $select.search"></div>
-                      <b>Year:</b> {{competition.season_year}} <b>Competition ID:</b> {{competition.competition_id}} <b>Name:</b> {{competition.name}}<hr>
+                      <b>Year:</b> {{competition.season_year}} <b>Name:</b> {{competition.name}}<hr>
                   </ui-select-choices>
                 </ui-select>
           </div>
@@ -203,8 +201,7 @@
           </div>
 
           <div class="small-4 column">
-            <label>Postal Code: <small ng-messages="newQual.qualPostalCode.$error"><b ng-message="required" class="error">Required</b>
-                                                                                <b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
+            <label>Postal Code: <small ng-messages="newQual.qualPostalCode.$error"><b ng-message="required" class="error">Required</b><b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
             <input type="text" name="qualPostalCode" ng-model="qual.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
@@ -218,8 +215,7 @@
           </div>
 
           <div class="small-4 column">
-            <label>Phone: <small ng-messages="newQual.qualPhone.$error"><b ng-message="required" class="error">Required</b>
-                                                                    <b ng-message="pattern" class="error">Please only enter a valid phone number</b></small></label>
+            <label>Phone: <small ng-messages="newQual.qualPhone.$error"><b ng-message="required" class="error">Required</b><b ng-message="pattern" class="error">Please only enter a valid phone number</b></small></label>
             <input type="number" name="qualPhone" ng-model="qual.phone" required ng-pattern='phoneNumberPattern'/>
           </div>
 
@@ -232,7 +228,7 @@
 
         <div class="row">
           <div class="small-8 small-centered column">
-            <button class="button postfix" ng-click="createQual(qual)" ng-disabled="newQual.$invalid">Create</button>
+            <button class="button success postfix" ng-click="createQual(qual)" ng-disabled="newQual.$invalid">Create</button>
           </div>
 
         </div>
@@ -257,18 +253,19 @@
         <div class="small-8 column">
            <label>Qualifier Admin: <small ng-messages="editQualAdmin.qual.$error"><b ng-message="required" class="error">Required</b></small></label>
             <ui-select ng-change='setQualAdmin($select.selected)' ng-model="temp" theme="select2" ng-disabled="disabled" style="min-width: 500px;" name="year" ng-required>
-                <ui-select-match placeholder="Select a qualifier admin"><b>Name:</b> {{$select.selected.first_name}} {{$select.selected.last_name}} 
-                                                                      <b>Email:</b> {{$select.selected.email}}</ui-select-match>
+                <ui-select-match placeholder="Select a qualifier admin"><b>Name:</b> {{$select.selected.first_name}} {{$select.selected.last_name}} <b>Email:</b> {{$select.selected.email}}</ui-select-match>
                 <ui-select-choices repeat="user in users | filterQualAdmin">
                   <div ng-bind-html="user"></div>
                     <b>Name:</b> {{user.first_name}} {{user.last_name}} <b>Email:</b> {{user.email}}<hr>
                 </ui-select-choices>
               </ui-select>
         </div>
+      </div><br>
 
+      <div class="row">
 
         <div class="small-4 column">
-          <button class="button postfix" ng-click="addQualAdmin(q, adminForQual)">Add</button>
+          <button class="button success postfix" ng-click="addQualAdmin(q, adminForQual)">Add</button>
         </div>
       </div>
     </fieldset>

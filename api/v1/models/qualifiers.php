@@ -24,7 +24,7 @@
 
     public function get_open_qualifiers($db)
     {
-      $data = $db->query("SELECT *, Competitions.name AS competition_name FROM Qualifiers, Competitions WHERE Competitions.competition_id = Qualifiers.competition_id and Qualifiers.status=\"open\"");
+      $data = $db->query("SELECT *FROM Qualifiers WHERE  Qualifiers.status=\"open\"");
 
       return $data;
     }

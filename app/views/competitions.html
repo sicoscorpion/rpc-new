@@ -2,6 +2,7 @@
   <legend> Manage Competitions </legend>
   <div class='large-2 large-offset-10 columns'>
   <button class="tiny round button alert" ng-click='openCompetition()' >New Competition</button>
+  <br />
   </div>
 
   <div class='large-12 columns'>
@@ -23,16 +24,21 @@
             <input type="number" ng-model='comp.capacity' readonly></input>
         </td>  
 
-        </td>
+        <!-- </td>
           <td title="'Date'" filter="{ time: 'text'}" sortable="'time'" style="min-width: 200px;">
             <datepicker date-format="longDate">
                <input name="compTime" ng-model="comp.time" type="text" required readonly/>
             </datepicker></input>
-        </td>         
+        </td> -->
 
         </td>
-          <td title="'Profile Info'">
-            <button class="tiny round button" ng-click="openProfile(comp)">Edit</button>
+          <td title="'Competition Name'" filter="{ name: 'text'}" sortable="'name'" style="min-width: 150px;">
+            <input type="text" ng-model='comp.name' readonly></input>
+        </td>     
+
+        </td>
+          <td title="'Profile Info'" style="min-width: 150px;">
+            <button class="tiny round button" ng-click="openProfile(comp)">Edit Competition Profile</button>
                 <!--MODAL WINDOW--> 
           
 
@@ -78,23 +84,12 @@
                       {{province.type}}
                   </ui-select-choices>
                 </ui-select>
-            <div class="small-4 column">
-
-              <label>Status: <small ng-messages="editComp.status.$error"><b ng-message="required" class="error">Required</b></small></label>
-                <ui-select ng-model="compEdit.status" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="status" required>
-                  <ui-select-match placeholder="Status">{{$select.selected.type || compEdit.status}}</ui-select-match>
-                  <ui-select-choices repeat="option in options | propsFilter: {type: $select.search}">
-                    <div ng-bind-html="type | highlight: $select.search"></div>
-                      {{option.type}}
-                  </ui-select-choices>
-                </ui-select>
-            </div>
+            
 
           </div>
 
           <div class="small-4 column">
-            <label>Postal Code: <small ng-messages="editComp.compPostalCode.$error"><b ng-message="required" class="error">Required</b>
-                                                                                  <b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
+            <label>Postal Code: <small ng-messages="editComp.compPostalCode.$error"><b ng-message="required" class="error">Required</b>  <b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
             <input type="text" name="compPostalCode" ng-model="compEdit.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
@@ -103,8 +98,7 @@
 
 
           <div class="small-6 column">
-            <label>Phone: <small ng-messages="editComp.compPhone.$error"><b ng-message="required" class="error">Required</b>
-                                                                        <b ng-message="pattern" class="error">Please only enter a valid phone number</b><//small></label>
+            <label>Phone: <small ng-messages="editComp.compPhone.$error"><b ng-message="required" class="error">Required</b><b ng-message="pattern" class="error">Please only enter a valid phone number</b><//small></label>
             <input type="text" name="compPhone" ng-model="compEdit.phone" required/ ng-pattern='phoneNumberPattern'>
           </div>
 
@@ -115,7 +109,7 @@
         </div>
 
         </form><hr>
-          <button class="tiny round button success" ng-click='updateComp(compEdit)'>Save</button>
+          <button class="button success postfix" ng-click='updateComp(compEdit)'>Save</button>
           </fieldset>
         </div>
       </script>
@@ -146,7 +140,7 @@
              <label>Year: <small ng-messages="newComp.year.$error"><b ng-message="required" class="error">Required</b></small></label>
               <ui-select ng-model="comp.season_year" theme="select2" ng-disabled="disabled" style="min-width: 250px;" name="year" required>
                   <ui-select-match placeholder="Year">{{$select.selected.year}}</ui-select-match>
-                  <ui-select-choices repeat="season in seasons | propsFilter: {year: $select.search}">
+                  <ui-select-choices repeat="season in seasons | open">
                     <div ng-bind-html="season.year | highlight: $select.search"></div>
                       {{season.year}}
                   </ui-select-choices>
@@ -166,7 +160,7 @@
             </div>
 
             <div class="small-4 column">
-                <label>Name: <small ng-messages="newComp.name.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <label>Competition Name: <small ng-messages="newComp.name.$error"><b ng-message="required" class="error">Required</b></small></label>
                     <input type="text" name="name" ng-model="comp.name" required />
             </div>
         </div>
@@ -196,8 +190,8 @@
 
           <div class="small-4 column">
             <label>Province: <small ng-messages="newComp.compProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
-                <ui-select ng-model="newComp.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="compProvince" required>
-                  <ui-select-match placeholder="Select a province...">{{$select.selected.type || userEdit.province}}</ui-select-match>
+                <ui-select ng-model="comp.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="compProvince" required>
+                  <ui-select-match placeholder="Select a province...">{{$select.selected.type || comp.province}}</ui-select-match>
                   <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
                     <div ng-bind-html="type | highlight: $select.search"></div>
                       {{province.type}}
@@ -208,8 +202,7 @@
           </div>
 
           <div class="small-4 column">
-            <label>Postal Code: <small ng-messages="newComp.compPostalCode.$error"><b ng-message="required" class="error">Required</b>
-                                                                                  <b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
+            <label>Postal Code: <small ng-messages="newComp.compPostalCode.$error"><b ng-message="required" class="error">Required</b>   <b ng-message="pattern" class="error">Please enter a valid postal code</b></small></label>
             <input type="text" name="compPostalCode" ng-model="comp.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
@@ -223,8 +216,7 @@
           </div>
 
           <div class="small-4 column">
-            <label>Phone: <small ng-messages="newComp.compPhone.$error"><b ng-message="required" class="error">Required</b>
-                                                                      <b ng-message="pattern" class="error">Please only enter a valid phone number</b><//small></label>
+            <label>Phone: <small ng-messages="newComp.compPhone.$error"><b ng-message="required" class="error">Required</b><b ng-message="pattern" class="error">Please only enter a valid phone number</b><//small></label>
             <input type="text" name="compPhone" ng-model="comp.phone" required/ ng-pattern='phoneNumberPattern'>
           </div>
 
@@ -241,7 +233,7 @@
 
         <div class="row">
           <div class="small-8 small-centered column">
-            <button class="button postfix" ng-click="createComp(comp)" ng-disabled="newComp.$invalid">Create</button>
+            <button class="button success postfix" ng-click="createComp(comp)" ng-disabled="newComp.$invalid">Create</button>
           </div>
 
         </div>

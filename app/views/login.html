@@ -3,37 +3,44 @@
 </div>
 <div class="row" ng-controller="login_controller">
   
-  <div class="medium-3 medium-centered columns">
+  <div class="medium-8 medium-centered columns">
     <form>
       <fieldset>
         <legend>Sign In</legend>
-        <div class="row">
-          <div class="small-12 column">
-            <label>E-Mail Address <i class="error" ng-show="emailError">Required!</i>
+            <label>E-Mail Address <i class="error" ng-show="emailError">Required!</i></label>
+        <div class="row collapse">
+          <div class="small-2 column">
+            <span class="prefix"><i class="fi-mail"></i></span>
+          </div>
+          <div class="small-10 column">
               <input type="text" ng-model="user.email">
-            </label>
+            
           </div>
         </div>
-        <div class="row">
-          <div class="small-12 column">
+            
+            <label>Password <i class="error" ng-show="passwordError">Required!</i></label> 
+        <div class="row collapse">
+          <div class="small-2 column">
 
-            <label>Password <i class="error" ng-show="passwordError">Required!</i>
-              <input type="password" ng-model="user.password">
-            </label>
+          <span class="prefix"><i class="fi-lock"></i></span>
+          </div>
+          <div class="small-10 column">
+
+              <input type="password" ng-model="user.password" />
           </div>
         </div>
         <div class="row" >
           <alert ng-if="login_status.show_alert" type="login_status.alert_type" class="text-center">{{login_status.message}}</alert>
         </div>
-        <div class="row">
-          <div class="small-8 column">
+        <div class="row collapse">
+          <div class="small-4 column">
             <button class="button postfix" ng-click="login()" ng-disabled="disabled">Sign In</button>
           </div>
-
+          <div class='small-4 column'>
+            <small class='button alert postfix' ng-click="forgotPassword()">Forgot password?</small>
+          </div>
         </div>
-        <div class='row'>
-          <small class='tiny round button alert' ng-click="forgotPassword()">Forgot password?</small>
-        </div>
+        
       </fieldset>
     </form>
   </div>

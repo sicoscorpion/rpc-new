@@ -353,3 +353,10 @@ table {
   width: 100%;
 
 }
+
+#content-divider {
+  height: 5px;
+}
+#content-divider-large {
+  height: 20px;
+}

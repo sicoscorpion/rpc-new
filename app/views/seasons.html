@@ -7,9 +7,6 @@
     <button class="tiny round button alert" ng-click='openSeason()' >New Season</button>
   </div>
   <div class='large-12 columns'>
-
-    <i class="success" ng-show="succeeded">Saved!</i>
-    <i class="failure" ng-show="failed">Failed!</i>
     <table ng-table="tableParams" class="table" show-filter="true">
       <tr ng-repeat="season in $data">
         <td title="'Year'" filter="{ year: 'text'}" sortable="'year'">
@@ -83,7 +80,7 @@
 <hr>
         <div class="row">
           <div class="small-8 small-centered column">
-            <button class="button postfix" ng-click="createSeason(season)" ng-disabled='newSeason.$invalid'>Create</button>
+            <button class="button success postfix" ng-click="createSeason(season)" ng-disabled='newSeason.$invalid'>Create</button>
           </div>
 
         </div>

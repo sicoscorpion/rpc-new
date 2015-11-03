@@ -36,7 +36,7 @@
     }
 
     public function get_teamParticipation($db, $team_id) {
-      $data = $db->query("SELECT * FROM Participates Where team_id = :team_id", array(':team_id' => $team_id));
+      $data = $db->query("SELECT *, Qualifiers.capacity AS qualifier_capacity FROM Participates, Qualifiers Where team_id = :team_id AND Qualifiers.qual_id = Participates.qual_id", array(':team_id' => $team_id));
       return $data;
     }
 
