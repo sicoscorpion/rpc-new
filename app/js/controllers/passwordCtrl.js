@@ -30,7 +30,7 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
         Data.post("forgot_password", tmp).then(function (result) {
                 if(result.status != 'error'){
                     console.log("Email Sent: ", result);
-
+                    $scope.saved();
                 }else{
                     console.log("Error, Email not sent for password: ", result);
 
