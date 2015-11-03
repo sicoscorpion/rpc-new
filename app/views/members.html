@@ -234,12 +234,12 @@
         <div class="row">
           <div class="small-4 column">
             <label>Civic Address: <small ng-messages="newMember.memberCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="memberCivic" ng-model="member.civic_number" required />
+            <input type="text" name="memberCivic" ng-model="member.civic_number"  />
           </div>
 
           <div class="small-4 column">
             <label>Street Address: <small ng-messages="newMember.memberStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="memberStreet1" ng-model="member.street1" required/>
+            <input type="text" name="memberStreet1" ng-model="member.street1" />
           </div>
 
           <div class="small-4 column">
@@ -251,12 +251,12 @@
         <div class="row">
           <div class="small-4 column">
             <label>City: <small ng-messages="newMember.memberCity.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="memberCity" ng-model="member.city" required />
+            <input type="text" name="memberCity" ng-model="member.city"  />
           </div>
 
           <div class="small-4 column">
             <label>Province: <small ng-messages="newMember.memberProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
-                <ui-select ng-model="member.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="memberProvince" required>
+                <ui-select ng-model="member.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="memberProvince" >
                   <ui-select-match placeholder="Select a province...">{{$select.selected.type}}</ui-select-match>
                   <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
                     <div ng-bind-html="type | highlight: $select.search"></div>
@@ -269,7 +269,7 @@
             <label>Postal Code: <small ng-messages="newMember.memberPostalCode.$error"><b ng-message="required" class="error">Required</b>
                                                             <b ng-message="pattern" class="error">Please enter a valid postal code </b></small></label>
 
-            <input type="text" name="memberPostalCode" ng-model="member.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
+            <input type="text" name="memberPostalCode" ng-model="member.postal_code"  ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
 
@@ -278,7 +278,7 @@
           <div class="small-4 column">
             <label>Phone: <small ng-messages="newMember.memberPhone.$error"><b ng-message="required" class="error">Required</b>
                                                                         <b ng-message="pattern" class="error">Please only a valid phone number</b><//small></label>
-            <input type="text" name="memberPhone" ng-model="member.guardian_phone" required ng-pattern="phoneNumberPattern"/>
+            <input type="text" name="memberPhone" ng-model="member.guardian_phone"  ng-pattern="phoneNumberPattern"/>
           </div>
 
         
