@@ -22,15 +22,22 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
         
         console.log("email: ", user);
 
+        if ($scope.logged_in()){
+            var tmp = {email: $scope.getCookieData().email};
+            console.log(tmp);
+
+        }else{
+            var tmp = {email: user.email};
+
+        }
 
 
-        var tmp = {email: $scope.getCookieData().email};
-        console.log(tmp);
 
         Data.post("forgot_password", tmp).then(function (result) {
                 if(result.status != 'error'){
                     console.log("Email Sent: ", result);
                     $scope.saved();
+                    $location.path('/login');
                 }else{
                     console.log("Error, Email not sent for password: ", result);
 
