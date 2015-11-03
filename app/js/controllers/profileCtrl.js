@@ -112,4 +112,71 @@ app.controller('profile_controller', ['$scope', '$location', 'Data', 'NgTablePar
         })
     }
 
+
+    $scope.updateShirt = function(user) {
+        
+        console.log("Updating User Shirt: ", user);
+        console.log("Updating User for user: ", $scope.getCookieData());
+        var path = "users/";
+
+        
+        if (typeof user.shirt_size.type != "undefined"){
+            var shirt = user.shirt_size.type;
+            
+        }else{
+            var shirt = user.shirt_size;
+
+        }
+        if (typeof user.position.type != "undefined"){
+            var position = user.position.type;
+            
+        }else{
+            var position = user.position;
+
+        }
+
+        $scope.addUserHasRole = {
+            shirt_size: shirt,
+            position: position
+        }
+
+        $scope.tmp = {};
+        if (user.position == "Super Admin")
+        {
+            var path = "users/" + "admin/" + user.user_id;
+            $scope.tmp =  $scope.addUserHasRole;
+            // delete tmp.position;
+
+        }else if (user.position == "Qualifier Admin"){
+            var path = "users/" + "qualifier_admin/" + user.user_id;
+            $scope.tmp =  $scope.addUserHasRole;
+            // delete tmp.position;
+        }
+        else{
+            var path = "users/" + "coach/" + user.user_id;
+            $scope.tmp =  $scope.addUserHasRole;
+        }
+        console.log("Edit User: ", $scope.tmp);
+        Data.put(path, $scope.tmp).then(function (result) {
+                if(result.status != 'error'){
+                    console.log("Returned Data from update user role User: ", result);
+                    console.log("Editing User: ", $scope.tmp);
+                    $scope.saved();
+                    var tmp = $scope.getCookieData();
+                    tmp.shirt_size = $scope.addUserHasRole.shirt_size;
+                    $cookies.putObject("login", tmp);  
+
+
+                }else{
+                     console.log("Error: ", result);
+                    $scope.register_status.message = 'Edit Failed';
+                    $scope.register_status.disabled = false;
+                    $scope.register_status.alert_type = 'alert round';
+                    $scope.register_status.show_alert = true;
+                    $scope.failed();
+                }
+        });
+    }
+
+
 }]);
