@@ -9,7 +9,7 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
         email_address:  "",
         password_token: "",
         password: "",
-        verifyNewPass:  ""
+        confirmPassword:  ""
     }
 
     // $scope.matchError = false;
