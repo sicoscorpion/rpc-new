@@ -12,10 +12,10 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
         verifyNewPass:  ""
     }
 
-    $scope.matchError = false;
-    $scope.match = function (user, password) {
-        $scope.matchError = (user.password != password) ? true : false;
-    }
+    // $scope.matchError = false;
+    // $scope.match = function (user, password) {
+    //     $scope.matchError = (user.password != password) ? true : false;
+    // }
 
 
     $scope.reset = function(user) {
