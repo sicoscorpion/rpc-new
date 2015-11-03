@@ -109,7 +109,12 @@
             <label>Capacity: <small ng-messages="editQual.qualCapacity.$error"><b ng-message="required" class="error">Required</b></small></label>
             <input type="number" name="qualCapacity" ng-model="qualEdit.capacity"/ required>
           </div>
+
         </div>
+         <div class="small-6 column">
+            <label>Date: <small ng-messages="editQual.qualDate.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="qualDate" ng-model="qualEdit.time"/ required>
+          </div>
 
         <form>                  <hr>
                               <button class="button success postfix" ng-click='updateQual(qualEdit)'>Save</button>
@@ -118,12 +123,7 @@
                     </script>
 
             </td>
-            <td title="'Date'" filter="{ time: 'text'}" sortable="'time'"  style="min-width: 200px;">
-                  <datepicker date-format="longDate">
-                   <input name="qualTime" ng-model="qual.time" type="text" required/>
-                </datepicker>
-                </input>
-            </td> 
+
 
 
             <td title="'Edit'">
