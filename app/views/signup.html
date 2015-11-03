@@ -22,24 +22,20 @@
           </div>
 
           <div class="small-4 column">
-            <label>Email: <small ng-messages="newUser.userEmail.$error"><b ng-message="required" class="error">Required</b> 
-                                                                        <b ng-message="email" class="error">Email is not valid</b></small></label>
+            <label>Email: <small ng-messages="newUser.userEmail.$error"><b ng-message="required" class="error">Required</b> <b ng-message="email" class="error">Email is not valid</b></small></label>
             <input type="email" name="userEmail" ng-model="user.email" required />
           </div>
 
         </div>
         <div class="row">
           <div class="small-4 column">
-            <label>Password: <small ng-messages="newUser.userPassword.$error"><b ng-message="required" class="error">Required</b>
-                                                                              <b ng-message="minlength" class="error">Password must be >= 10 characters</b>
-                                                                              <b ng-message="maxlength" class="error">Password must be <= 100 characters</b></small></label>
+            <label>Password: <small ng-messages="newUser.userPassword.$error"><b ng-message="required" class="error">Required</b><b ng-message="minlength" class="error">Password must be >= 10 characters</b><b ng-message="maxlength" class="error">Password must be <= 100 characters</b></small></label>
             <input type="password" name="userPassword" ng-model="user.password" required ng-minlength="10" ng-maxlength="100"/>
           </div>
 
 
           <div class="small-4 column">
-            <label>Password Confirm: <small ng-messages="newUser.confirmPassword.$error"><b ng-message="required" class="error">Required</b>
-                                                                      <b ng-if="matchError" class="error">Passwords do not match</b></small></label>
+            <label>Password Confirm: <small ng-messages="newUser.confirmPassword.$error"><b ng-message="required" class="error">Required</b> <b ng-if="matchError" class="error">Passwords do not match</b></small></label>
             <input type="password" name="confirmPassword" ng-model="confirmPassword" required ng-change='match(user, confirmPassword)'/>
           </div>
 
