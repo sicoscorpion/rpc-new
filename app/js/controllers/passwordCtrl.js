@@ -21,13 +21,13 @@ app.controller('password_controller', ['$scope', '$location', '$routeParams', 'D
     $scope.reset = function(user) {
         
         console.log("email: ", user);
-
+        var tmp;
         if ($scope.logged_in()){
-            var tmp = {email: $scope.getCookieData().email};
+            tmp = {email: $scope.getCookieData().email};
             console.log(tmp);
 
         }else{
-            var tmp = {email: user.email};
+            tmp = {email: user.email_address};
 
         }
 
