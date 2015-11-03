@@ -84,12 +84,12 @@
         <div class="row">
           <div class="small-4 column">
             <label>Civic Address: <small ng-messages="editMember.memberCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="memberCivic" ng-model="memberEdit.civic_number" required />
+            <input type="text" name="memberCivic" ng-model="memberEdit.civic_number"  />
           </div>
 
           <div class="small-4 column">
             <label>Street Address: <small ng-messages="editMember.memberStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="memberStreet1" ng-model="memberEdit.street1" required/>
+            <input type="text" name="memberStreet1" ng-model="memberEdit.street1" />
           </div>
 
           <div class="small-4 column">
@@ -101,12 +101,12 @@
         <div class="row">
           <div class="small-4 column">
             <label>City: <small ng-messages="editMember.memberCity.$error"><b ng-message="required" class="error">Required</b></small></label>
-            <input type="text" name="memberCity" ng-model="memberEdit.city" required />
+            <input type="text" name="memberCity" ng-model="memberEdit.city"  />
           </div>
 
           <div class="small-4 column">
             <label>Province: <small ng-messages="editMember.memberProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
-                <ui-select ng-model="memberEdit.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="memberProvince" required>
+                <ui-select ng-model="memberEdit.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="memberProvince" >
                   <ui-select-match placeholder="Select a province...">{{$select.selected.type || memberEdit.province}}</ui-select-match>
                   <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
                     <div ng-bind-html="type | highlight: $select.search"></div>
@@ -118,7 +118,7 @@
           <div class="small-4 column">
             <label>Postal Code: <small ng-messages="editMember.memberPostalCode.$error"><b ng-message="required" class="error">Required</b>
                                                         <b ng-message="pattern" class="error">Please enter a valid postal code </b></small></label>
-            <input type="text" name="memberPostalCode" ng-model="memberEdit.postal_code"/ required ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
+            <input type="text" name="memberPostalCode" ng-model="memberEdit.postal_code"/  ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
           </div>
         </div>
 
@@ -127,7 +127,7 @@
           <div class="small-3 column">
             <label>Phone: <small ng-messages="editMember.memberPhone.$error"><b ng-message="required" class="error">Required</b>
                                                                         <b ng-message="pattern" class="error">Please only enter a valid phone number</b><//small></label>
-            <input type="text" name="memberPhone" ng-model="memberEdit.guardian_phone" required ng-pattern="phoneNumberPattern"/>
+            <input type="text" name="memberPhone" ng-model="memberEdit.guardian_phone"  ng-pattern="phoneNumberPattern"/>
           </div>
          
 
