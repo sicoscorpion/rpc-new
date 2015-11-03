@@ -33,14 +33,14 @@
             <label>Password: <small ng-messages="newUser.userPassword.$error"><b ng-message="required" class="error">Required</b>
                                                                               <b ng-message="minlength" class="error">Password must be >= 10 characters</b>
                                                                               <b ng-message="maxlength" class="error">Password must be <= 100 characters</b></small></label>
-            <input type="text" name="userPassword" ng-model="user.password" required ng-minlength="10" ng-maxlength="100"/>
+            <input type="password" name="userPassword" ng-model="user.password" required ng-minlength="10" ng-maxlength="100"/>
           </div>
 
 
           <div class="small-4 column">
             <label>Password Confirm: <small ng-messages="newUser.confirmPassword.$error"><b ng-message="required" class="error">Required</b>
                                                                       <b ng-if="matchError" class="error">Passwords do not match</b></small></label>
-            <input type="text" name="confirmPassword" ng-model="confirmPassword" required ng-change='match(user, confirmPassword)'/>
+            <input type="password" name="confirmPassword" ng-model="confirmPassword" required ng-change='match(user, confirmPassword)'/>
           </div>
 
           <div class="small-4 column">

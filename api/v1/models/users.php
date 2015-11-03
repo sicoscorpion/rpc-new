@@ -198,7 +198,7 @@
         <br><br> 
         To set a new password, please visit this link: 
         <br><br> 
-        http://213.168.249.135:4000/#/reset_password?reset_key=" . $toBePosted['reset_key'] . "&email=" . $toBePosted['email_address'] . "&password_token=" . $password_token ." 
+        http://robots-old.acadiau.ca/registration/#/reset_password?reset_key=" . $toBePosted['reset_key'] . "&email=" . $toBePosted['email_address'] . "&password_token=" . $password_token ." 
         <br><br> 
         Do not share this link with anyone, it expires in 30 minutes.  
         <br><br> 

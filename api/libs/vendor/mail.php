@@ -7,7 +7,7 @@ $mail             = new PHPMailer();
 
 $body             = preg_replace('/\[\]/','',$mail_body);
 
-$mail->SetFrom('www-data.localhost', 'robots.acadiau.ca');
+$mail->SetFrom('Acadia Robotics', 'robots.acadiau.ca');
 
 $mail->AddReplyTo("www-data.localhost","robots.acadiau.ca");
 
