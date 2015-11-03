@@ -17,7 +17,7 @@
   <div class='large-12 columns'><br>
     <table ng-table="teamTableParams" class="table" show-filter="true">
         <tr ng-repeat="team in $data">
-            <td title="'Team ID'" filter="{ team_id: 'text'}" sortable="'team_id'">
+            <td title="'FLL #'" filter="{ team_id: 'text'}" sortable="'team_id'">
                 <input type="text" ng-model='team.team_id' readonly></input>
             </td>
 
@@ -60,7 +60,7 @@
         <div class="row">
 
           <div class="medium-4 column">
-             <label>Team ID: <small ng-messages="newTeam.team_id.$error"><b ng-message="required" class="error">Required</b></small></label>
+             <label>FLL #: <small ng-messages="newTeam.team_id.$error"><b ng-message="required" class="error">Required</b></small></label>
               <input type="text" ng-model='team.team_id' name='team_id' required></input>
 
           </div>
@@ -140,7 +140,7 @@
           <td title="'Qualifier Name'">
               <input type="text" ng-model='team.name' readonly></input>    
           </td>
-          <td title="'Team ID'">
+          <td title="'FLL #'">
               <input type="text" ng-model='team.team_id' readonly></input>
           </td>
           <td title="'Local ID'">
