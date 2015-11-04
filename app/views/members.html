@@ -40,6 +40,16 @@
             <td title="'Last Name'" filter="{ last_name: 'text'}" sortable="'last_name'">
                     <input type="text" ng-model='member.last_name' readonly></input>
             </td>
+            <td title="'Shirt'" >
+                <!-- <input type="text" ng-model='user.shirt_size' readonly></input> -->
+              <ui-select ng-model="member.shirt_size" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="memberShirt" ng-change="updateMemberShirt(member)" required>
+                <ui-select-match placeholder="Select a shirt size...">{{$select.selected.type || member.shirt_size}}</ui-select-match>
+                <ui-select-choices repeat="shirt in shirts | propsFilter: {type: $select.search}">
+                  <div ng-bind-html="type | highlight: $select.search"></div>
+                    {{shirt.type}}
+                </ui-select-choices>
+              </ui-select>
+            </td>
             
             <td title="'Profile Info'">
                 <button class="tiny round button" ng-click="openProfile(member)"/>Edit Member Information</button>

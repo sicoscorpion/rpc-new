@@ -132,6 +132,16 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
             member.gender = member.gender;
 
         }
+
+        if (typeof member.shirt_size.type != "undefined"){
+            member.shirt_size = member.shirt_size.type;
+            
+        }else{
+            member.shirt_size = member.shirt_size;
+
+        }
+
+
         
         console.log("Updating Member: ", member);
         console.log("Updating Member for member: ", $scope.getCookieData());
@@ -149,6 +159,7 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
             province: member.province,
             postal_code: member.postal_code,
             medical_info: member.medical_info,
+            shirt_size: member.shirt_size,
             guardian_phone: member.guardian_phone,
             gender: member.gender
         }
@@ -168,6 +179,56 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
                 } 
                 $scope.modalInstance.dismiss('cancel');
+                
+                $route.reload();
+        })
+    }
+
+    $scope.updateMemberShirt = function(member) {
+
+        if (typeof member.shirt_size.type != "undefined"){
+            member.shirt_size = member.shirt_size.type;
+            
+        }else{
+            member.shirt_size = member.shirt_size;
+
+        }
+        
+        console.log("Updating Member Shirt: ", member);
+        console.log("Updating Member for member: ", $scope.getCookieData());
+        var path = "members/";
+
+        $scope.addMember = {
+            first_name: member.first_name,
+            last_name: member.last_name,
+            email: member.email,
+            dob: member.dob,
+            civic_number: member.civic_number,
+            street1: member.street1,
+            street2: member.street2,
+            city: member.city,
+            province: member.province,
+            postal_code: member.postal_code,
+            medical_info: member.medical_info,
+            shirt_size: member.shirt_size,
+            guardian_phone: member.guardian_phone,
+            gender: member.gender
+        }
+
+        var path = "member/" + member.member_id;
+        console.log("Edit Member: ", $scope.addMember);
+        Data.put(path, $scope.addMember).then(function (result) {
+                if(result.status != 'error'){
+                    console.log("Returned Data from edit Member Shirt: ", result);
+                    console.log("Editing Member: ", $scope.addMember);
+                    $scope.saved();
+
+                }else{
+                    console.log("Error: ", result);
+
+                    $scope.fail();
+
+                } 
                 
                 $route.reload();
         })
