@@ -1,5 +1,16 @@
 <?php
 
+// function authenticateToken() {
+//   global $db;
+//   $app = \Slim\Slim::getInstance();
+//   $token = $app->request->headers->get('Authorization');
+//   $token = str_replace('"', "", $token);
+//   $tokenFromDB = Users_model::get_user_by_token($db, $token);
+//   if (!$tokenFromDB) {
+//     echoResponse(403, "Invalid Token");
+//     exit();
+//   }
+// }
 
 // Users
 $app->post('/login', function() use ($app){ 
@@ -18,7 +29,7 @@ $app->post('/login', function() use ($app){
 
 // 'authenticateToken',
 
-$app->get('/users', function() use ($app) { 
+$app->get('/users', 'authenticateToken', function() use ($app) { 
   global $db;
   $rows = Users_model::get_users($db);
   echoResponse(200, $rows);
@@ -40,7 +51,7 @@ $app->post('/users/:role', function($role) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->put('/users/:id', function($id) use ($app){ 
+$app->put('/users/:id', 'authenticateToken', function($id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
 
@@ -50,7 +61,7 @@ $app->put('/users/:id', function($id) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->put('/users/:role/:id', function($role, $id) use ($app){ 
+$app->put('/users/:role/:id', 'authenticateToken', function($role, $id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $data->user_id = $id;
@@ -60,7 +71,7 @@ $app->put('/users/:role/:id', function($role, $id) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->delete('/users/:role/:id', function($role, $id) use ($app){ 
+$app->delete('/users/:role/:id', 'authenticateToken', function($role, $id) use ($app){ 
   global $db;
   $rows = Users_model::delete_user($db, $id, $role);
   if($rows["status"]=="success")
@@ -68,21 +79,21 @@ $app->delete('/users/:role/:id', function($role, $id) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->post('/host', function() use ($app){ 
+$app->post('/host', 'authenticateToken', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Users_model::create_hostQualifier($db, $data);
   echoResponse(200, $rows);
 });
 
-$app->get('/host/qualifiers/:user_id', function($user_id) use ($app){ 
+$app->get('/host/qualifiers/:user_id', 'authenticateToken', function($user_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Users_model::get_hostedQualifiers($db, $user_id);
   echoResponse(200, $rows);
 });
 
-$app->get('/host/admins/:qual_id', function($qual_id) use ($app){ 
+$app->get('/host/admins/:qual_id', 'authenticateToken', function($qual_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Users_model::get_hostsForQualifier($db, $qual_id);
@@ -90,27 +101,27 @@ $app->get('/host/admins/:qual_id', function($qual_id) use ($app){
 });
 
 $app->delete('/host/:qual_id/:user_id', 
-  function($qual_id, $user_id) use ($app){
+  'authenticateToken', function($qual_id, $user_id) use ($app){
   global $db;
   $rows = Users_model::delete_qualifierHost($db, $qual_id, $user_id);
   echoResponse(200, $rows);
 });
 
-$app->post('/manage', function() use ($app){ 
+$app->post('/manage', 'authenticateToken', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Users_model::create_userManage($db, $data);
   echoResponse(200, $rows);
 });
 
-$app->get('/manage/teams/:user_id', function($user_id) use ($app){ 
+$app->get('/manage/teams/:user_id', 'authenticateToken', function($user_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Users_model::get_userManage($db, $user_id);
   echoResponse(200, $rows);
 });
 
-$app->get('/manage/users/:team_id', function($team_id) use ($app){ 
+$app->get('/manage/users/:team_id', 'authenticateToken', function($team_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Users_model::get_teamsManage($db, $team_id);
@@ -118,7 +129,7 @@ $app->get('/manage/users/:team_id', function($team_id) use ($app){
 });
 
 $app->delete('/manage/:team_id/:user_id', 
-  function($team_id, $user_id) use ($app){
+  'authenticateToken', function($team_id, $user_id) use ($app){
   global $db;
   $rows = Users_model::delete_userManage($db, $team_id, $user_id);
   echoResponse(200, $rows);

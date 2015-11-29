@@ -43,6 +43,16 @@ app.config(['$routeProvider',
       templateUrl: 'app/views/users.html',
       controller: 'users_controller'
     })
+    .when('/volunteers', {
+      title: 'Volunteers',
+      templateUrl: 'app/views/volunteers.html',
+      controller: 'volunteers_controller'
+    })
+    .when('/volunteers_signup', {
+      title: 'Volunteers Signup',
+      templateUrl: 'app/views/volunteers_signup.html',
+      controller: 'volunteers_signup_controller'
+    })
     .when('/profile', {
       title: 'Profile',
       templateUrl: 'app/views/profile.html',

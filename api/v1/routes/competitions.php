@@ -1,6 +1,6 @@
 <?php
   // Competitions
-$app->post('/competitions', function() use ($app){ 
+$app->post('/competitions', 'authenticateToken', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Competitions_model::create_competition($db, $data);
@@ -21,7 +21,7 @@ $app->get('/competitions/season/:year', function($year) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->put('/competitions/:id', function($id) use ($app){ 
+$app->put('/competitions/:id', 'authenticateToken', function($id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
 
@@ -31,7 +31,7 @@ $app->put('/competitions/:id', function($id) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->delete('/competitions/:id', function($id) use ($app){
+$app->delete('/competitions/:id', 'authenticateToken', function($id) use ($app){
   global $db;
   $rows = Competitions_model::delete_competition($db, $id);
   echoResponse(200, $rows);

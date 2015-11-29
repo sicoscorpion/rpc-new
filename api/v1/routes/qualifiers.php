@@ -1,6 +1,6 @@
 <?php
   // Qualifiers
-$app->post('/qualifiers', function() use ($app){ 
+$app->post('/qualifiers', 'authenticateToken', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Qualifiers_model::create_qualifier($db, $data);
@@ -28,7 +28,7 @@ $app->get('/qualifiers/open', function() use ($app){
   echoResponse(200, $rows);
 });
 
-$app->put('/qualifiers/:id', function($id) use ($app){ 
+$app->put('/qualifiers/:id', 'authenticateToken', function($id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
 
@@ -38,7 +38,7 @@ $app->put('/qualifiers/:id', function($id) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->delete('/qualifiers/:id', function($id) use ($app){
+$app->delete('/qualifiers/:id', 'authenticateToken', function($id) use ($app){
   global $db;
   $rows = Qualifiers_model::delete_qualifier($db, $id);
   echoResponse(200, $rows);

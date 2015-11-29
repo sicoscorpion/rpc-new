@@ -3,7 +3,7 @@ var app = angular.module('myApp');
 
 app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTableParams', '$modal', '$cookies', '$route', function($scope, $location, Data, NgTableParams, $modal, $cookies, $route) {
 
-    $scope.check_logged_in();
+    // $scope.check_logged_in();
 
     $scope.qual = {
         competition_id: '',

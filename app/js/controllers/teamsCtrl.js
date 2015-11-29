@@ -29,7 +29,7 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Returned Teams for Admin: ", result);
                 $scope.teams = result;
                 data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data , counts: []});
             }
         })
     }
@@ -39,7 +39,7 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Returned Teams for coach: ", result);
                 $scope.teams = result;
                 data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data , counts: []});
             }
         })
     }
@@ -50,7 +50,7 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Returned Teams for Admin: ", result);
                 $scope.teams = result;
                 data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                $scope.teamTableParams = new NgTableParams({},{ data: data , counts: []});
             }
         })
     }
@@ -61,7 +61,7 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Returned Teams for qual admin: ", result);
                 $scope.teams = result;
                 data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data});
             
                 if (typeof qual != 'undefined'){
                     console.log("Qualifier shit: ", $scope.teams.length, qual.capacity);
@@ -101,7 +101,7 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Returned Teams participates: ", result);
                 $scope.participates = result;
                 data = $scope.participates;
-                $scope.teamPartTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                $scope.teamPartTableParams = new NgTableParams({count: 10}, { data: data});
             }
         })
     }
@@ -112,7 +112,7 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Returned Teams coaches: ", result);
                 $scope.coaches = result;
                 data = $scope.coaches;
-                $scope.teamCoachTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+                $scope.teamCoachTableParams = new NgTableParams({count: 10}, { data: data});
             }
         })
     }

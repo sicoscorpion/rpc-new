@@ -1,6 +1,6 @@
 <?php
 // Members
-$app->post('/member', function() use ($app){ 
+$app->post('/member', 'authenticateToken', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Members_model::create_member($db, $data);
@@ -14,7 +14,7 @@ $app->get('/members/:team_id', function($team_id) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->put('/member/:id', function($id) use ($app){ 
+$app->put('/member/:id', 'authenticateToken', function($id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
 
@@ -25,7 +25,7 @@ $app->put('/member/:id', function($id) use ($app){
 });
 
 $app->delete('/member/:id', 
-  function($id) use ($app){
+  'authenticateToken', function($id) use ($app){
   global $db;
   $rows = Members_model::delete_member($db, $id);
   echoResponse(200, $rows);

@@ -411,7 +411,7 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
     if ($scope.isAdmin()){
         // get registered users
         console.log("token: ", $scope.getCookieData("login").api_token);
-        Data.get("users", {headers: {'Authorization': $scope.getCookieData("login").api_token}}).then(function (result) {
+        Data.get("users").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Users: ", result);
                 $scope.users = result;

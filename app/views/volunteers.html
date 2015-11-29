@@ -1,0 +1,442 @@
+<div class='row' style="min-width: 80%" ng-cpontroller="seasons_controller">
+<fieldset>
+  <legend> Manage Volunteers </legend>
+    <div class="row" ng-controller="seasons_controller">
+
+
+      <div class="small-5 column" >
+        <ui-select ng-change='getVolunteers($select.selected.year)' ng-model="season.year" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="seasonVol" required>
+          <ui-select-match placeholder="Select a season..."><b>Season Year: </b>{{$select.selected.year}} </ui-select-match>
+          <ui-select-choices repeat="season in seasons ">
+            <div ng-bind-html="season_year | highlight: $select.search"></div>
+              <b>Season Year: </b>{{season.year}} 
+          </ui-select-choices>
+        </ui-select>
+      </div>
+
+      
+      <div class="small-2 column">
+        <button class="tiny round button alert" ng-click='openVolunteers()' >New Volunteer</button>
+
+      </div>
+    </div>
+<div class='large-12 columns'>
+  <table ng-table="volunteersTableParams" class="table" show-filter="true">
+    <tr ng-repeat="volunteer in $data">
+      <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">
+          <input type="email" ng-model='volunteer.email' readonly></input>
+      </td>
+      <td title="'First Name'" filter="{ first_name: 'text'}" sortable="'first_name'">
+        <input type="text" ng-model='volunteer.first_name' readonly></input>
+      </td>
+      <td title="'Last Name'" filter="{ last_name: 'text'}" sortable="'last_name'">
+        <input type="text" ng-model='volunteer.last_name' readonly></input>
+      </td>
+      <td title="'Shirt'" >
+          <!-- <input type="text" ng-model='user.shirt_size' readonly></input> -->
+        <ui-select ng-model="volunteer.shirt_size" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="volunteerShirt" ng-change="updateMemberShirt(volunteer)" required>
+          <ui-select-match placeholder="Select a shirt size...">{{$select.selected.type || volunteer.shirt_size}}</ui-select-match>
+          <ui-select-choices repeat="shirt in shirts | propsFilter: {type: $select.search}">
+            <div ng-bind-html="type | highlight: $select.search"></div>
+              {{shirt.type}}
+          </ui-select-choices>
+        </ui-select>
+      </td>
+      
+      <td title="'Profile Info'">
+          <button class="tiny round button" ng-click="openProfile(volunteer)"/>Edit Volunteer Information</button>
+      </td>
+
+      <!--MODAL WINDOW--> 
+      <script type="text/ng-template" id="volunteer_profile.html">
+        <div class="modal-body">
+          <fieldset>
+            <legend>Edit Profile for {{ volunteerEdit.first_name }}</legend>
+            <form name="editVolunteer"> 
+              <div class="row">
+
+                <div class="small-3 column">
+                   <label>First Name: <small ng-messages="editVolunteer.volunteerFirstName.$error"><b ng-message="required" class="error">Required</b></small></label>
+                    <input type="text" name="volunteerFirstName" ng-model="volunteerEdit.first_name" required />
+                </div>
+
+                <div class="small-3 column">
+                  <label>Last Name: <small ng-messages="editVolunteer.volunteerLastName.$error"><b ng-message="required" class="error">Required</b></small></label>
+                  <input type="text" name="volunteerLastName" ng-model="volunteerEdit.last_name" required />
+                </div>
+
+                <div class="small-3 column">
+                  <label>Email: <small ng-messages="editVolunteer.volunteerEmail.$error"><b ng-message="required" class="error">Required</b> 
+                  <b ng-message="email" class="error">Email is not valid</b></small></label>
+                  <input type="email" name="volunteerEmail" ng-model="volunteerEdit.email" required readonly/>
+                </div>
+
+                <div class="small-3 column">
+                  <label>DOB: <small ng-messages="editVolunteer.volunteerDOB.$error"><b ng-message="required" class="error">Please select a DOB</b></small></label>
+                  <datepicker date-format="longDate">
+                     <input name="volunteerDOB" ng-model="volunteerEdit.dob" type="text" required readonly/>
+                  </datepicker>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="small-4 column">
+                  <label>Civic Address: <small ng-messages="editVolunteer.volunteerCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
+                  <input type="text" name="volunteerCivic" ng-model="volunteerEdit.civic_number"  />
+                </div>
+
+                <div class="small-4 column">
+                  <label>Street Address: <small ng-messages="editVolunteer.volunteerStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
+                  <input type="text" name="volunteerStreet1" ng-model="volunteerEdit.street1" />
+                </div>
+
+                <div class="small-4 column">
+                  <label>Street Address:
+                  <input type="text" name="volunteerStreet2" ng-model="volunteerEdit.street2"/>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="small-4 column">
+                  <label>City: <small ng-messages="editVolunteer.volunteerCity.$error"><b ng-message="required" class="error">Required</b></small></label>
+                  <input type="text" name="volunteerCity" ng-model="volunteerEdit.city"  />
+                </div>
+
+                <div class="small-4 column">
+                  <label>Province: <small ng-messages="editVolunteer.volunteerProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
+                      <ui-select ng-model="volunteerEdit.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="volunteerProvince" >
+                        <ui-select-match placeholder="Select a province...">{{$select.selected.type || volunteerEdit.province}}</ui-select-match>
+                        <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
+                          <div ng-bind-html="type | highlight: $select.search"></div>
+                            {{province.type}}
+                        </ui-select-choices>
+                      </ui-select>
+                </div>
+
+                <div class="small-4 column">
+                  <label>Postal Code: <small ng-messages="editVolunteer.volunteerPostalCode.$error"><b ng-message="required" class="error">Required</b>
+                  <b ng-message="pattern" class="error">Please enter a valid postal code </b></small></label>
+                  <input type="text" name="volunteerPostalCode" ng-model="volunteerEdit.postal_code"/  ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
+                </div>
+              </div>
+
+              <div class="row">
+
+                <div class="small-3 column">
+                  <label>Phone: <small ng-messages="editVolunteer.volunteerPhone.$error"><b ng-message="required" class="error">Required</b><b ng-message="pattern" class="error">Please only enter a valid phone number</b></small></label>
+                  <input type="text" name="volunteerPhone" ng-model="volunteerEdit.phone"  ng-pattern="phoneNumberPattern"/>
+                </div>
+         
+                <div class="small-3 column">
+
+                  <label>Gender: <small ng-messages="editVolunteer.volunteerGender.$error"><b ng-message="required" class="error">Required</b></small></label>
+                    <ui-select ng-model="volunteerEdit.gender" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="userGender" required>
+                        <ui-select-match placeholder="Select a gender...">{{$select.selected.type || volunteerEdit.gender}}</ui-select-match>
+                        <ui-select-choices repeat="gender in genders | propsFilter: {type: $select.search}">
+                          <div ng-bind-html="type | highlight: $select.search"></div>
+                            {{gender.type}}
+                        </ui-select-choices>
+                      </ui-select>
+                
+                </div>
+
+                <div class="small-6 column">
+
+                  <label>Medical Info: </label>
+                    <textarea type='text' col='40' row='4' ng-model='volunteerEdit.medical_info'></textarea>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="small-8 column">
+                  <button class="button success postfix" ng-click="updateVolunteer(volunteerEdit)" ng-disabled="editVolunteer.$invalid">Save</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        <hr>
+      </script>
+      </td>
+      <td title="'Qualifier Signup'">
+        <button class="tiny round button" ng-click='openVolunteerSignup(volunteer)'>Signup for Qualifiers</button>
+          <script type="text/ng-template" id="volunteer_signup.html">
+            <div class="modal-body" >
+              <fieldset>
+              <legend>Qualifiers Signup for {{ volunteerSignupEdit.first_name }}</legend>
+              <form name="editSignup" ng-controller='qualifiers_controller'> 
+                <div class="row">
+                  <div class="small-6 column">
+                    <label>Qualifiers: <small ng-messages="editSignup.qualifiers.$error"><b ng-message="required" class="error">Required</b></small></label>
+                    <ui-select ng-model="volunteerSignupEdit.qualifier" theme="select2" ng-disabled="disabled" style="min-width: 400px;" name="qualifiers" required>
+                      <ui-select-match placeholder="Select a qualifier"><b>Year:</b> {{$select.selected.season_year}} <b>Name:</b> {{$select.selected.name}}</ui-select-match>
+                      <ui-select-choices repeat="qualifier in openQualifiers | open">
+                        <div ng-bind-html="qualifier.season_year | highlight: $select.search"></div>
+                          <b>Year:</b> {{qualifier.season_year}} <b>Name:</b> {{qualifier.name}}<hr>
+                      </ui-select-choices>                    
+                    </ui-select>
+                  </div> 
+                </div> 
+                <hr>
+                <div class="row">
+                  <div class="small-4 column">
+                    <button class="button success postfix" ng-click="addVolunteerToQualifier(volunteerSignupEdit,volunteerSignupEdit.qualifier)" ng-disabled='editSignup.$invalid'>Add</button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+            <form name="deleteVolunteerQuals"> 
+
+              <fieldset>
+              <legend>Participating In:</legend>
+
+                <table ng-table="volunteerQualTableParams" class="table" show-filter="true">
+                    <tr ng-repeat="record in $data">
+                      <td title="'Season'">
+                          <input type="text" ng-model='record.season_year' ></input>    
+                      </td>
+                      
+                      <td title="'Qualifier Name'">
+                          <input type="text" ng-model='record.name' readonly></input>    
+                      </td>
+                      <td title="'Volunteer ID'">
+                          <input type="text" ng-model='record.volunteer_id' readonly></input>
+                      </td>
+                      <td title="'Delete'">
+                      <button class="tiny round button alert" ng-click='deleteVolunteerQual(record)' confirmation-needed>Delete</button></td>
+                    </tr>
+                </table>
+
+              </fieldset>
+            </form>
+
+          </div>
+          <hr>
+        </script>
+
+      </td>
+
+      <td title="'Volunteer Positions'">
+        <button class="tiny round button" ng-click='openVolunteerPositions(volunteer)'>Volunteer Positions</button>
+          <script type="text/ng-template" id="volunteer_positions.html">
+            <div class="modal-body" >
+              <fieldset>
+              <legend>Add Volunteer Positions for {{ volunteerPositionsEdit.first_name }}</legend>
+              <form name="editPositions" > 
+                <div class="row">
+                  <div class="small-6 columns">
+                    <label for="affiliation">Affiliation <small ng-messages="volunteerPositionsEdit.affilication.$error"><b ng-message="required" class="error">Required</b></small></label>
+
+                      <input type="radio" name="affiliation" value="general" ng-model="volunteerPositionsEdit.affiliation"  >General
+                      <input type="radio" name="affiliation" value="fll general" ng-model="volunteerPositionsEdit.affiliation" >FLL General
+                      <input type="radio" name="affiliation" value="fll" ng-model="volunteerPositionsEdit.affiliation" >FLL
+                      <input type="radio" name="affiliation" value="robofest general" ng-model="volunteerPositionsEdit.affiliation" >Robofest General
+                      <input type="radio" name="affiliation" value="robofest" ng-model="volunteerPositionsEdit.affiliation" >Robofest
+                  </div>
+                  <div class="small-6 column">
+                    <label>Positions: <small ng-messages="editPositions.positions.$error"><b ng-message="required" class="error">Required</b></small></label>
+                    <ui-select ng-model="volunteerPositionsEdit.position" theme="select2" ng-disabled="disabled" style="min-width: 400px;" name="positions" required>
+                      <ui-select-match placeholder="Select a position"><b>Position:</b> {{$select.selected.position}} </ui-select-match>
+                      <ui-select-choices change="getVolunteerPositions()" repeat="position in volunteerPositions | match: {voul: volunteerPositionsEdit, pos: volunteerPositions}">
+                        <div ng-bind-html="position.position | highlight: $select.search" ></div>
+                          <b>Position:</b> {{position.position}} <hr>
+                      </ui-select-choices>                    
+                    </ui-select>
+                  </div> 
+                </div> 
+                <hr>
+                <div class="row">
+                  <div class="small-4 column">
+                    <button class="button success postfix" ng-click="addVolunteerPositition(volunteerPositionsEdit, volunteerPositionsEdit.position)" ng-disabled='editPositions.$invalid'>Add</button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+            <form name="deleteVolunteerPos"> 
+
+              <fieldset>
+              <legend>Positions:</legend>
+
+                <table ng-table="volunteerPosTableParams" class="table" show-filter="true">
+                    <tr ng-repeat="record in $data">
+                      <td title="'Affiliation'">
+                          <input type="text" ng-model='record.affiliation' ></input>    
+                      </td>
+                      
+                      <td title="'Position'">
+                          <input type="text" ng-model='record.position' readonly></input>    
+                      </td>
+                      <td title="'Delete'">
+                      <button class="tiny round button alert" ng-click='deleteVolunteerPosition(record)' confirmation-needed>Delete</button></td>
+                    </tr>
+                </table>
+
+              </fieldset>
+            </form>
+
+          </div>
+          <hr>
+        </script>
+
+      </td>
+
+      <td title="'Delete'" ng-if='!isQualAdmin()'>
+          <button class="tiny round button alert" ng-click='deleteVolunteer(volunteer)' confirmation-needed>Delete</button>
+      </td>
+    </tr>
+  </table>
+  </div>
+  </fieldset>
+</div>
+
+
+
+
+
+<!--MODAL WINDOW--> 
+<script type="text/ng-template" id="volunteerAdd.html">
+
+<div class="row">
+  
+   <form name="newVolunteer"> 
+      <fieldset>
+        <legend>New Volunteer</legend>
+        <div class="row">
+
+          <div class="small-4 column">
+             <label>First Name: <small ng-messages="newVolunteer.volunteerFirstName.$error"><b ng-message="required" class="error">Required</b></small></label>
+              <input type="text" name="volunteerFirstName" ng-model="volunteer.first_name" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Last Name: <small ng-messages="newVolunteer.volunteerLastName.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="volunteerLastName" ng-model="volunteer.last_name" required />
+          </div>
+
+          <div class="small-4 column">
+            <label>Email: <small ng-messages="newVolunteer.volunteerEmail.$error"><b ng-message="required" class="error">Required</b><b ng-message="email" class="error">Email is not valid</b></small></label>
+            <input type="email" name="volunteerEmail" ng-model="volunteer.email" required />
+          </div>
+
+        </div>
+        <div class="row" >
+
+          <div class="small-4 column">
+            <label>Season: <small ng-messages="newVolunteer.season_year.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="season.year" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="volunteerYear" required>
+                  <ui-select-match placeholder="Select a season..."><b>Year: </b>{{$select.selected.year}} </ui-select-match>
+                  <ui-select-choices repeat="season in seasons ">
+                    <div ng-bind-html="year | highlight: $select.search"></div>
+                      <b>Season Year: </b>{{season.year}} 
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+          <div class="small-4 column">
+            <label>DOB: <small ng-messages="newVolunteer.volunteerDOB.$error"><b ng-message="required" class="error">Please select a DOB</b></small></label>
+            <datepicker date-format="longDate">
+               <input name="volunteerDOB" ng-model="volunteer.dob" type="text" required readonly/>
+            </datepicker>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>Civic Address: <small ng-messages="newVolunteer.volunteerCivic.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="volunteerCivic" ng-model="volunteer.civic_number"  />
+          </div>
+
+          <div class="small-4 column">
+            <label>Street Address: <small ng-messages="newVolunteer.volunteerStreet1.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="volunteerStreet1" ng-model="volunteer.street1" />
+          </div>
+
+          <div class="small-4 column">
+            <label>Street Address:
+            <input type="text" name="volunteerStreet2" ng-model="volunteer.street2"/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-4 column">
+            <label>City: <small ng-messages="newVolunteer.volunteerCity.$error"><b ng-message="required" class="error">Required</b></small></label>
+            <input type="text" name="volunteerCity" ng-model="volunteer.city"  />
+          </div>
+
+          <div class="small-4 column">
+            <label>Province: <small ng-messages="newVolunteer.volunteerProvince.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="volunteer.province" theme="select2" ng-disabled="disabled" style="min-width: 200px;" name="volunteerProvince" >
+                  <ui-select-match placeholder="Select a province...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="province in provinces | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{province.type}}
+                  </ui-select-choices>
+                </ui-select>
+          </div>
+
+          <div class="small-4 column">
+            <label>Postal Code: <small ng-messages="newVolunteer.volunteerPostalCode.$error"><b ng-message="required" class="error">Required</b>
+            <b ng-message="pattern" class="error">Please enter a valid postal code </b></small></label>
+
+            <input type="text" name="volunteerPostalCode" ng-model="volunteer.postal_code"  ng-pattern="/^([a-zA-Z]\d[a-zA-Z] *\d[a-zA-Z]\d)$/">
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="small-4 column">
+            <label>Phone: <small ng-messages="newVolunteer.volunteerPhone.$error"><b ng-message="required" class="error">Required</b>
+            <b ng-message="pattern" class="error">Please only a valid phone number</b><//small></label>
+            <input type="text" name="volunteerPhone" ng-model="volunteer.phone"  ng-pattern="phoneNumberPattern"/>
+          </div>
+
+        
+
+        </div>
+
+          <div class="row">
+
+            <div class="small-3 column">
+
+              <label>Gender: <small ng-messages="newVolunteer.volunteerGender.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="volunteer.gender" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="volunteerGender" required>
+                  <ui-select-match placeholder="Select a gender...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="gender in genders | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{gender.type}}
+                  </ui-select-choices>
+                </ui-select>
+            
+            </div>
+            <div class="small-3 column">
+
+              <label>Shirt Size: <small ng-messages="newVolunteer.volunteerShirt.$error"><b ng-message="required" class="error">Required</b></small></label>
+                <ui-select ng-model="volunteer.shirt_size" theme="select2" ng-disabled="disabled" style="min-width: 150px;" name="volunteerShirt" required>
+                  <ui-select-match placeholder="Select a shirt size...">{{$select.selected.type}}</ui-select-match>
+                  <ui-select-choices repeat="shirt in shirts | propsFilter: {type: $select.search}">
+                    <div ng-bind-html="type | highlight: $select.search"></div>
+                      {{shirt.type}}
+                  </ui-select-choices>
+                </ui-select>
+            </div>
+
+            <div class="small-6 column">
+
+              <label>Info: </label>
+                <textarea type='text' col='40' row='4' ng-model='volunteer.medical_info'></textarea>
+            
+            </div>
+
+
+          </div>
+
+<hr>
+        <div class="row">
+          <div class="small-8 column">
+            <button class="button postfix" ng-click="addNewVolunteer(volunteer)" ng-disabled="newVolunteer.$invalid">Register</button>
+          </div>
+
+        </div>
+      </fieldset>
+    </form>
+</div>
+</script>

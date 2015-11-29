@@ -122,7 +122,6 @@ CREATE TABLE Volunteers (
   medical_info varchar(255),
   shirt_size varchar(255) not null,
   consent varchar(128) DEFAULT null,
-  position varchar(255) not null,
   season_year varchar(128) not NULL,
   
   FOREIGN KEY (season_year)
@@ -164,7 +163,11 @@ CREATE TABLE ShirtSizes(
 
 CREATE TABLE VolunteerPositions(
   position_id int(10) not NULL auto_increment,
-  position varchar(128) not NULL,
+  affiliation ENUM('general', 'fll', 'fll general', 'robofest', 'robofest general') DEFAULT "general" not NULL,
+  capacity int(3),
+  status ENUM('full', 'open') DEFAULT "open" not NULL,
+  position varchar(128),
+
 
   PRIMARY KEY (position_id)
 ) ENGINE=InnoDB auto_increment=100000 DEFAULT CHARSET=utf8;

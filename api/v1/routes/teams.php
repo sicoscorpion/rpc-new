@@ -1,27 +1,27 @@
 <?php
 // Teams
-$app->post('/teams', function() use ($app){ 
+$app->post('/teams', 'authenticateToken',  function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Teams_model::create_team($db, $data);
   echoResponse(200, $rows);
 });
 
-$app->get('/teams', function() use ($app){ 
+$app->get('/teams', 'authenticateToken', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Teams_model::get_teams($db);
   echoResponse(200, $rows);
 });
 
-$app->get('/teams/:qual_id', function($qual_id) use ($app){ 
+$app->get('/teams/:qual_id', 'authenticateToken', function($qual_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Teams_model::get_qualifierTeams($db, $qual_id);
   echoResponse(200, $rows);
 });
 
-$app->put('/teams/:id', function($id) use ($app){ 
+$app->put('/teams/:id', 'authenticateToken', function($id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
 
@@ -31,14 +31,14 @@ $app->put('/teams/:id', function($id) use ($app){
   echoResponse(200, $rows);
 });
 
-$app->post('/teams/participate', function() use ($app){ 
+$app->post('/teams/participate', 'authenticateToken', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Teams_model::create_teamParticipation($db, $data);
   echoResponse(200, $rows);
 });
 
-$app->get('/teams/participate/:team_id', function($team_id) use ($app){ 
+$app->get('/teams/participate/:team_id', 'authenticateToken', function($team_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());
   $rows = Teams_model::get_teamParticipation($db, $team_id);
@@ -46,14 +46,14 @@ $app->get('/teams/participate/:team_id', function($team_id) use ($app){
 });
 
 $app->delete('/teams/:team_id', 
-  function($team_id) use ($app){
+  'authenticateToken', function($team_id) use ($app){
   global $db;
   $rows = Teams_model::delete_team($db, $team_id);
   echoResponse(200, $rows);
 });
 
 $app->delete('/teams/participate/:team_id/:qual_id/:comp_id/:season_year', 
-  function($team_id, $qual_id, $comp_id, $season_year) use ($app){
+  'authenticateToken', function($team_id, $qual_id, $comp_id, $season_year) use ($app){
   global $db;
   $rows = Teams_model::delete_teamParticipation($db, $team_id, $qual_id, $comp_id, $season_year);
   echoResponse(200, $rows);

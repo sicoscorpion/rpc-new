@@ -63,11 +63,18 @@ $(document).ready(function(){
     <ul class="left">
       <li><a ng-class="getActive('/home')" href="#/home">Home</a></li>
       <li class="divider"></li>
+      <li ng-class="getActive('/signup')" ng-if="!logged_in()">
+          <a href="#/signup">Coaches Signup</a>
+      </li>
+      <li ng-class="getActive('/volunteer_signup')" ng-if="!logged_in()">
+          <a href="#/volunteers_signup">Volunteers Signup</a>
+      </li>
       <li ng-class="getActive('/seasons')"><a href="#/seasons" ng-if='isAdmin()'>Seasons</a></li>
       <li ng-class="getActive('/competitions')"><a href="#/competitions" ng-if='isAdmin()'>Competitions</a></li>
       <li ng-class="getActive('/qualifiers')"><a href="#/qualifiers" ng-if='isAdmin() || isQualAdmin()'>Qualifiers</a></li>
       <li ng-class="getActive('/teams')" ng-if="logged_in()"><a href="#/teams">Teams</a></li>
       <li ng-class="getActive('/members')" ng-if="logged_in()"><a href="#/members">Members</a></li>
+      <li ng-class="getActive('/volunteers')" ng-if="isAdmin()"><a href="#/volunteers">Volunteers</a></li>
       <li ng-class="getActive('/users')"><a href="#/users"ng-if='isAdmin()'>Users</a></li>
 
     </ul>
@@ -81,9 +88,7 @@ $(document).ready(function(){
       <li ng-class="getActive('/login')" ng-if="!logged_in()">
           <a href="#/login">Login</a>
       </li>
-      <li ng-class="getActive('/signup')" ng-if="!logged_in()">
-          <a href="#/signup">Signup</a>
-      </li>
+      
     </ul>
     <ul class="social-icons">
       <a href=""><i class="fi-telephone"></i></a>
@@ -105,7 +110,7 @@ $(document).ready(function(){
   <a href="#" class="close">&times;</a>
 </div>
 
-<div ng-view ></div>
+<div ng-view></div>
 
 <script src="app/app.js"></script>
 <script src="app/js/controllers/topbarCtrl.js"></script>
@@ -113,6 +118,8 @@ $(document).ready(function(){
 <script src="app/js/controllers/seasonsCtrl.js"></script>
 <script src="app/js/controllers/competitionsCtrl.js"></script>
 <script src="app/js/controllers/qualifiersCtrl.js"></script>
+<script src="app/js/controllers/volunteersCtrl.js"></script>
+<script src="app/js/controllers/volunteersSignupCtrl.js"></script>
 <script src="app/js/controllers/teamsCtrl.js"></script>
 <script src="app/js/controllers/homeCtrl.js"></script>
 <script src="app/js/controllers/usersCtrl.js"></script>
@@ -122,7 +129,7 @@ $(document).ready(function(){
 <script src="app/js/services/data.js"></script>
 <script src="app/js/directives/confirmation_needed.js"></script>
 
- <footer class="footer">
+ <footer class="footer" >
   <div class="row">
     <div class="small-12 columns">
       <p class="slogan">3...2...1...LEGO!</p>
@@ -142,6 +149,7 @@ $(document).ready(function(){
         var height = $(window).height();
         height = height - pos.top;
         height = height - footer.height();
+        height = height + 100;
         if (height > 0) {
             footer.css({
                 'margin-top': height + 'px'

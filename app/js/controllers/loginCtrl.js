@@ -303,6 +303,10 @@ app.controller('login_controller', ['$scope', '$location', 'Data', '$cookies', '
                 return true;
         return false;
     }
+        // get the authorization token for the logged in user
+    getAuthToken = function() {
+        return 'Token token='.concat($cookies.getObject(loginCookie)['api_token']);
+    }
 
     // redirect to login page if not logged in
     $scope.check_logged_in = function() {
@@ -349,6 +353,23 @@ app.filter('propsFilter', function() {
   }
 });
 
+app.filter('match', function() {
+    return function(voul, pos) {
+        if (voul == undefined) {
+            return [];
+        }else{
+            var out = [];
+            console.log(voul, pos)
+            for (var i = 0; i < pos.pos.length; i++) {
+                if(pos.voul.affiliation == pos.pos[i].affiliation){
+                    out.push(pos.pos[i]);
+                }
+            }
+            return out;
+        }
+    }
+});
+
 app.filter('qualFilter', function() {
 
     return function(input, uppercase) {
@@ -390,5 +411,7 @@ app.filter('open', function() {
     }
 
 });
+
+
 
 
