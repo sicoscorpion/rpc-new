@@ -33,12 +33,21 @@ delete(table name, where clause as array)
 
 function authenticateToken() {
   global $db;
+
   $app = \Slim\Slim::getInstance();
-  $token = $app->request->headers->get('Authorization');
-  $token = str_replace('"', "", $token);
+  // $app->request->headers->get('Authorization');
+  $headers = apache_request_headers();
+  $token;
+  foreach ($headers as $header => $value) {
+    if ($header == 'Authorization') {
+
+    $token = str_replace('"', "", $value);
+      // echo "$header: $value <br />\n";
+    }
+  }
   $tokenFromDB = Users_model::get_user_by_token($db, $token);
   if (!$tokenFromDB) {
-    echoResponse(403, $app->request->headers->get('Authorization'));
+    echoResponse(403, $token);
     exit();
   }
   // echoResponse(200, "Accepeted");
