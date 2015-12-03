@@ -32,6 +32,9 @@ $app->post('/login', function() use ($app){
 $app->get('/users', 'authenticateToken', function() use ($app) { 
   global $db;
   $rows = Users_model::get_users($db);
+  // foreach (getallheaders() as $name => $value) {
+      // var_dump(getallheaders());
+  // }
   echoResponse(200, $rows);
 });
 
