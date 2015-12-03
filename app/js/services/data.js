@@ -20,24 +20,24 @@ app.factory("Data", ['$http', '$location', '$cookies', '$route', function ($http
                 }
             }
         }
-        obj.get = function (q) {
+        obj.get = function (q, auth) {
             console.log(auth)
             return $http.get(serviceBase + q, auth).then(function (results) {
                 return results.data;
             });
         };
-        obj.post = function (q, object) {
+        obj.post = function (q, object, auth) {
             return $http.post(serviceBase + q, object, auth).then(function (results) {
                 return results.data;
             });
         };
-        obj.put = function (q, object) {
+        obj.put = function (q, object, auth) {
             return $http.put(serviceBase + q, object, auth).then(function (results) {
       
                 return results.data;
             });
         };
-        obj.delete = function (q) {
+        obj.delete = function (q, auth) {
             return $http.delete(serviceBase + q, auth).then(function (results) {
                 return results.data;
             });
