@@ -427,6 +427,6 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
         $scope.userTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
     }
 
-    console.log("Users: ", $scope.users);
+    // console.log("Users: ", $scope.users);
 
 }]);

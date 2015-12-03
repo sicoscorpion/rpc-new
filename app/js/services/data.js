@@ -13,32 +13,37 @@ app.factory("Data", ['$http', '$location', '$cookies', '$route', function ($http
             return false;
         }
         console.log(logged_in());
-        if (logged_in()) {
-            var auth = {
-                headers: {
-                    'Authorization': $cookies.getObject('login')["api_token"]
+        var getAuth = function () {
+            var auth = {};
+            if (logged_in()) {
+                var auth = {
+                    headers: {
+                        'Authorization': $cookies.getObject('login')["api_token"]
+                    }
                 }
-            }
+
+            } 
+            return auth;
         }
-        obj.get = function (q, auth) {
-            console.log(auth)
-            return $http.get(serviceBase + q, auth).then(function (results) {
+        obj.get = function (q) {
+            return $http.get(serviceBase + q, getAuth()).then(function (results) {
+                console.log(results.data)
                 return results.data;
             });
         };
-        obj.post = function (q, object, auth) {
-            return $http.post(serviceBase + q, object, auth).then(function (results) {
+        obj.post = function (q, object) {
+            return $http.post(serviceBase + q, object, getAuth()).then(function (results) {
                 return results.data;
             });
         };
-        obj.put = function (q, object, auth) {
-            return $http.put(serviceBase + q, object, auth).then(function (results) {
+        obj.put = function (q, object) {
+            return $http.put(serviceBase + q, object, getAuth()).then(function (results) {
       
                 return results.data;
             });
         };
-        obj.delete = function (q, auth) {
-            return $http.delete(serviceBase + q, auth).then(function (results) {
+        obj.delete = function (q) {
+            return $http.delete(serviceBase + q, getAuth()).then(function (results) {
                 return results.data;
             });
         };

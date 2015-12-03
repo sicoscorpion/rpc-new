@@ -41,6 +41,7 @@ function authenticateToken() {
     echoResponse(403, "Invalid Token");
     exit();
   }
+  // echoResponse(200, "Accepeted");
 }
 
 
