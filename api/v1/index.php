@@ -35,7 +35,7 @@ function authenticateToken() {
   global $db;
   $app = \Slim\Slim::getInstance();
   $token = $app->request->headers->get('Authorization');
-  // $token = str_replace('"', "", $token);
+  $token = str_replace('"', "", $token);
   $tokenFromDB = Users_model::get_user_by_token($db, $token);
   if (!$tokenFromDB) {
     echoResponse(403, $app->request->headers->get());
