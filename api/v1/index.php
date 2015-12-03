@@ -38,7 +38,7 @@ function authenticateToken() {
   $token = str_replace('"', "", $token);
   $tokenFromDB = Users_model::get_user_by_token($db, $token);
   if (!$tokenFromDB) {
-    echoResponse(403, $tokenFromDB);
+    echoResponse(403, $token);
     exit();
   }
   // echoResponse(200, "Accepeted");
