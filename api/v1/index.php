@@ -35,14 +35,11 @@ function authenticateToken() {
   global $db;
 
   $app = \Slim\Slim::getInstance();
-  // $app->request->headers->get('Authorization');
   $headers = apache_request_headers();
   $token;
   foreach ($headers as $header => $value) {
     if ($header == 'Authorization') {
-
-    $token = str_replace('"', "", $value);
-      // echo "$header: $value <br />\n";
+      $token = str_replace('"', "", $value);
     }
   }
   $tokenFromDB = Users_model::get_user_by_token($db, $token);
@@ -50,7 +47,6 @@ function authenticateToken() {
     echoResponse(403, $token);
     exit();
   }
-  // echoResponse(200, "Accepeted");
 }
 
 
