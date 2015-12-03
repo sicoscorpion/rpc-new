@@ -27,7 +27,7 @@ app.factory("Data", ['$http', '$location', '$cookies', '$route', function ($http
         }
         obj.get = function (q) {
             return $http.get(serviceBase + q, getAuth()).then(function (results) {
-                console.log(results.data)
+                console.log(getAuth())
                 return results.data;
             });
         };
