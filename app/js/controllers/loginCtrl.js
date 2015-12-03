@@ -355,7 +355,7 @@ app.filter('propsFilter', function() {
 
 app.filter('match', function() {
     return function(voul, pos) {
-        if (voul == undefined) {
+        if (typeof pos.voul == "undefined") {
             return [];
         }else{
             var out = [];
