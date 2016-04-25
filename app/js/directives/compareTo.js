@@ -1,5 +1,13 @@
-var app = angular.module('myApp');
+/*
+ * File:        compareTo.js
+ * Author:      James Walsh
+ * Date:        Fall 2015
+ * Purpose:     This file adds an angular directive to compare values
+ *              in validation. This function is not being used as of
+ *              April 2016. -MM
+ */
 
+var app = angular.module('myApp');
 
 var compareTo = function() {
     return {

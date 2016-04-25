@@ -1,0 +1,139 @@
+=================THE ACADIA ROBOTICS REGISTRATION DATABASE===================
+
+===WHO=======================================================================
+This project was written by James Walsh and Fady Abdelmohsen, with help from 
+Dr. Darcy Benoit and Martin Main in 2015-16 for Acadia Robotics, to replace 
+an older database implementation. The backend system was primarily written by
+Fady Abdelmohsen, the frontend by James Walsh, and the documentation by 
+Martin Main. Dr. Darcy Benoit was consulted for help with the database
+design.
+
+===WHAT======================================================================
+The purpose of the registration database is to provide a single database to 
+manage all of the registration information for competition participants, 
+teams, coaches, volunteers and administrators. The Scope of the project at
+the time of writing (April 2016), is to include basic information such as 
+name, email, street address, role in competition, etc for those involved in 
+the competition, and to keep this information from year to year to be used 
+for record keeping. 
+
+It is implemented as a MySql Database being stored on one of Acadia 
+University's servers, as well as a front end access component to allow people 
+to register, and administrators to access data.
+
+
+===HOW THIS APPLICATION IS ORGANIZED=========================================
+This application uses two fully separate backend and front end components. 
+The backend is simply an API that takes requests and returns JSON encoded
+data.The front end is a web browser accessible user interface that makes 
+requests to the backend and shows data to the user asynchronously.
+
+
+===========================BASIC FOLDER STRUCTURE============================
+/api-------------------------------------------------------------------------
+-Contains the source code for the back-end database api. 
+	
+	/api/libs 			
+	-Contains the libraries used for the back-end.
+
+		/api/libs/Slim
+		-The Slim php library which is a framework for creating the API 
+	
+	/api/v1			
+	-Contains the code for version 1 of the api.
+		
+		/api/v1/model
+		-Provides a set of abstract classes that represent the different 
+		objects in the database. Handles database access queries.
+		
+		/api/v1/routes
+		-Provides a set of functions that detect and direct the various 
+		types of requests to the correct classes in the model. These 
+		functions also provide validation checking and the sending of 
+		actual responses the API.
+
+		/api/v1/config.php
+		-Contains the default configuration settings for the database
+
+		/api/v1/config-algol.php
+		-Contains the configuration settings for the system when it is up on
+		the algol server.
+
+		/api/v1/dbHelper.php
+		-Contains a class which abstractifies much of the database access
+		functionality for the database system.
+
+		/api/v1/index.php
+		-Contains the base file for the API. Initializes the Slim app and
+		includes all the required files for the API. 
+
+/app-------------------------------------------------------------------------
+-Contains the source code for the front end application.
+
+	/app/images
+	-Contains the images used in the front end app.
+	
+	/app/js
+	-Contains the Angular JS Java Script code used in the application.
+	
+		/app/js/controllers
+		-Contains all the Angular JS control files that link up with all 
+		the views.
+		
+		/app/js/directives
+		-Contains the Angular JS directives for adding special 
+		functionality.
+		
+		/app/js/services
+		-Contains the Angular JS services used in the application. This 
+		folder contains data.js which creates the Data service which is
+		the abstraction that actually makes the queries to the back end 
+		system.
+
+	/app/stylesheets
+	-Contains the CSS files used to style the front end application.
+	
+	/app/views
+	-Contains the different pages of the front end application. This is 
+	heavily relient upon the Angular JS framework from which the front 
+	end is built.
+
+	/app/app.js
+	-This file creates the angular app and links up the views with the 
+	controllers.
+
+/bower_components------------------------------------------------------------
+-Contains all the libraries and content loaded with Bower for the front 
+end application.
+
+/db--------------------------------------------------------------------------
+-Contains the set up scripts for the MySql database.
+
+/fonts-----------------------------------------------------------------------
+-Contains the fonts used in the front end application.
+
+/bower.json
+-See the versions of all the libraries being loaded by bower.
+
+/index.html
+-The base html file of the application. This file is the base layout on which
+the rest of the views are loaded into. This file loads all the front end 
+libraries, and all of the javascript files used by angular. After this page 
+loads, the whole web application is loaded, except the data from the 
+database. This data loads asynchronously, as the need arises.
+
+
+
+===CONTACT INFO==============================================================
+Current Acadia Robotics Technician: 	rpc.technician@acadiau.ca
+Current Computer Science Tech Staff: 	cs.consultant@acadiau.ca
+Current Acadia Robotics Director:		rpc.director@acadiau.ca
+Current Acadia Robotics Website:		http://robots.acadiau.ca/contact-us.html
+
+/*
+ * File:        
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     
+ * 
+ */

@@ -1,4 +1,12 @@
 <?php
+/*
+ * File:        seasons.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file holds the Seasons_model class which handles
+ *              all database queries relating to the season of a competition.
+ */
+ 
   class Seasons_model {
 
     public function __construct(){

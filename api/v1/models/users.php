@@ -1,4 +1,12 @@
 <?php
+/*
+ * File:        users.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file holds the Users_model class which handles
+ *              all database queries relating to users in the system.
+ */
+
 // require '.././libs/password.php';
 
   class Users_model {

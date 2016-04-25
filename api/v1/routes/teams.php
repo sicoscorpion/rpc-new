@@ -1,4 +1,11 @@
 <?php
+/*
+ * File:        teams.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     Handles all requests relating to teams.
+ */
+
 // Teams
 $app->post('/teams', 'authenticateToken',  function() use ($app){ 
   global $db;

@@ -1,4 +1,13 @@
 <?php
+/*
+ * File:        members.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file holds the Members_model class which handles
+ *              all database queries relating to the team members 
+ *              (participants) in the robot programming competition.
+ */
+
   class Members_model {
 
     public function __construct(){

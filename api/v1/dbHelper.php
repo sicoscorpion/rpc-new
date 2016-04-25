@@ -1,4 +1,12 @@
 <?php
+/*
+ * File:        dbHelper.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file provides abstraction to the database access functions 
+ *              in the API. 
+ */
+ 
 require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD]
 class dbHelper {
     private $db;

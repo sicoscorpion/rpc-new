@@ -1,4 +1,11 @@
 <?php
+/*
+ * File:        volunteers.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     Handles all requests relating to volunteers.
+ */
+
 // Volunteers
 $app->post('/volunteer',  function() use ($app){ 
   global $db;

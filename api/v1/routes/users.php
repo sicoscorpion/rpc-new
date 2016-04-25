@@ -1,4 +1,10 @@
 <?php
+/*
+ * File:        users.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     Handles all requests relating to users.
+ */
 
 // function authenticateToken() {
 //   global $db;

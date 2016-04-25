@@ -1,4 +1,11 @@
 <?php
+/*
+ * File:        qualifiers.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     Handles all requests relating to qualifiers.
+ */
+
   // Qualifiers
 $app->post('/qualifiers', 'authenticateToken', function() use ($app){ 
   global $db;

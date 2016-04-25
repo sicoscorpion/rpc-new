@@ -1,4 +1,11 @@
 <?php
+/*
+ * File:        seasons.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     Handles all requests relating to seasons.
+ */
+
   // Seasons
 $app->get('/seasons', function() use ($app){ 
   global $db;

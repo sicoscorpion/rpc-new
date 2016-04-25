@@ -1,4 +1,13 @@
 <?php
+/*
+ * File:        competitions.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file holds the Competitions_model class which handles
+ *              all database queries relating to the yearly robotics 
+ *              competitions.
+ */
+
   class Competitions_model {
 
     public function __construct(){

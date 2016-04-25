@@ -1,4 +1,13 @@
 <?php
+/*
+ * File:        volunteers.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file holds the Volunteers_model class which handles
+ *              all database queries relating to volunteers registered in the 
+ *              system.
+ */
+
   class Volunteers_model {
 
     public function __construct(){

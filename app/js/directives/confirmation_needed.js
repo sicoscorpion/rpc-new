@@ -1,3 +1,11 @@
+/*
+ * File:        confirmation_needed.js
+ * Author:      James Walsh
+ * Date:        Fall 2015
+ * Purpose:     This file is not being used as of April 2016. -MM
+ * 
+ */
+
 var app = angular.module('myApp');
 
 app.directive('confirmationNeeded', function () {

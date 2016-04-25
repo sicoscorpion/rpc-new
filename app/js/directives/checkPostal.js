@@ -1,3 +1,12 @@
+/*
+ * File:        checkPostal.js
+ * Author:      James Walsh
+ * Date:        Fall 2015
+ * Purpose:     This file adds an angular directive that handles basic postal
+ *              code validation. As of April 2016 this function is not being
+ *              used. -MM
+ */
+
 var app = angular.module('myApp');
 
 app.directive('checkPostal', function() {

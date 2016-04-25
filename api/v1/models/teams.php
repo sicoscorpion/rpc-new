@@ -1,4 +1,13 @@
 <?php
+/*
+ * File:        teams.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file holds the Teams_model class which handles
+ *              all database queries relating to the different teams at the 
+ *              robot programming competition.
+ */
+
   class Teams_model {
 
     public function __construct(){

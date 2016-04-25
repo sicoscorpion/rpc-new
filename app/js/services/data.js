@@ -1,3 +1,14 @@
+/*
+ * File:        data.js
+ * Author:      James Walsh
+ * Date:        Fall 2015
+ * Purpose:     This file contains a factory function for the app module
+ *              which creates an abstraction of the http functionality in
+ *              communicating with the back end system. It automatically 
+ *              takes care of the authorization functionality for the app.
+ * 
+ */
+
 var app = angular.module('myApp');
 
 app.factory("Data", ['$http', '$location', '$cookies', '$route', function ($http,  $location, $cookies, $route) {

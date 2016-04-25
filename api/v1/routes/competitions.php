@@ -1,4 +1,11 @@
 <?php
+/*
+ * File:        competitions.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     Handles all requests relating to competitions.
+ */
+
   // Competitions
 $app->post('/competitions', 'authenticateToken', function() use ($app){ 
   global $db;

@@ -1,4 +1,11 @@
 <?php
+/*
+ * File:        index.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file starts up the slim API framework.
+ */
+
 require '.././libs/Slim/Slim.php';
 
 require '.././libs/password.php';

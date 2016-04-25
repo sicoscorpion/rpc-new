@@ -1,4 +1,13 @@
 <?php
+/*
+ * File:        qualifiers.php
+ * Author:      Fady Abdelmohsen
+ * Date:        Fall 2015
+ * Purpose:     This file holds the Qualifiers_model class which handles
+ *              all database queries relating to the qualifiers in the 
+ *              competition.
+ */
+
   class Qualifiers_model {
 
     public function __construct(){

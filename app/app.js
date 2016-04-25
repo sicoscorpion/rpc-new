@@ -1,3 +1,12 @@
+/*
+ * File:      app.js
+ * Author:    James Walsh
+ * Purpose:   This file is used to create the angular module 'app' to be used 
+ *            throughout the frontend application. This file handles the linking
+ *            between the view and control files through angular.js routes using
+ *            the $routeProvider. 
+ */
+
 var app = angular.module('myApp', ['ngRoute', 'ngTable', 'ngCookies', 'mm.foundation', 'ui.select', 'ngMessages', '720kb.datepicker']);
 
 app.config(['$routeProvider',
