@@ -135,6 +135,11 @@
                 <button class="tiny round button alert" ng-click='deleteQual(qual)' confirmation-needed>Delete</button></td>
         </tr>
     </table>
+    <div class='row'>
+    <div class='large-2 large-offset-10 columns'>
+      <button class="tiny round button alert" ng-click='downloadQualifiers()' ng-if="isAdmin()">Download List</button></td>
+    </div>
+  </div>
 </div>
 </fieldset>
 </div>

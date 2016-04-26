@@ -25,6 +25,12 @@
       return $data;
     }
 
+    // Function made by Martin Main for purpose of downloading members list
+    public function get_all_members($db) {
+      $data = $db->query("SELECT * FROM Members LEFT JOIN Teams ON Members.team_id=Teams.team_id ORDER BY Members.team_id");
+      return $data;
+    }
+
     public function update_member($db, $data, $id)
     {
       $where_inMembers = array('member_id' => $id);    

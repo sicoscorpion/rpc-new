@@ -323,6 +323,45 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
     }
 
+    $scope.downloadMembers = function() {
+        Data.get("members_all").then(function (teamMembers) {
+            if(teamMembers.status != 'error'){
+                console.log("Returned Members: ", teamMembers);
+                var csvContent = "Member Id,FLL Team Number,Team Name,Team Organization,Email,First Name,Last Name,Civic Number,Street1,Street2,City,Province,Postal Code,Dob,Gender,Shirt Size,Guardian Name,Guardian Email,Guardian Phone,Medical Info,Consent\n";
+                for (m in teamMembers) {
+                    csvContent += teamMembers[m].member_id + ',' +
+                    teamMembers[m].team_id + ',' +
+                    teamMembers[m].name + ',' +
+                    teamMembers[m].organization + ',' +
+                    teamMembers[m].email + ',' +
+                    teamMembers[m].first_name + ',' +
+                    teamMembers[m].last_name + ',' +
+                    teamMembers[m].civic_number + ',' +
+                    teamMembers[m].street1 + ',' +
+                    teamMembers[m].street2 + ',' +
+                    teamMembers[m].city + ',' +
+                    teamMembers[m].province + ',' +
+                    teamMembers[m].postal_code + ',"' +
+                    teamMembers[m].dob + '",' +
+                    teamMembers[m].gender + ',' +
+                    teamMembers[m].shirt_size + ',' +
+                    teamMembers[m].guardian_name + ',' +
+                    teamMembers[m].guardian_email + ',' +
+                    teamMembers[m].guardian_phone + ',' +
+                    teamMembers[m].medical_info + ',' +
+                    teamMembers[m].consent + '\n';
+                }
+
+                var hiddenElement = document.createElement("a");
+                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = 'members.csv';
+                document.body.appendChild(hiddenElement);
+                hiddenElement.click();
+            }
+        });
+    }
+
     // MODAL WINDOW
     $scope.openMembers = function () {
         console.log("Open Team add member Modal");

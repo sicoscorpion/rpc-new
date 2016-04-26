@@ -57,6 +57,7 @@ app.controller('volunteers_controller', ['$scope', '$location', 'Data', 'NgTable
               $scope.volunteers = result;
               data = $scope.volunteers;
               $scope.volunteersTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
+              $scope.season = season_year;
           }
       }) 
   }
@@ -68,7 +69,7 @@ app.controller('volunteers_controller', ['$scope', '$location', 'Data', 'NgTable
       $scope.volunteer_status.disabled = true;
       $scope.volunteer_status.show_alert = true;
       $scope.volunteer_status.alert_type = 'info round';
-      volunteer.season_year = $scope.season.year.year;
+      volunteer.season_year = $scope.season;
 
 
       if (typeof $scope.volunteer.shirt_size.type != "undefined"){
@@ -93,7 +94,7 @@ app.controller('volunteers_controller', ['$scope', '$location', 'Data', 'NgTable
 
       }
       if (typeof $scope.volunteer.season_year.season_year != "undefined"){
-          $scope.volunteer.season_year = $scope.season.year.year;
+          $scope.volunteer.season_year = $scope.season;
           
       }else{
           $scope.volunteer.season_year = $scope.volunteer.season_year;
@@ -441,5 +442,40 @@ app.controller('volunteers_controller', ['$scope', '$location', 'Data', 'NgTable
           }
       });
   };
+
+    $scope.downloadVolunteers = function() {
+        Data.get("volunteers/" + $scope.season).then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Volunteers: ", result);
+                var csvContent = "Volunteer Id,Email,First Name,Last Name,Phone,Civic Number,Street1,Street2,City,Province,Postal Code,Dob,Gender,Medical Info,Shirt Size,Consent,Season Year\n";
+                for (row in result) {
+                    csvContent += result[row].volunteer_id + ',' +
+                    result[row].email + ',' +
+                    result[row].first_name + ',' +
+                    result[row].last_name + ',' +
+                    result[row].phone + ',' +
+                    result[row].civic_number + ',' +
+                    result[row].street1 + ',' +
+                    result[row].street2 + ',' +
+                    result[row].city + ',' +
+                    result[row].province + ',' +
+                    result[row].postal_code + ',"' +
+                    result[row].dob + '",' +
+                    result[row].gender + ',' +
+                    result[row].medical_info + ',' +
+                    result[row].shirt_size + ',' +
+                    result[row].consent + ',' +
+                    result[row].season_year + '\n';
+                }
+
+                var hiddenElement = document.createElement("a");
+                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = 'volunteers.csv';
+                document.body.appendChild(hiddenElement);
+                hiddenElement.click();
+            }
+        })
+    }
 
 }]);

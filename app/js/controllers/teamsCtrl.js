@@ -330,6 +330,25 @@ console.log("is admin: ", $scope.isAdmin());
 
     }
 
+    $scope.downloadTeams = function() {
+        Data.get("teams").then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Teams: ", result);
+                var csvContent = "FLL ID,Team Name,Organization,Approved\n";
+                for (row in result) {
+                    csvContent += result[row].team_id + ',' + result[row].name + ',' + result[row].organization + ',' + result[row].approved + '\n';
+                }
+                
+                var hiddenElement = document.createElement("a");
+                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = 'teams.csv';
+                document.body.appendChild(hiddenElement);
+                hiddenElement.click();
+            }
+        })
+    }
+
 
             // MODAL WINDOW
     $scope.openTeams = function () {

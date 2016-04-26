@@ -44,6 +44,12 @@ $app->get('/users', 'authenticateToken', function() use ($app) {
   echoResponse(200, $rows);
 });
 
+$app->get('/users_all', 'authenticateToken', function() use ($app) {
+  global $db;
+  $rows = Users_model::get_users_with_teams($db);
+  echoResponse(200, $rows);
+});
+
 $app->post('/users', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

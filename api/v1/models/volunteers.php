@@ -26,6 +26,12 @@
       return $data;
     }
 
+    // Function made by Martin Main for downloading functionality
+    public function get_all_volunteers($db) {
+      $data = $db->query("SELECT * FROM Volunteers");
+      return $data;
+    }
+
     public function update_volunteer($db, $data, $id)
     {
       $where_inVolunteers = array('volunteer_id' => $id);    

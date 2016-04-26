@@ -14,6 +14,13 @@ $app->post('/volunteer',  function() use ($app){
   echoResponse(200, $rows);
 });
 
+$app->get('/volunteers', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Volunteers_model::get_all_volunteers($db);
+  echoResponse(200, $rows);
+});
+
 $app->get('/volunteers/:season_year', function($season_year) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

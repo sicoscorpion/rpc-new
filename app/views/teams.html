@@ -1,9 +1,10 @@
 <div class='row' style="min-width: 80%" ng-controller='qualifiers_controller'><fieldset>
   <legend> Manage Teams </legend>
-  <div class='large-2 large-offset-10 columns'>
+  <div class='row'>
+    <div class='large-2 large-offset-10 columns'>
       <button class="tiny round button alert" ng-click='openTeams()' ng-if="isAdmin() || isCoach()">New Team</button></td>
     </div>
-
+  </div>
   <div class="small-4 column" ng-if='isQualAdmin()'>
         <ui-select ng-change='getTeamsForQual($select.selected.qual_id)' ng-model="qual.qual_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
           <ui-select-match placeholder="Select a qualifier..."><b>Qual ID: </b>{{$select.selected.qual_id}} <b>Qual Name: </b>{{$select.selected.name}} </ui-select-match>
@@ -45,8 +46,13 @@
                 <button class="tiny round button alert" ng-click='deleteTeam(team)' confirmation-needed>Delete</button></td> -->
         </tr>
     </table>
+      <div class='row'>
+    <div class='large-2 large-offset-10 columns'>
+      <button class="tiny round button alert" ng-click='downloadTeams()' ng-if="isAdmin()">Download List</button></td>
+    </div>
   </div>
-  </filedset>
+  </div>
+  </fieldset>
 </div>
 
 <!--MODAL WINDOW--> 

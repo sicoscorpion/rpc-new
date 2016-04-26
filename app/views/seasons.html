@@ -32,8 +32,14 @@
             <button class="tiny round button alert" ng-click='deleteSeason(season)' confirmation-needed>Delete</button></td>
       </tr>
     </table>
+    <div class='row'>
+    <div class='large-2 large-offset-10 columns'>
+      <button class="tiny round button alert" ng-click='downloadSeasons()' ng-if="isAdmin()">Download List</button></td>
+    </div>
   </div>
-</fieldset></div>
+  </div>
+</fieldset>
+</div>
 
 <!--MODAL WINDOW--> 
 <script type="text/ng-template" id="newSeason.html">

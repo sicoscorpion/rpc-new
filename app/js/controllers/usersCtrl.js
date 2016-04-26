@@ -407,6 +407,44 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
         }
     }
 
+    $scope.downloadUsers = function() {
+        Data.get("users_all").then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned Users: ", result);
+                var csvContent = "User Id, Email, First Name, Last Name, Phone, Civic Number, Street1, Street2, City, Province, Postal Code, Dob, Gender, Medical Info, Admin, Qualifier Admin, Coach, Team Id, Name, Organization, Approved\n";
+                for (row in result) {
+                    csvContent += result[row].user_id + ',' +
+                    result[row].email + ',' +
+                    result[row].first_name + ',' +
+                    result[row].last_name + ',' +
+                    result[row].phone + ',' +
+                    result[row].civic_number + ',' +
+                    result[row].street1 + ',' +
+                    result[row].street2 + ',' +
+                    result[row].city + ',' +
+                    result[row].province + ',' +
+                    result[row].postal_code + ',"' +
+                    result[row].dob + '",' +
+                    result[row].gender + ',' +
+                    result[row].medical_info + ',' +
+                    result[row].admin + ',' +
+                    result[row].qualifier_admin + ',' +
+                    result[row].coach + ',' +
+                    result[row].team_id + ',' +
+                    result[row].name + ',' +
+                    result[row].organization + ',' +
+                    result[row].approved + '\n';
+                }
+                
+                var hiddenElement = document.createElement("a");
+                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = 'users.csv';
+                document.body.appendChild(hiddenElement);
+                hiddenElement.click();
+            }
+        })
+    }
 
     if ($scope.isAdmin()){
         // get registered users

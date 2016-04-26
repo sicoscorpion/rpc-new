@@ -1,0 +1,25 @@
+bugs.txt
+
+April 2016:
+----------------------------------------------------------------------------
+Possible Bugs from my local version (Martin Main)
+(Google chrome on linux)
+
+Frontend:
+-Menu buttons often get squashed. Doesn't scale well for some sized screens.
+-Default admin screen for me buttons misplaced..
+-Social media stuff doesn't do anything
+-Robot logo has weird shadow
+
+-Weird red and green bars across middle of page when page is partially loaded
+-On signup page, perhaps give feedback on incorrect data AFTER the cursor has 
+left the field in question.
+-Why is angular_messages.js brought in from online when everything else is 
+loaded locally?
+-ON Create competition form - 
+	-'time' should be 'date'
+	
+-Backend:
+-Password hash being sent to client when logging in. Insecure?
+-If I am an admin, then on the app, set my own position to super-admin, I lose my priviledges
+-Deleting users doesn't seem to work quite right

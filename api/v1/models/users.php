@@ -20,6 +20,18 @@
     return $data;
   }
 
+  // Function made by Martin Main for downloading lists of users
+  public function get_users_with_teams($db){
+    $data = $db->query("SELECT a.user_id, a.email, a.first_name, a.last_name, a.phone, a.civic_number, a.street1, a.street2, a.city, a.province, a.postal_code, a.dob, a.gender, a.medical_info, b.admin, b.qualifier_admin, b.coach, d.team_id, d.name, d.organization, d.approved
+                        FROM Users a
+                        LEFT JOIN (SELECT Manages.team_id, Manages.user_id 
+                                   FROM Manages
+                                   GROUP BY Manages.team_id) c ON a.user_id=c.user_id
+                        LEFT JOIN Teams d ON d.team_id = c.team_id
+                        LEFT JOIN HasRole b ON a.user_id = b.user_id");
+    return $data;
+  }
+
   public function get_hash($db, $email){
     $data = $db->query("SELECT * FROM Users INNER JOIN HasRole ON Users.email = :email AND Users.user_id = HasRole.user_id", array('email' => $email));
     return $data;
