@@ -327,6 +327,10 @@ console.log("is admin: ", $scope.isAdmin());
 
     };
 
+    /*
+     * Function download teams created by Martin Main in April 2016
+     * to add download functionality to the page.
+     */
     $scope.downloadTeams = function() {
         Data.get("teams_with_coaches").then(function (result) {
             if(result.status != 'error'){

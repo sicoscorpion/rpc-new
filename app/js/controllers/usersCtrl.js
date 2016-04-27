@@ -439,13 +439,16 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                     result[row].organization + ',' +
                     result[row].approved + '\n';
                 }
-                
-                var hiddenElement = document.createElement("a");
-                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
-                hiddenElement.target = '_blank';
-                hiddenElement.download = 'users.csv';
-                document.body.appendChild(hiddenElement);
-                hiddenElement.click();
+
+                downloadCSV('users.csv', csvContent);
+                // uriContent = "data:attachment/csv," + encodeURI(csvContent);
+                // newWindow = window.open(uriContent, 'users.csv');
+                // var hiddenElement = document.createElement("a");
+                // hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
+                // hiddenElement.target = '_blank';
+                // hiddenElement.download = 'users.csv';
+                // document.body.appendChild(hiddenElement);
+                // hiddenElement.click();
             }
         })
     }
