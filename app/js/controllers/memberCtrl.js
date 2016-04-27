@@ -323,6 +323,10 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
     }
 
+    /*
+     * Function download members created by Martin Main in April 2016
+     * to add download functionality to the page.
+     */
     $scope.downloadMembers = function() {
         Data.get("members_all").then(function (teamMembers) {
             if(teamMembers.status != 'error'){

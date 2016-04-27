@@ -21,6 +21,13 @@ $app->get('/teams', 'authenticateToken', function() use ($app){
   echoResponse(200, $rows);
 });
 
+$app->get('/teams_with_coaches', 'authenticateToken', function() use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Teams_model::get_teams_with_coaches($db);
+  echoResponse(200, $rows);
+});
+
 $app->get('/teams/:qual_id', 'authenticateToken', function($qual_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

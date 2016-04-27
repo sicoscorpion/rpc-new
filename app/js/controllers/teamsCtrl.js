@@ -10,7 +10,7 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
         name: '',
         organization: '',
         approved: ''
-    }
+    };
 
 
 
@@ -19,7 +19,7 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
         message: 'Invaild form. Ensure team doesnt exist',
         show_alert: false,
         alert_type: 'warning round'
-    }
+    };
 
 console.log("is admin: ", $scope.isAdmin());
 
@@ -31,7 +31,7 @@ console.log("is admin: ", $scope.isAdmin());
                 data = $scope.teams;
                 $scope.teamTableParams = new NgTableParams({count: 10}, { data: data , counts: []});
             }
-        })
+        });
     }
     else if ($scope.isCoach()){
         Data.get("manage/teams/" + $scope.getCookieData().user_id).then(function (result) {
@@ -41,19 +41,19 @@ console.log("is admin: ", $scope.isAdmin());
                 data = $scope.teams;
                 $scope.teamTableParams = new NgTableParams({count: 10}, { data: data , counts: []});
             }
-        })
+        });
     }
 
     $scope.getTeams = function(){
-        Data.get("teams").then(function (result) {
+        Data.get("teams_with_coaches").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Teams for Admin: ", result);
                 $scope.teams = result;
                 data = $scope.teams;
                 $scope.teamTableParams = new NgTableParams({},{ data: data , counts: []});
             }
-        })
-    }
+        });
+    };
 
     $scope.getTeamsForQual = function(qual_id, qual){
         Data.get("teams/" + qual_id).then(function (result) {
@@ -70,11 +70,11 @@ console.log("is admin: ", $scope.isAdmin());
                         qual.status = "closed";
                         console.log("Qualifier full, closing qualifier", qual);
                         $scope.updateQual(qual);
-                   } 
+                   }
                 }
             }
-        })
-    }
+        });
+    };
 
     $scope.updateQual = function(qual) {
 
@@ -90,10 +90,10 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Error saving qual", result);
                 $scope.fail();
 
-            } 
-        }) 
+            }
+        });
 
-    }
+    };
 
     $scope.getTeamsParticipate = function(team){
         Data.get("teams/participate/" + team.team_id).then(function (result) {
@@ -103,8 +103,8 @@ console.log("is admin: ", $scope.isAdmin());
                 data = $scope.participates;
                 $scope.teamPartTableParams = new NgTableParams({count: 10}, { data: data});
             }
-        })
-    }
+        });
+    };
 
     $scope.getTeamsCoaches = function(team){
         Data.get("manage/users/" + team.team_id).then(function (result) {
@@ -114,8 +114,8 @@ console.log("is admin: ", $scope.isAdmin());
                 data = $scope.coaches;
                 $scope.teamCoachTableParams = new NgTableParams({count: 10}, { data: data});
             }
-        })
-    }
+        });
+    };
 
     $scope.createTeam = function(team) {
 
@@ -149,25 +149,22 @@ console.log("is admin: ", $scope.isAdmin());
                 $scope.fail();
                 $scope.modalInstance.dismiss('cancel');
                 
-            } 
-        }) 
-
-
-
-    }
+            }
+        });
+    };
 
 
     $scope.setQual = function(qualifier){
         console.log("Setting Qual: ", qualifier);
 
         $scope.qualForTeam = qualifier;
-    }
+    };
 
     $scope.setCoach = function(coach){
         console.log("Setting coach: ", coach);
 
         $scope.coachForTeam = coach;
-    }
+    };
 
     $scope.addTeamQual = function(team, qual) {
 
@@ -179,7 +176,7 @@ console.log("is admin: ", $scope.isAdmin());
             qual_id: qual.qual_id,
             competition_id: qual.competition_id,
             season_year: qual.season_year
-        }
+        };
 
         $scope.team_status.message = 'Logging in';
         $scope.team_status.disabled = true;
@@ -197,7 +194,7 @@ console.log("is admin: ", $scope.isAdmin());
                 $route.reload();
                 $scope.modalInstance.dismiss('cancel');
 
-                $scope.getTeamsForQual(qual.qual_id, qual)
+                $scope.getTeamsForQual(qual.qual_id, qual);
 
 
             }else{
@@ -210,10 +207,10 @@ console.log("is admin: ", $scope.isAdmin());
                 $scope.team_status.show_alert = true;
                 $scope.fail();
                 
-            } 
-        }) 
+            }
+        });
 
-    }
+    };
 
     $scope.addTeamCoach = function(team, coach) {
 
@@ -223,7 +220,7 @@ console.log("is admin: ", $scope.isAdmin());
         $scope.part = {
             team_id: team.team_id,
             user_id: coach.user_id
-        }
+        };
 
         $scope.team_status.message = 'Logging in';
         $scope.team_status.disabled = true;
@@ -251,10 +248,10 @@ console.log("is admin: ", $scope.isAdmin());
                 $scope.team_status.show_alert = true;
                 $scope.fail();
                 
-            } 
-        }) 
+            }
+        });
 
-    }
+    };
 
     $scope.deleteTeamPart = function(team) {
         
@@ -272,11 +269,11 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Error deleting team part: ", result);
                 $scope.fail();
 
-            } 
-        }) 
+            }
+        });
         // $route.reload();  
 
-    }
+    };
 
     $scope.deleteTeamCoach = function(team, coach) {
         
@@ -294,11 +291,11 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Error deleting team part: ", result);
                 $scope.fail();
 
-            } 
-        }) 
+            }
+        });
         // $route.reload();  
 
-    }
+    };
 
     $scope.editTeam = function(team) {
         
@@ -322,21 +319,27 @@ console.log("is admin: ", $scope.isAdmin());
                 console.log("Error saving team", result);
                 $scope.fail();
 
-            } 
+            }
             
             // $route.reload();  
 
-        }) 
+        });
 
-    }
+    };
 
     $scope.downloadTeams = function() {
-        Data.get("teams").then(function (result) {
+        Data.get("teams_with_coaches").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Teams: ", result);
-                var csvContent = "FLL ID,Team Name,Organization,Approved\n";
+                var csvContent = "FLL ID,Team Name,Organization,Approved,Coach ID, Coach Name\n";
+                var row;
                 for (row in result) {
-                    csvContent += result[row].team_id + ',' + result[row].name + ',' + result[row].organization + ',' + result[row].approved + '\n';
+                    csvContent += result[row].team_id + ',' +
+                    result[row].name + ',' +
+                    result[row].organization + ',' +
+                    result[row].approved + ',' +
+                    result[row].user_id + ',' +
+                    result[row].first_name + ' ' + result[row].last_name + '\n';
                 }
                 
                 var hiddenElement = document.createElement("a");
@@ -346,8 +349,8 @@ console.log("is admin: ", $scope.isAdmin());
                 document.body.appendChild(hiddenElement);
                 hiddenElement.click();
             }
-        })
-    }
+        });
+    };
 
 
             // MODAL WINDOW
@@ -410,7 +413,4 @@ console.log("is admin: ", $scope.isAdmin());
 
         });
     };
-
-
-
 }]);

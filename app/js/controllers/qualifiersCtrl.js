@@ -294,6 +294,10 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
 
     }
 
+    /*
+     * Function download qualifiers created by Martin Main in April 2016
+     * to add download functionality to the page.
+     */
     $scope.downloadQualifiers = function() {
         Data.get("qualifiers").then(function (result) {
             if(result.status != 'error'){

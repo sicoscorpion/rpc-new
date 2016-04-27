@@ -25,6 +25,14 @@
       return $data;
     }
 
+    // Function created by MM April 2016
+    public function get_teams_with_coaches($db) {
+      $data = $db->query("SELECT b.team_id, b.name, b.organization, b.approved, c.user_id, c.first_name, c.last_name FROM Manages a 
+                          LEFT JOIN Teams b ON a.team_id=b.team_id
+                          LEFT JOIN Users c ON c.user_id=a.user_id");
+      return $data;
+    }
+
     public function get_qualifierTeams($db, $qual_id) {
       $data = $db->query("SELECT * FROM Teams, Participates WHERE Teams.team_id = Participates.team_id AND Participates.qual_id = :qual_id", array(':qual_id' => $qual_id));
       return $data;

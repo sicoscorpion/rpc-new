@@ -443,6 +443,10 @@ app.controller('volunteers_controller', ['$scope', '$location', 'Data', 'NgTable
       });
   };
 
+    /*
+     * Function download volunteers created by Martin Main in April 2016
+     * to add download functionality to the page.
+     */
     $scope.downloadVolunteers = function() {
         Data.get("volunteers/" + $scope.season).then(function (result) {
             if(result.status != 'error'){

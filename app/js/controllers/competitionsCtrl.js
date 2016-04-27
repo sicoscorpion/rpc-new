@@ -182,6 +182,10 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
 
   }
 
+    /*
+     * Function download competitions created by Martin Main in April 2016
+     * to add download functionality to the page.
+     */
     $scope.downloadCompetitions = function() {
         Data.get("competitions").then(function (result) {
             if(result.status != 'error'){

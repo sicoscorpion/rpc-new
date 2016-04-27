@@ -407,6 +407,10 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
         }
     }
 
+    /*
+     * Function download users created by Martin Main in April 2016
+     * to add download functionality to the page.
+     */
     $scope.downloadUsers = function() {
         Data.get("users_all").then(function (result) {
             if(result.status != 'error'){

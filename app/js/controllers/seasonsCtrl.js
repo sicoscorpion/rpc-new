@@ -159,7 +159,12 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
 
   }
 
-$scope.downloadSeasons = function() {
+
+    /*
+     * Function download seasons created by Martin Main in April 2016
+     * to add download functionality to the page.
+     */
+    $scope.downloadSeasons = function() {
         Data.get("seasons").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Seasons: ", result);

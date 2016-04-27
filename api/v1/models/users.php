@@ -20,7 +20,7 @@
     return $data;
   }
 
-  // Function made by Martin Main for downloading lists of users
+  // Function made by Martin Main for downloading lists of users -April 2016
   public function get_users_with_teams($db){
     $data = $db->query("SELECT a.user_id, a.email, a.first_name, a.last_name, a.phone, a.civic_number, a.street1, a.street2, a.city, a.province, a.postal_code, a.dob, a.gender, a.medical_info, b.admin, b.qualifier_admin, b.coach, d.team_id, d.name, d.organization, d.approved
                         FROM Users a
@@ -177,7 +177,6 @@
         'user_id' => $user_id) );
     return $data;
   }
-
 
   public function get_user_by_email($db, $email) {
     return $db->query("SELECT email FROM "."Users WHERE email = :email", array(':email' => $email));

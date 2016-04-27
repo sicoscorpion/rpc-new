@@ -26,7 +26,7 @@
       return $data;
     }
 
-    // Function made by Martin Main for downloading functionality
+    // Function made by Martin Main for downloading functionality -April 2016
     public function get_all_volunteers($db) {
       $data = $db->query("SELECT * FROM Volunteers");
       return $data;
