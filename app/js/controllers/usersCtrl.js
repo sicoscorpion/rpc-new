@@ -415,6 +415,8 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
         Data.get("users_all").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Users: ", result);
+                cleanup(result);
+
                 var csvContent = "User Id, Email, First Name, Last Name, Phone, Civic Number, Street1, Street2, City, Province, Postal Code, Dob, Gender, Medical Info, Admin, Qualifier Admin, Coach, Team Id, Name, Organization, Approved\n";
                 for (row in result) {
                     csvContent += result[row].user_id + ',' +
@@ -427,8 +429,8 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                     result[row].street2 + ',' +
                     result[row].city + ',' +
                     result[row].province + ',' +
-                    result[row].postal_code + ',"' +
-                    result[row].dob + '",' +
+                    result[row].postal_code + ',' +
+                    result[row].dob + ',' +
                     result[row].gender + ',' +
                     result[row].medical_info + ',' +
                     result[row].admin + ',' +
@@ -441,14 +443,6 @@ app.controller('users_controller', ['$scope', '$location', 'Data', 'NgTableParam
                 }
 
                 downloadCSV('users.csv', csvContent);
-                // uriContent = "data:attachment/csv," + encodeURI(csvContent);
-                // newWindow = window.open(uriContent, 'users.csv');
-                // var hiddenElement = document.createElement("a");
-                // hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
-                // hiddenElement.target = '_blank';
-                // hiddenElement.download = 'users.csv';
-                // document.body.appendChild(hiddenElement);
-                // hiddenElement.click();
             }
         })
     }

@@ -28,6 +28,41 @@ $app->get('/teams_with_coaches', 'authenticateToken', function() use ($app){
   echoResponse(200, $rows);
 });
 
+$app->get('/teams_from_season/:year', 'authenticateToken', function($year) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Teams_model::get_teams_from_season($db, $year);
+  echoResponse(200, $rows);
+});
+
+$app->get('/teams_from_qual_admin/:user_id', 'authenticateToken', function($user_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Teams_model::get_teams_from_qual_admin($db, $user_id);
+  echoResponse(200, $rows);
+});
+
+$app->get('/teams_from_qual_admin_w_coaches/:user_id', 'authenticateToken', function($user_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Teams_model::get_teams_from_qual_admin_w_coaches($db, $user_id);
+  echoResponse(200, $rows);
+});
+
+$app->get('/teams_with_coaches_w_season/:year', 'authenticateToken', function($year) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Teams_model::get_teams_with_coaches_w_season($db, $year);
+  echoResponse(200, $rows);
+});
+
+$app->get('/teams_with_coaches/:qual_id', 'authenticateToken', function($qual_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Teams_model::get_qualifierTeams_with_coaches($db, $qual_id);
+  echoResponse(200, $rows);
+});
+
 $app->get('/teams/:qual_id', 'authenticateToken', function($qual_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

@@ -10,7 +10,7 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
         message: 'Invaild form',
         show_alert: false,
         alert_type: 'warning round'
-    }
+    };
 
     $scope.member = {
         team_id: '',
@@ -29,36 +29,50 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
         guardian_phone: '',
         consent: '',
         shirt_size: ''
-    }
+    };
 
     $scope.team = {};
+    $scope.year = "All";
+    $scope.download_label = "All";
+    $scope.qual_id = "All";
 
     $scope.member_status = {
         disabled: false,
         message: 'Invaild form. Ensure member doesnt exist',
         show_alert: false,
         alert_type: 'warning round'
+    };
+
+    function processTeams(result) {
+        if(result.status != 'error'){
+            console.log("Returned Teams: ", result);
+            $scope.teams = result;
+        }
+    }
+
+    function processQual(result) {
+        if(result.status != 'error'){
+            console.log("Returned Qualifiers: ", result);
+            result.unshift({qual_id : "All", name: "All"});
+            $scope.qualifiers = result;
+        }
     }
 
     if ($scope.isAdmin()){
-        Data.get("teams").then(function (result) {
-            if(result.status != 'error'){
-                console.log("Returned Teams for Admin: ", result);
-                $scope.teams = result;
-                data = $scope.seasons;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
-            }
-        })
-    }else if ($scope.isCoach()){
-        Data.get("manage/teams/" + $scope.getCookieData().user_id).then(function (result) {
-            if(result.status != 'error'){
-                console.log("Returned Teams for coach: ", result);
-                $scope.teams = result;
-                data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
-            }
-        })
+        Data.get("teams").then(function (result) {processTeams(result);});
+    } else if ($scope.isCoach()){
+        Data.get("manage/teams/" + $scope.getCookieData().user_id).then(function (result) {processTeams(result);});
+    } else if ($scope.isQualAdmin()) {
+        Data.get("qualifiers").then(function (result) {processQual(result);});
     }
+
+    Data.get("seasons").then(function (result) {
+        if(result.status != 'error'){
+            console.log("Returned Seasons: ", result);
+            result.unshift({year : "All"});
+            $scope.seasons = result;
+        }
+    });
 
     // Data.get("members/" + $scope.team.team_id.team_id).then(function (result) {
     //     if(result.status != 'error'){
@@ -96,8 +110,8 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 data = $scope.members;
                 $scope.teamMemberTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
-        })
-    }
+        });
+    };
 
     $scope.getMembersForTeam = function(team_id){
                 console.log("selected team: ", $scope.team.team_id.team_id);
@@ -109,19 +123,44 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 data = $scope.members;
                 $scope.teamMemberTableParams = new NgTableParams({count: 10}, { data: data, counts: []});
             }
-        })
-    }
+        });
+    };
 
     $scope.getTeamsForQualAdmin = function(qual_id){
         Data.get("teams/" + qual_id).then(function (result) {
-            if(result.status != 'error'){
-                console.log("Returned Teams for qual admin: ", result);
-                $scope.teams = result;
-                data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            processTeams(result);
+            
+            pos = $scope.qualifiers.map(function(e) { return e.qual_id; }).indexOf(qual_id);
+            $scope.download_label = $scope.qualifiers[pos].name;
+            $scope.qual_id = qual_id;
+        });
+    };
+
+    $scope.selectSeason = function(year){
+        $scope.year = year;
+        if ($scope.isAdmin()){
+            if (year == "All") {
+                Data.get("teams").then(function (result) {processTeams(result);});
+            } else {
+                Data.get("teams_from_season/" + year).then(function (result) {processTeams(result);});
             }
-        })
-    }
+            $scope.download_label = year;
+        }else if ($scope.isCoach()){
+            if (year == "All") {
+                Data.get("manage/teams/" + $scope.getCookieData().user_id).then(function (result) {processTeams(result);});
+            } else {
+                Data.get("manage/teams/" + $scope.getCookieData().user_id + "/" + year).then(function (result) {processTeams(result);});
+            }
+        } else if ($scope.isQualAdmin()) {
+            if (year == "All") {
+                Data.get("qualifiers").then(function (result) {processQual(result);});
+                $scope.download_label = year;
+                $scope.qual_id = year;
+            } else {
+                Data.get("qualifiers/season/" + year).then(function (result) {processQual(result);});
+            }
+        }
+    };
 
     $scope.updateMember = function(member) {
 
@@ -315,12 +354,47 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
                 $scope.fail();
                 $scope.modalInstance.dismiss('cancel');
                 
-            } 
+            }
 
             $route.reload();
 
-        }) 
+        });
 
+    };
+
+    function processDownload(teamMembers) {
+        if(teamMembers.status != 'error'){
+            console.log("Returned Members: ", teamMembers);
+            cleanup(teamMembers);
+
+            var csvContent = "Member Id,FLL Team Number,Team Name,Team Organization,Email,First Name,Last Name,Civic Number,Street1,Street2,City,Province,Postal Code,Dob,Gender,Shirt Size,Guardian Name,Guardian Email,Guardian Phone,Medical Info,Consent\n";
+            for (m in teamMembers) {
+                csvContent += teamMembers[m].member_id + ',' +
+                teamMembers[m].team_id + ',' +
+                teamMembers[m].name + ',' +
+                teamMembers[m].organization + ',' +
+                teamMembers[m].email + ',' +
+                teamMembers[m].first_name + ',' +
+                teamMembers[m].last_name + ',' +
+                teamMembers[m].civic_number + ',' +
+                teamMembers[m].street1 + ',' +
+                teamMembers[m].street2 + ',' +
+                teamMembers[m].city + ',' +
+                teamMembers[m].province + ',' +
+                teamMembers[m].postal_code + ',' +
+                teamMembers[m].dob + ',' +
+                teamMembers[m].gender + ',' +
+                teamMembers[m].shirt_size + ',' +
+                teamMembers[m].guardian_name + ',' +
+                teamMembers[m].guardian_email + ',' +
+                teamMembers[m].guardian_phone + ',' +
+                teamMembers[m].medical_info + ',' +
+                teamMembers[m].consent + '\n';
+            }
+
+            // Downloads content
+            downloadCSV('members.csv', csvContent);
+        }
     }
 
     /*
@@ -328,43 +402,20 @@ app.controller('members_controller', ['$scope', '$location', 'Data', 'NgTablePar
      * to add download functionality to the page.
      */
     $scope.downloadMembers = function() {
-        Data.get("members_all").then(function (teamMembers) {
-            if(teamMembers.status != 'error'){
-                console.log("Returned Members: ", teamMembers);
-                var csvContent = "Member Id,FLL Team Number,Team Name,Team Organization,Email,First Name,Last Name,Civic Number,Street1,Street2,City,Province,Postal Code,Dob,Gender,Shirt Size,Guardian Name,Guardian Email,Guardian Phone,Medical Info,Consent\n";
-                for (m in teamMembers) {
-                    csvContent += teamMembers[m].member_id + ',' +
-                    teamMembers[m].team_id + ',' +
-                    teamMembers[m].name + ',' +
-                    teamMembers[m].organization + ',' +
-                    teamMembers[m].email + ',' +
-                    teamMembers[m].first_name + ',' +
-                    teamMembers[m].last_name + ',' +
-                    teamMembers[m].civic_number + ',' +
-                    teamMembers[m].street1 + ',' +
-                    teamMembers[m].street2 + ',' +
-                    teamMembers[m].city + ',' +
-                    teamMembers[m].province + ',' +
-                    teamMembers[m].postal_code + ',"' +
-                    teamMembers[m].dob + '",' +
-                    teamMembers[m].gender + ',' +
-                    teamMembers[m].shirt_size + ',' +
-                    teamMembers[m].guardian_name + ',' +
-                    teamMembers[m].guardian_email + ',' +
-                    teamMembers[m].guardian_phone + ',' +
-                    teamMembers[m].medical_info + ',' +
-                    teamMembers[m].consent + '\n';
-                }
-
-                var hiddenElement = document.createElement("a");
-                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
-                hiddenElement.target = '_blank';
-                hiddenElement.download = 'members.csv';
-                document.body.appendChild(hiddenElement);
-                hiddenElement.click();
+        if ($scope.isAdmin()) {
+            if ($scope.year == "All") {
+                Data.get("members_all").then(function (teamMembers) {processDownload(teamMembers);});
+            } else {
+                Data.get("members_by_year/" + $scope.year).then(function (teamMembers) {processDownload(teamMembers);});
             }
-        });
-    }
+        } else if ($scope.isQualAdmin()) {
+            if ($scope.qual_id == "All") {
+                Data.get("members_by_qual_admin/" + $scope.getCookieData().user_id).then(function (teamMembers) {processDownload(teamMembers);});
+            } else {
+                Data.get("members_by_qual/" + $scope.qual_id).then(function (teamMembers) {processDownload(teamMembers);});
+            }
+        }
+    };
 
     // MODAL WINDOW
     $scope.openMembers = function () {

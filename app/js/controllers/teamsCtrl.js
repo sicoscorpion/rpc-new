@@ -12,7 +12,9 @@ app.controller('teams_controller', ['$scope', '$location', 'Data', 'NgTableParam
         approved: ''
     };
 
-
+    $scope.year = "All";
+    $scope.download_label = "All";
+    $scope.qual_id = "All";
 
     $scope.team_status = {
         disabled: false,
@@ -32,6 +34,16 @@ console.log("is admin: ", $scope.isAdmin());
                 $scope.teamTableParams = new NgTableParams({count: 10}, { data: data , counts: []});
             }
         });
+
+        Data.get("seasons").then(function (result) {
+            if(result.status != 'error'){
+                console.log("Returned seasons: ", result);
+                result.unshift({year : "All"});
+                $scope.seasons = result;
+                //data = $scope.seasons;
+                // $scope.teamTableParams = new NgTableParams({count: 10}, { data: data, counts: [1, 25, 50, 100]});
+            }
+        });
     }
     else if ($scope.isCoach()){
         Data.get("manage/teams/" + $scope.getCookieData().user_id).then(function (result) {
@@ -42,27 +54,39 @@ console.log("is admin: ", $scope.isAdmin());
                 $scope.teamTableParams = new NgTableParams({count: 10}, { data: data , counts: []});
             }
         });
-    }
-
-    $scope.getTeams = function(){
-        Data.get("teams_with_coaches").then(function (result) {
+    } else if ($scope.isQualAdmin()){
+        Data.get("host/qualifiers/" + $cookies.getObject("login").user_id).then(function (result) {
             if(result.status != 'error'){
-                console.log("Returned Teams for Admin: ", result);
-                $scope.teams = result;
-                data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({},{ data: data , counts: []});
+                console.log("Returned Qualifiers for qual admin: ", result);
+                result.unshift({qual_id : "All", name: "All"});
+                $scope.qualifiers = result;
             }
         });
+    }
+
+    $scope.processTeams = function(result) {
+        if(result.status != 'error'){
+            console.log("Returned Teams for Admin: ", result);
+            $scope.teams = result;
+            data = $scope.teams;
+            $scope.teamTableParams = new NgTableParams({count: 10},{ data: data , counts: []});
+        }
+    };
+
+    $scope.getTeams = function(){
+        Data.get("teams").then(function (result) {$scope.processTeams(result);});
     };
 
     $scope.getTeamsForQual = function(qual_id, qual){
-        Data.get("teams/" + qual_id).then(function (result) {
-            if(result.status != 'error'){
-                console.log("Returned Teams for qual admin: ", result);
-                $scope.teams = result;
-                data = $scope.teams;
-                $scope.teamTableParams = new NgTableParams({count: 10}, { data: data});
-            
+        if (qual_id == "All") {
+            Data.get("teams_from_qual_admin/" + $cookies.getObject("login").user_id).then(function (result) {
+                $scope.processTeams(result);
+                $scope.download_label = qual_id;
+                $scope.qual_id = qual_id;
+            });
+        } else {
+            Data.get("teams/" + qual_id).then(function (result) {
+                $scope.processTeams(result);
                 if (typeof qual != 'undefined'){
                     console.log("Qualifier shit: ", $scope.teams.length, qual.capacity);
                    if ($scope.teams.length === qual.capacity){
@@ -72,8 +96,24 @@ console.log("is admin: ", $scope.isAdmin());
                         $scope.updateQual(qual);
                    }
                 }
-            }
-        });
+                pos = $scope.qualifiers.map(function(e) { return e.qual_id; }).indexOf(qual_id);
+                $scope.download_label = $scope.qualifiers[pos].name;
+                $scope.qual_id = qual_id;
+            });
+        }
+    };
+
+
+    // Function made by Martin main for querying teams by season      
+    $scope.getTeamsForSeason = function(year){
+        $scope.year = year;
+        if ($scope.isAdmin()) $scope.download_label = year;
+        if (year == "All") {
+            $scope.getTeams();
+        }
+        else {
+            Data.get("teams_from_season/" + year).then(function (result) {$scope.processTeams(result);});
+        }
     };
 
     $scope.updateQual = function(qual) {
@@ -327,33 +367,48 @@ console.log("is admin: ", $scope.isAdmin());
 
     };
 
+
+    function processCSV(result) {
+        if(result.status != 'error'){
+            console.log("Returned Teams: ", result);
+            cleanup(result);
+
+            var csvContent = "FLL ID,Team Name,Organization,Approved,Coach ID, Coach Name, Qualifier ID, Qualifier Name\n";
+            var row;
+            for (row in result) {
+                csvContent += result[row].team_id + ',' +
+                result[row].name + ',' +
+                result[row].organization + ',' +
+                result[row].approved + ',' +
+                result[row].user_id + ',' +
+                result[row].first_name + ' ' + result[row].last_name + ',' +
+                result[row].qual_id + ',' +
+                result[row].qual_name + '\n';
+            }
+            
+            // Downloads content
+            downloadCSV('teams.csv', csvContent);
+        }
+    }
+
     /*
      * Function download teams created by Martin Main in April 2016
      * to add download functionality to the page.
      */
     $scope.downloadTeams = function() {
-        Data.get("teams_with_coaches").then(function (result) {
-            if(result.status != 'error'){
-                console.log("Returned Teams: ", result);
-                var csvContent = "FLL ID,Team Name,Organization,Approved,Coach ID, Coach Name\n";
-                var row;
-                for (row in result) {
-                    csvContent += result[row].team_id + ',' +
-                    result[row].name + ',' +
-                    result[row].organization + ',' +
-                    result[row].approved + ',' +
-                    result[row].user_id + ',' +
-                    result[row].first_name + ' ' + result[row].last_name + '\n';
-                }
-                
-                var hiddenElement = document.createElement("a");
-                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
-                hiddenElement.target = '_blank';
-                hiddenElement.download = 'teams.csv';
-                document.body.appendChild(hiddenElement);
-                hiddenElement.click();
+        if ($scope.isAdmin()) {
+            if ($scope.year == "All") {
+                Data.get("teams_with_coaches").then(function (result) {processCSV(result);});
+            } else {
+                Data.get("teams_with_coaches_w_season/" + $scope.year).then(function (result) {processCSV(result);});
             }
-        });
+        } else if ($scope.isQualAdmin()) {
+            if ($scope.qual_id == "All") {
+                Data.get("teams_from_qual_admin_w_coaches/" + $scope.getCookieData().user_id).then(function (result) {processCSV(result);});
+            } else {
+                Data.get("teams_with_coaches/" + $scope.qual_id).then(function (result) {processCSV(result);});
+            }
+        }
     };
 
 

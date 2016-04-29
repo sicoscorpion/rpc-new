@@ -85,10 +85,14 @@ requests to the backend and shows data to the user asynchronously.
 		functionality.
 		
 		/app/js/services
-		-Contains the Angular JS services used in the application. This 
-		folder contains data.js which creates the Data service which is
-		the abstraction that actually makes the queries to the back end 
-		system.
+		-Contains the Angular JS services used in the application. 
+			
+			/app/js/services/data.js 
+			-Creates the Data service which is the abstraction that actually
+			makes the queries to the back end system.
+
+			/app/js/services/download.js
+			-Provides helper functions for downloading CSV files.
 
 	/app/stylesheets
 	-Contains the CSS files used to style the front end application.

@@ -302,14 +302,16 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
         Data.get("qualifiers").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Qualifiers: ", result);
+                cleanup(result);
+
                 var csvContent = "Qual Id,Competition Id,Season Year,Name,Status,Time,Phone,Civic Number,Street1,Street2,City,Province,Postal Code,Capacity\n";
                 for (row in result) {
                     csvContent += result[row].qual_id + ',' +
                     result[row].competition_id + ',' +
                     result[row].season_year + ',' +
                     result[row].name + ',' +
-                    result[row].status + ',"' +
-                    result[row].time + '",' +
+                    result[row].status + ',' +
+                    result[row].time + ',' +
                     result[row].phone + ',' +
                     result[row].civic_number + ',' +
                     result[row].street1 + ',' +
@@ -320,14 +322,10 @@ app.controller('qualifiers_controller', ['$scope', '$location', 'Data', 'NgTable
                     result[row].capacity + '\n';
                 }
                 
-                var hiddenElement = document.createElement("a");
-                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
-                hiddenElement.target = '_blank';
-                hiddenElement.download = 'qualifiers.csv';
-                document.body.appendChild(hiddenElement);
-                hiddenElement.click();
+                // Downloads content
+                downloadCSV('qualifiers.csv', csvContent);
             }
-        })
-    }
+        });
+    };
 
 }]);

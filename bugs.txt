@@ -18,8 +18,13 @@ left the field in question.
 loaded locally?
 -ON Create competition form - 
 	-'time' should be 'date'
+
+-ON Create qualifier form, sometimes doesn't let you, but doesn't tell you what's wrong
 	
 -Backend:
 -Password hash being sent to client when logging in. Insecure?
 -If I am an admin, then on the app, set my own position to super-admin, I lose my priviledges
 -Deleting users doesn't seem to work quite right
+
+Overall:
+-A bit slow in my opinion

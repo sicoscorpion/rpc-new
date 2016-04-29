@@ -1,8 +1,17 @@
-<div class='row' style="min-width: 80%" ng-cpontroller="teams_controller"><fieldset>
+<div class='row' style="min-width: 80%" ng-controller="members_controller"><fieldset>
   <legend> Manage Members </legend>
-        <div class="row" ng-controller="qualifiers_controller">
-
-
+        <div class="row">
+            <div class="small-4 column">
+              <ui-select ng-change='selectSeason($select.selected.year)' ng-model="season.year" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="seasonTeams" required>
+                <ui-select-match placeholder="Select a season..."><b>Season Year: </b>{{$select.selected.year}}</ui-select-match>
+                <ui-select-choices repeat="season in seasons">
+                  <div ng-bind-html="season_year | highlight: $select.search"></div>
+                    <b>Season Year: </b>{{season.year}}
+                </ui-select-choices>
+              </ui-select>
+            </div>
+        </div>
+        <div class="row">
           <div class="small-5 column" ng-if='isQualAdmin()'>
                 <ui-select ng-change='getTeamsForQualAdmin($select.selected.qual_id)' ng-model="qual.qual_id" theme="select2" ng-disabled="disabled" style="min-width: 350px;" name="memberTeam" required>
                   <ui-select-match placeholder="Select a qualifier..."><b>Qual ID: </b>{{$select.selected.qual_id}} <b>Qual Name: </b>{{$select.selected.name}} </ui-select-match>
@@ -190,7 +199,7 @@
     </table>
       <div class='row'>
     <div class='large-2 large-offset-10 columns'>
-      <button class="tiny round button alert" ng-click='downloadMembers()' ng-if="isAdmin()">Download List</button></td>
+      <button class="tiny round button alert" ng-click='downloadMembers()' ng-if="isAdmin() || isQualAdmin()">Download <span>{{ download_label }}</span> Members</button></td>
     </div>
   </div>
   </div>

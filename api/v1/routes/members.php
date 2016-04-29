@@ -21,6 +21,27 @@ $app->get('/members/:team_id', function($team_id) use ($app){
   echoResponse(200, $rows);
 });
 
+$app->get('/members_by_year/:year', function($year) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Members_model::get_members_by_year($db, $year);
+  echoResponse(200, $rows);
+});
+
+$app->get('/members_by_qual/:qual', function($qual) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Members_model::get_members_by_qual($db, $qual);
+  echoResponse(200, $rows);
+});
+
+$app->get('/members_by_qual_admin/:user_id', function($user_id) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Members_model::get_members_by_qual_admin($db, $user_id);
+  echoResponse(200, $rows);
+});
+
 $app->get('/members_all', function() use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

@@ -27,7 +27,11 @@
 
     public function get_qualifiers_for_competition($db, $competition_id) {
       $data = $db->query("SELECT * FROM "."Qualifiers WHERE competition_id = :competition_id", array(':competition_id' => $competition_id));
-      
+      return $data;
+    }
+
+    public function get_qualifiers_for_season($db, $year) {
+      $data = $db->query("SELECT * FROM Qualifiers WHERE season_year = :year", array(':year' => $year));
       return $data;
     }
 

@@ -168,6 +168,8 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
         Data.get("seasons").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Seasons: ", result);
+                cleanup(result);
+                
                 var csvContent = "Year,Info,Status\n";
                 for (row in result) {
                     csvContent += result[row].year + ',' +
@@ -175,15 +177,11 @@ app.controller('seasons_controller', ['$scope', '$location', 'Data', 'NgTablePar
                     result[row].status + '\n';
                 }
                 
-                var hiddenElement = document.createElement("a");
-                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
-                hiddenElement.target = '_blank';
-                hiddenElement.download = 'seasons.csv';
-                document.body.appendChild(hiddenElement);
-                hiddenElement.click();
+                // Downloads content
+                downloadCSV('seasons.csv', csvContent);
             }
-        })
-    }
+        });
+    };
 
         // MODAL WINDOW
     $scope.openSeason = function () {

@@ -190,14 +190,15 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
         Data.get("competitions").then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Competitions: ", result);
-                var csvContent = "Competition Id,Season Year,Name,Status,Time,Phone,Civic Number,Street1,Street2,City,Province,Postal Code,Capacity\n";
+                cleanup(result);
 
+                var csvContent = "Competition Id,Season Year,Name,Status,Time,Phone,Civic Number,Street1,Street2,City,Province,Postal Code,Capacity\n";
                 for (i in result) {
                     csvContent += result[i].competition_id + ',' +
                         result[i].season_year + ',' +
                         result[i].name + ',' +
-                        result[i].status + ',"' + // Time has a comma in the value
-                        result[i].time + '",' +
+                        result[i].status + ',' + // Time has a comma in the value
+                        result[i].time + ',' +
                         result[i].phone + ',' +
                         result[i].civic_number + ',' +
                         result[i].street1 + ',' +
@@ -208,16 +209,11 @@ app.controller('competitions_controller', ['$scope', '$location', 'Data', 'NgTab
                         result[i].capacity + ',' + '\n';
                 }
                 
-                // Make download happen
-                var hiddenElement = document.createElement("a");
-                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
-                hiddenElement.target = '_blank';
-                hiddenElement.download = 'competitions.csv';
-                document.body.appendChild(hiddenElement);
-                hiddenElement.click();
+                // Downloads content
+                downloadCSV('competitions.csv', csvContent);
             }
-        })
-    }
+        });
+    };
 
         // MODAL WINDOW
     $scope.openCompetition = function () {

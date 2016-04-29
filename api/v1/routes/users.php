@@ -136,6 +136,13 @@ $app->get('/manage/teams/:user_id', 'authenticateToken', function($user_id) use 
   echoResponse(200, $rows);
 });
 
+$app->get('/manage/teams/:user_id/:year', 'authenticateToken', function($user_id, $year) use ($app){ 
+  global $db;
+  $data = json_decode($app->request->getBody());
+  $rows = Users_model::get_userManage_year($db, $user_id, $year);
+  echoResponse(200, $rows);
+});
+
 $app->get('/manage/users/:team_id', 'authenticateToken', function($team_id) use ($app){ 
   global $db;
   $data = json_decode($app->request->getBody());

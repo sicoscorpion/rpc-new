@@ -451,6 +451,8 @@ app.controller('volunteers_controller', ['$scope', '$location', 'Data', 'NgTable
         Data.get("volunteers/" + $scope.season).then(function (result) {
             if(result.status != 'error'){
                 console.log("Returned Volunteers: ", result);
+                cleanup(result);
+
                 var csvContent = "Volunteer Id,Email,First Name,Last Name,Phone,Civic Number,Street1,Street2,City,Province,Postal Code,Dob,Gender,Medical Info,Shirt Size,Consent,Season Year\n";
                 for (row in result) {
                     csvContent += result[row].volunteer_id + ',' +
@@ -463,8 +465,8 @@ app.controller('volunteers_controller', ['$scope', '$location', 'Data', 'NgTable
                     result[row].street2 + ',' +
                     result[row].city + ',' +
                     result[row].province + ',' +
-                    result[row].postal_code + ',"' +
-                    result[row].dob + '",' +
+                    result[row].postal_code + ',' +
+                    result[row].dob + ',' +
                     result[row].gender + ',' +
                     result[row].medical_info + ',' +
                     result[row].shirt_size + ',' +
@@ -472,14 +474,10 @@ app.controller('volunteers_controller', ['$scope', '$location', 'Data', 'NgTable
                     result[row].season_year + '\n';
                 }
 
-                var hiddenElement = document.createElement("a");
-                hiddenElement.href = 'data:attachment/csv,' + encodeURI(csvContent);
-                hiddenElement.target = '_blank';
-                hiddenElement.download = 'volunteers.csv';
-                document.body.appendChild(hiddenElement);
-                hiddenElement.click();
+                // Downloads content
+                downloadCSV('volunteers.csv', csvContent);
             }
-        })
-    }
+        });
+    };
 
 }]);

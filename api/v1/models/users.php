@@ -166,6 +166,16 @@
     return $data;
   }
 
+  // Made by MM April 2016
+  public function get_userManage_year($db, $user_id, $year) {
+    $data = $db->query("SELECT a.user_id, b.team_id, b.name, b.organization, b.approved FROM Teams b 
+                        LEFT JOIN Manages a ON b.team_id=a.team_id 
+                        LEFT JOIN Participates c ON b.team_id=c.team_id
+                        LEFT JOIN Qualifiers d ON c.qual_id=d.qual_id 
+                        WHERE a.user_id = :user_id AND d.season_year = :year", array(':user_id' => $user_id, ':year' => $year));
+    return $data;
+  }
+
   public function get_teamsManage($db, $team_id) {
     $data = $db->query("SELECT * FROM Manages, HasRole Where team_id = :team_id AND Manages.user_id = HasRole.user_id", array(':team_id' => $team_id));
     return $data;
