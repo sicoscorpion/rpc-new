@@ -1,0 +1,67 @@
+<fieldset>
+  <form name="volunteer_survey_form">
+    <h3>Volunteer Survey</h3>
+    <div class="row">
+      <div class="small-4 column">
+        <label>Survey Year: <em>Change only if nessesary</em></label>
+        <input type="text" name="surveyTown" ng-model="volunteer_survey.year" value="{{year}}" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-6 column">
+        <label>I was a coach for: </label>
+        <input type="radio" ng-model="volunteer_survey.affiliation" value="robofest" >
+        ROBOFEST
+        <input type="radio" ng-model="volunteer_survey.affiliation" value="first">
+        FIRST LEGO League
+        <input type="radio" ng-model="volunteer_survey.affiliation" value="general">
+        General
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-10 column">
+        <table>
+          <tr>
+            <td><b>Please select the appropriate button:</b></td>
+            <td><b>Strongly<br>Agree</b></td>
+            <td><b>Agree</b></td>
+            <td><b>Neutral</b></td>
+            <td><b>Disagree</b></td>
+            <td><b>Strongly<br>Disagree</b></td>
+
+          </tr>
+          <tr ng-repeat="field in volunteerChoiceFields">
+            <td>{{ field.name }}</td>
+            <td><input type="radio" ng-model="volunteer_survey[field.key]" value="5" ></td>
+            <td><input type="radio" ng-model="volunteer_survey[field.key]" value="4"></td>
+            <td><input type="radio" ng-model="volunteer_survey[field.key]" value="3"></td>
+            <td><input type="radio" ng-model="volunteer_survey[field.key]" value="2"></td>
+            <td><input type="radio" ng-model="volunteer_survey[field.key]" value="1"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-6 column">
+        <label>List what you most liked about the competition:</label>
+        <textarea type='text' col='40' row='2' ng-model="volunteer_survey.most_liked"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-6 column">
+        <label>General Comments: (write on back, if needed)</label>
+        <textarea type='text' col='40' row='2' ng-model="volunteer_survey.comments"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-8 column">
+      </div>
+      <div class="small-4 column">
+        <button class="button postfix" ng-click="saveSurvey('volunteer_survey')">Save Survey</button>
+      </div>
+
+    </div>
+  </form>
+</fieldset>

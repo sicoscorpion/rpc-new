@@ -1,0 +1,77 @@
+<fieldset>
+  <form name="audience_survey_form">
+    <h3>Audience Survey</h3>
+    <div class="row">
+      <div class="small-4 column">
+        <label>Survey Year: <em>Change only if nessesary</em></label>
+        <input type="text" name="surveyTown" ng-model="audience_survey.year" value="{{year}}" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-4 column">
+        <label>The name of your town or city:</label>
+        <input type="text" name="surveyTown" ng-model="audience_survey.town"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-6 column">
+        <label>I heard about the competitions from: </label>
+        <fieldset>
+        <input type="radio" ng-model="audience_survey.heard_from" value="radio" >
+        Radio
+        <input type="radio" ng-model="audience_survey.heard_from" value="newspaper">
+        Newspaper
+        <input type="radio" ng-model="audience_survey.heard_from" value="school">
+        School
+        <input type="radio" ng-model="audience_survey.heard_from" value="friend">
+        Friend<br/>
+        Other: <input type="text" ng-model="audience_survey.heard_from" />
+      </fieldset></div>
+    </div>
+
+    <div class="row">
+      <div class="small-10 column">
+        <table>
+          <tr>
+            <td><b>Please select the appropriate button:</b></td>
+            <td><b>Strongly<br>Agree</b></td>
+            <td><b>Agree</b></td>
+            <td><b>Neutral</b></td>
+            <td><b>Disagree</b></td>
+            <td><b>Strongly<br>Disagree</b></td>
+
+          </tr>
+          <tr ng-repeat="field in audienceChoiceFields">
+            <td>{{ field.name }}</td>
+            <td><input type="radio" ng-model="audience_survey[field.key]" value="5" ></td>
+            <td><input type="radio" ng-model="audience_survey[field.key]" value="4"></td>
+            <td><input type="radio" ng-model="audience_survey[field.key]" value="3"></td>
+            <td><input type="radio" ng-model="audience_survey[field.key]" value="2"></td>
+            <td><input type="radio" ng-model="audience_survey[field.key]" value="1"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-6 column">
+        <label>I am attending this competition because:</label>
+        <textarea type='text' col='40' row='2' ng-model="audience_survey.attendence_cause"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-6 column">
+        <label>General Comments: (write on back, if needed)</label>
+        <textarea type='text' col='40' row='2' ng-model="audience_survey.comments"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-8 column">
+      </div>
+      <div class="small-4 column">
+        <button class="button postfix" ng-click="saveSurvey('audience_survey')">Save Survey</button>
+      </div>
+
+    </div>
+  </form>
+</fieldset>

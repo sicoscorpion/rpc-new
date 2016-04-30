@@ -11,6 +11,7 @@ require 'models/qualifiers.php';
 require 'models/teams.php';
 require 'models/members.php';
 require 'models/volunteers.php';
+require 'models/surveys.php';
 
 
 
@@ -57,6 +58,7 @@ require 'routes/qualifiers.php';
 require 'routes/teams.php';
 require 'routes/members.php';
 require 'routes/volunteers.php';
+require 'routes/surveys.php';
 
 
 function echoResponse($status_code, $response) {

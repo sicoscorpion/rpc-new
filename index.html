@@ -46,7 +46,7 @@ $(document).ready(function(){
 
 <nav class="top-bar" data-topbar role="navigation" ng-controller="topbar_controller">
   <ul class="title-area">
-    
+
     <div class="logo">
       <!-- <a href="/"> -->
         <img src="app/images/logo.png">
@@ -59,7 +59,7 @@ $(document).ready(function(){
   </ul>
 
   <section class="top-bar-section">
-    <!-- Right Nav Section -->  
+    <!-- Right Nav Section -->
     <ul class="left">
       <li><a ng-class="getActive('/home')" href="#/home">Home</a></li>
       <li class="divider"></li>
@@ -76,6 +76,8 @@ $(document).ready(function(){
       <li ng-class="getActive('/members')" ng-if="logged_in()"><a href="#/members">Members</a></li>
       <li ng-class="getActive('/volunteers')" ng-if="isAdmin()"><a href="#/volunteers">Volunteers</a></li>
       <li ng-class="getActive('/users')"><a href="#/users"ng-if='isAdmin()'>Users</a></li>
+      <li class="divider"></li>
+      <li ng-class="getActive('/surveys')"><a href="#/surveys" ng-if='isAdmin()'>Surveys</a></li>
 
     </ul>
     <ul class="right">
@@ -88,7 +90,7 @@ $(document).ready(function(){
       <li ng-class="getActive('/login')" ng-if="!logged_in()">
           <a href="#/login">Login</a>
       </li>
-      
+
     </ul>
     <ul class="social-icons">
       <a href=""><i class="fi-telephone"></i></a>
@@ -96,7 +98,7 @@ $(document).ready(function(){
       <a href=""><i class="fi-social-twitter"></i></a>
       <a href=""><i class="fi-social-facebook"></i></a>
     </ul>
-    
+
   </section>
 </nav>
 
@@ -126,6 +128,7 @@ $(document).ready(function(){
 <script src="app/js/controllers/profileCtrl.js"></script>
 <script src="app/js/controllers/memberCtrl.js"></script>
 <script src="app/js/controllers/passwordCtrl.js"></script>
+<script src="app/js/controllers/surveysCtrl.js"></script>
 <script src="app/js/services/data.js"></script>
 <script src="app/js/directives/confirmation_needed.js"></script>
 
@@ -141,7 +144,7 @@ $(document).ready(function(){
   </div>
   </footer>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
     $(document).foundation();
     $(window).bind("load", function () {
         var footer = $(".footer");
