@@ -179,4 +179,6 @@ app.controller('surveys_controller', ['$scope', '$location', 'Data', 'NgTablePar
     })
   }
 
+  $scope.exportButtons = ['AudienceSurveys', 'CoachSurveys', 'VolunteerSurveys', 'StudentSurveys'];
+
 }]);

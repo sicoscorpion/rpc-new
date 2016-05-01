@@ -79,7 +79,7 @@ class dbHelper {
     }
     function insert($table, $columnsArray, $requiredColumnsArray) {
         $this->verifyRequiredParams($columnsArray, $requiredColumnsArray);
-        
+
         try{
             $a = array();
             $c = "";
@@ -105,7 +105,7 @@ class dbHelper {
         }
         return $response;
     }
-    function update($table, $columnsArray, $where, $requiredColumnsArray){ 
+    function update($table, $columnsArray, $where, $requiredColumnsArray){
         $this->verifyRequiredParams($columnsArray, $requiredColumnsArray);
         try{
             $a = array();
@@ -179,14 +179,14 @@ class dbHelper {
             // $stmt = $this->db->prepare("CALL `simpleproc`(@a);SELECT @a AS `param1`;");
             // $stmt->execute($a);
             // return $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $stmt = $this->db->prepare("CALL $name(@resultId)"); 
-            $stmt->execute(); 
-            $stmt = $this->db->prepare("select @resultId as Id"); 
-            $stmt->execute(); 
+            $stmt = $this->db->prepare("CALL $name(@resultId)");
+            $stmt->execute();
+            $stmt = $this->db->prepare("select @resultId as Id");
+            $stmt->execute();
             $myResultId = $stmt->fetchColumn();
 
             print "procedure returned \n".$myResultId;
-            
+
         }catch(PDOException $e){
             print_r('Query Failed: ' .$e->getMessage());
             return $rows=null;
@@ -218,6 +218,31 @@ class dbHelper {
         //  $stmt->bindValue(":$key", $value);
         // }
         $stmt->execute($data);
+    }
+    function execExport($sql,$record) {
+      mysql_connect(DB_HOST, DB_USERNAME, DB_PASSWORD)
+      or die('Could not connect: ' . mysql_error());
+
+      mysql_select_db(DB_NAME)
+      or die ('Could not select database ' . mysql_error());
+
+      $csv_filename = 'db_export_'.$record.'_'.date('Y-m-d').'.csv';
+      $csv_export = '';
+      $query_string = mysql_query($sql);
+      $field = mysql_num_fields($query_string);
+      for($i = 0; $i < $field; $i++) {
+        $csv_export.= mysql_field_name($query_string,$i).';';
+      }
+      $csv_export.= '
+      ';
+      while($row = mysql_fetch_array($query_string)) {
+        for($i = 0; $i < $field; $i++) {
+          $csv_export.= '"'.$row[mysql_field_name($query_string,$i)].'";';
+        }
+        $csv_export.= '
+      ';
+      }
+      return $csv_export;
     }
 }
 

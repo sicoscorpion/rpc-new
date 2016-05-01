@@ -1,6 +1,17 @@
 <div class='row surveys' style="min-width: 80%">
   <h3 >Acadia Robotics Surveys</h3>
 
+  <div class="row">
+    <fieldset>
+      <label>Export Surveys</label>
+      <br>
+      <div ng-repeat="b in exportButtons" class="small-2 column">
+        <a  class="button success" ng-href="api/v1/export_surveys/{{b}}">{{b}}</a>
+      </div>
+      <div class="small-2 column"></div>
+    </fieldset>
+  </div>
+
   <div id="tabs">
       <ul>
         <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">{{tab.title}} <span> ({{tab.info}})</span></li>

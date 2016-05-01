@@ -29,6 +29,11 @@
       return $survey;
     }
 
+    public function get_surveys($db, $record, $year) {
+      $query_string = 'SELECT * FROM ' . $record . ' WHERE year = '.$year;
+      $csv_export = $db->execExport($query_string, $record);
+      return $csv_export;
+    }
 
     public function get_surveys_count($db, $type, $year) {
       $query_string = 'SELECT COUNT(*) FROM ' . $type . ' WHERE year = :year';
